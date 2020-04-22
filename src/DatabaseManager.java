@@ -32,7 +32,7 @@ public class DatabaseManager{
         }
         catch(Exception e){ System.out.println(e);}
     }
-    public void addCustomer(Customer){
+    public void addCustomer(Customer customer){
         String sql = "";
         sqlExecute(sql);
     }
@@ -133,8 +133,32 @@ public class DatabaseManager{
         return list;
     }
 
+    /* manager - daily report on transactions */
+    public ArrayList<Transaction> getDailyTransactions() {
+
+        /* select * from transactions such that date == today */
+        return null;
+    }
 
     // UPDATES PENDING
+
+    /* manager - update stock price */
+    public Stock updateStockPrice(Stock stock, float price) {
+        /* change the given stock's price */
+        return null;
+    }
+
+    /* manager - add (or remove) more of an existing stock */
+    public Stock updateStockQuantity(Stock stock, int quantity) {
+        /*
+        stock.totalShares += quantity
+        stock.currentlyAvailableShares += quantity
+
+        quantity could be negative too, to represent taking away shares
+        in which case check if quantity > totalAvailableShares
+        */
+        return null;
+    }
 
 
     // DELETES PENDING
