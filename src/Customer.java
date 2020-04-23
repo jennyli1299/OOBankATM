@@ -40,20 +40,28 @@ public class Customer extends User {
 
      /* View Current Balances (database query) */
      public int viewAllBalances() {
-         ArrayList<Account> allAccounts = DatabaseManager.getAccounts(getfirstName(), getlastName(), "CheckingAccount");
+        ArrayList<Account> allAccounts = DatabaseManager.getAccounts(getfirstName(), getlastName(), "CheckingAccount");
         return -1;
      }
 
 
      /* View Current Balances (database query) */
      public void viewallPastTransactions() {
-
+        // get past transactions and display
      }
 
 
      /* Make a Withdrawal from an account */
      public void withdrawal(Account acc, float amount) {
+        // Need to decide from which account and which currency
+        // withdrawal fee
+     }
 
+     /* Transfer Money from one Account to another */
+     public void transferFunds() {
+         // which account -> account
+         // how much money
+         // does this incur fees?
      }
 
      // PAY INTEREST?
