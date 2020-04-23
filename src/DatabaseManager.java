@@ -40,11 +40,11 @@ public class DatabaseManager{
         String sql = "";
         sqlExecute(sql);
     }
-    public void addSavingsAccount(CheckingAccount checkingAccount, Customer customer){
+    public void addSavingsAccount(SavingsAccount savingsAccount, Customer customer){
         String sql = "";
         sqlExecute(sql);
     }
-    public void addSecurityAccount(CheckingAccount checkingAccount, Customer customer){
+    public void addSecurityAccount(SecurityAccount securitiesAccount, Customer customer){
         String sql = "";
         sqlExecute(sql);
     }
@@ -131,6 +131,13 @@ public class DatabaseManager{
         }
         catch(Exception e){ System.out.println(e);}
         return list;
+    }
+
+    public ArrayList<Transaction> getCustomerTransactions(Customer customer) {
+        String customerfirstName = customer.getfirstName();
+        String customerlastName = customer.getlastName();
+        // return all transactions related to customer with an indefinite date
+        return null;
     }
 
     /* manager - daily report on transactions */

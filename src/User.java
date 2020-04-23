@@ -3,12 +3,16 @@ package src;
 public abstract class User {
 
     /* member variables */
+    private String firstName;
+    private String lastName;
     private int id;
     private String username;
     private String password;
 
     /* constructor */
-    public User(int id, String username, String password) {
+    public User(String firstName, String lastName, int id, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.id = id;
         this.username = username;
         this.password = password;
@@ -21,6 +25,14 @@ public abstract class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getfirstName() {
+        return this.firstName;
+    }
+
+    public String getlastName() {
+        return this.lastName;
     }
 
     public String getUsername() {
