@@ -1,11 +1,9 @@
 package frontend;
 
 import javax.swing.*;
-
-import java.awt.Container;
 import java.awt.event.*;
 
-public class LoginScreen {  
+public class LoginScreen implements ActionListener {  
     
     /* UI components */
     JFrame frame;
@@ -16,12 +14,12 @@ public class LoginScreen {
     JPasswordField passwordField;
     JButton loginButton;
     JButton signupButton;
+    JLabel warningLabel;
 
     /* initializes the login screen */
     public LoginScreen() {
         createWindow();
         createUI();
-        frame.setVisible(true);
     }
 
     private void createWindow() {
@@ -52,7 +50,7 @@ public class LoginScreen {
         usernameField.setBounds(150, 100, 300, 50);
         frame.add(usernameField);
 
-        /* add passwordLabel */
+        /* add password label */
         passwordLabel = new JLabel();
         passwordLabel.setBounds(50, 150, 100, 50);
         passwordLabel.setText("Password:");
@@ -65,17 +63,50 @@ public class LoginScreen {
         
         /* add login button */
         loginButton = new JButton("Login as existing user");
-        loginButton.setBounds(50, 210, 150, 50);
+        loginButton.setBounds(50, 225, 150, 50);
+        loginButton.addActionListener(this);
         frame.add(loginButton);
 
         /* add signup button */
         signupButton = new JButton("Signup as new user");
-        signupButton.setBounds(50, 260, 150, 50);
+        signupButton.setBounds(50, 275, 150, 50);
+        signupButton.addActionListener(this);
         frame.add(signupButton);
+
+        /* add warning label */
+        warningLabel = new JLabel();
+        warningLabel.setBounds(50, 325, 400, 50);
+        frame.add(warningLabel);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        /* loginButton -> navigate to Customer or Manager screen */
+        if (e.getSource() == loginButton) {
+
+            /* IMPLEMENTATION NEEDED
+                verify user credentials before logging in */
+
+            Boolean userExists = false;
+            if (!userExists) {
+                warningLabel.setText("Your username or password are incorrect. Try again.");
+            } else {
+                CustomerScreen customerScreen = new CustomerScreen();
+                frame.dispose();
+                customerScreen.frame.setVisible(true);
+            }
+
+        /* signupButton -> navigate to Signup screen */
+        } else if (e.getSource() == signupButton) {
+            SignupScreen signupScreen = new SignupScreen();
+            frame.dispose();
+            signupScreen.frame.setVisible(true);
+        }
     }
 
     public static void main(String[] args) {  
-        new LoginScreen();
+        LoginScreen screen = new LoginScreen();
+        screen.frame.setVisible(true);
     }
 }  
 
