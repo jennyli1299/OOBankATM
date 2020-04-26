@@ -87,7 +87,7 @@ public class LoginScreen implements ActionListener {
             /* IMPLEMENTATION NEEDED
                 verify user credentials before logging in */
 
-            Boolean userExists = false;
+            Boolean userExists = true;
             if (!userExists) {
                 warningLabel.setText("Your username or password are incorrect. Try again.");
             } else {
