@@ -18,9 +18,9 @@ public class DatabaseManager{
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con= DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/bank_atm","admin","admin");
+                    "jdbc:mysql://localhost:3306/BankATM","admin","admin");
             Statement stmt=con.createStatement();
-            ResultSet rs=stmt.executeQuery("select * from person");
+            ResultSet rs=stmt.executeQuery("select * from Users");
             while(rs.next())
                 System.out.println(rs.getString(2));
         }catch(Exception e){ System.out.println(e);}
@@ -170,7 +170,7 @@ public class DatabaseManager{
 
     // DELETES PENDING
 
-    
+
     public void sqlExecute(String sql){
         try {
             Statement stmt = con.createStatement();

@@ -4,12 +4,13 @@ public abstract class Account {
     protected Float balanceInLocalCurrency;
     protected int routingNumber;
     protected int accountNumber;
+    protected String IBAN;
     private boolean active;
     private Currency currency;
     protected Float openingCharge;
     protected Float closingCharge;
 
-    public Account(Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
+    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
         this.balanceInLocalCurrency = balanceInLocalCurrency;
         this.routingNumber = routingNumber;
         this.accountNumber = accountNumber;
@@ -17,6 +18,17 @@ public abstract class Account {
         this.currency = currency;
         this.closingCharge = closingCharge;
         this.openingCharge = openingCharge;
+        this.IBAN = IBAN;
+    }
+
+    public String getIBAN()
+    {
+        return IBAN;
+    }
+
+    public void setIBAN(String IBAN)
+    {
+        this.IBAN = IBAN;
     }
 
     public Float getOpeningCharge() {
