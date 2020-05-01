@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class DatabaseManager{
 
-    Connection con;
+    static Connection con;
 
     public DatabaseManager(){
         connect();
@@ -32,47 +32,47 @@ public class DatabaseManager{
         }
         catch(Exception e){ System.out.println(e);}
     }
-    public void addCustomer(Customer customer){
+    public static void addCustomer(Customer customer){
         String sql = "";
         sqlExecute(sql);
     }
-    public void addCheckingAccount(CheckingAccount checkingAccount, Customer customer){
+    public static void addCheckingAccount(CheckingAccount checkingAccount, Customer customer){
         String sql = "";
         sqlExecute(sql);
     }
-    public void addSavingsAccount(SavingsAccount savingsAccount, Customer customer){
+    public static void addSavingsAccount(SavingsAccount savingsAccount, Customer customer){
         String sql = "";
         sqlExecute(sql);
     }
-    public void addSecurityAccount(SecurityAccount securitiesAccount, Customer customer){
+    public static void addSecurityAccount(SecurityAccount securitiesAccount, Customer customer){
         String sql = "";
         sqlExecute(sql);
     }
 
 
-    public void addDeposit(Deposit transaction){
+    public static void addDeposit(Deposit transaction){
 
         //add to transactions table
     }
-    public void addWithdrawal(Withdrawal transaction){
+    public static void addWithdrawal(Withdrawal transaction){
         //add to transactions table
     }
-    public void addTransfer(Transfer transaction){
+    public static void addTransfer(Transfer transaction){
         //add to transactiosn table
     }
 
-    public void addLoan(Loan loan, Customer customer){
+    public static void addLoan(Loan loan, Customer customer){
         //addd to loans
     }
 
-    public void addStock(Stock stock){
+    public static void addStock(Stock stock){
 
         //insert to stocks table
     }
 
 
     // SELECT
-    public ArrayList<Customer> getCustomers(){
+    public static ArrayList<Customer> getCustomers(){
         ArrayList<Customer> list = new ArrayList<>();
 
 
@@ -89,7 +89,7 @@ public class DatabaseManager{
         return list;
     }
 
-    public ArrayList<Loan> getLoans(String firstName, String lastName){
+    public static ArrayList<Loan> getLoans(String firstName, String lastName){
         ArrayList<Loan> list = new ArrayList<>();
 
         try {
@@ -107,7 +107,7 @@ public class DatabaseManager{
 
 
 
-    public ArrayList<Account> getAccounts(String firstName, String lastName, String type){
+    public static ArrayList<Account> getAccounts(String firstName, String lastName, String type){
         ArrayList<CheckingAccount> list = new ArrayList<>();
         //type can be CH, SAV, SEC
         //find accounts and return
@@ -116,7 +116,7 @@ public class DatabaseManager{
     }
 
 
-    public ArrayList<Stock> getStocks(){
+    public static ArrayList<Stock> getStocks(){
         ArrayList<Stock> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -133,7 +133,7 @@ public class DatabaseManager{
         return list;
     }
 
-    public ArrayList<Transaction> getCustomerTransactions(Customer customer) {
+    public static ArrayList<Transaction> getCustomerTransactions(Customer customer) {
         String customerfirstName = customer.getfirstName();
         String customerlastName = customer.getlastName();
         // return all transactions related to customer with an indefinite date
@@ -141,7 +141,7 @@ public class DatabaseManager{
     }
 
     /* manager - daily report on transactions */
-    public ArrayList<Transaction> getDailyTransactions() {
+    public static ArrayList<Transaction> getDailyTransactions() {
 
         /* select * from transactions such that date == today */
         return null;
@@ -150,13 +150,13 @@ public class DatabaseManager{
     // UPDATES PENDING
 
     /* manager - update stock price */
-    public Stock updateStockPrice(Stock stock, float price) {
+    public static Stock updateStockPrice(Stock stock, float price) {
         /* change the given stock's price */
         return null;
     }
 
     /* manager - add (or remove) more of an existing stock */
-    public Stock updateStockQuantity(Stock stock, int quantity) {
+    public static Stock updateStockQuantity(Stock stock, int quantity) {
         /*
         stock.totalShares += quantity
         stock.currentlyAvailableShares += quantity
@@ -171,7 +171,7 @@ public class DatabaseManager{
     // DELETES PENDING
 
 
-    public void sqlExecute(String sql){
+    public static void sqlExecute(String sql){
         try {
             Statement stmt = con.createStatement();
             stmt.execute(sql);
