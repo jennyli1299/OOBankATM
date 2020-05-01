@@ -9,6 +9,8 @@ public abstract class Account {
     private Currency currency;
     protected Float openingCharge;
     protected Float closingCharge;
+    protected String accountType;
+    private String accountStatus;
 
     public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
         this.balanceInLocalCurrency = balanceInLocalCurrency;
@@ -19,6 +21,7 @@ public abstract class Account {
         this.closingCharge = closingCharge;
         this.openingCharge = openingCharge;
         this.IBAN = IBAN;
+        this.accountStatus = "Open";
     }
 
     public String getIBAN()
@@ -31,6 +34,10 @@ public abstract class Account {
         this.IBAN = IBAN;
     }
 
+    public String getAccountType() {
+        return accountType;
+    }
+
     public Float getOpeningCharge() {
         return openingCharge;
     }
@@ -38,6 +45,8 @@ public abstract class Account {
     public Float getClosingCharge() {
         return closingCharge;
     }
+
+    // set Opening & Closing charges by manager?
 
     public Float getBalanceInLocalCurrency() {
         return balanceInLocalCurrency;
@@ -63,7 +72,6 @@ public abstract class Account {
         return accountNumber;
     }
 
-
     public void chargeOpeningCharge(){
         balanceInLocalCurrency -= openingCharge;
     }
@@ -82,6 +90,17 @@ public abstract class Account {
 
     public void depositAmount(Float amount){
         balanceInLocalCurrency += amount;
+    }
+
+    public boolean close() {
+        if (closingCharge.floatValue() > balanceInLocalCurrency.floatValue()) {
+            return false;
+        }
+        else {
+            chargeClosingCharge();
+            accountStatus = "Closed";
+            return true;
+        }
     }
 
     @Override

@@ -7,8 +7,10 @@ public class CheckingAccount extends Account {
     public CheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
                            Float closingCharge, Float openingCharge, Float transferFee, Float withdrawalFee) {
         super(IBAN,amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
+        this.accountType = "Checking";
         this.transferFee = transferFee;
         this.withdrawalFee = withdrawalFee;
+        chargeOpeningCharge();
     }
 
     @Override

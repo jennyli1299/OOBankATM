@@ -7,7 +7,9 @@ public class SecurityAccount extends Account {
 
     public SecurityAccount(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
         super(IBAN,0f, routingNumber, accountNumber, active, new Currency("USD"), 0f, 0f);
+        this.accountType = "Security";
         this.boughtStocks = new ArrayList<BoughtStock>();
+        chargeOpeningCharge();
     }
 
     // Adds shares to the stock. If this stock has not been bought before
