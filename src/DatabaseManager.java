@@ -14,11 +14,14 @@ public class DatabaseManager{
         connect();
     }
 
-    public void connect(){
+    public static void connect(){
         try{
+            String url="jdbc:mysql://localhost:3306/BankATM";
+            String username="root";
+            String password="pass";
             Class.forName("com.mysql.jdbc.Driver");
-            con= DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/BankATM","admin","admin");
+            con = DriverManager.getConnection(url,username,password);
+            System.out.println("Connected to database!");
             Statement stmt=con.createStatement();
             ResultSet rs=stmt.executeQuery("select * from Users");
             while(rs.next())
@@ -32,6 +35,36 @@ public class DatabaseManager{
         }
         catch(Exception e){ System.out.println(e);}
     }
+
+    /**
+     * returns a customer or null
+     * @param password
+     * @return
+     */
+    public static <T extends User> User getUserWithCredentials(String username, String password)
+    {
+        ArrayList<User> list = new ArrayList<>();
+        try {
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM BankATM.Users where username = " + username + " AND password = " + password;
+            ResultSet rs=stmt.executeQuery(sql);
+            User temp;
+            while(rs.next()) {
+                //add customers to list and return
+                if(rs.getString("status").equals("Manager"))
+                {
+                    temp = new Manager(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+                }else
+                {
+                    temp = new Customer(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+                }
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list.get(0);
+    }
+
     public static void addCustomer(Customer customer){
         String sql = "";
         sqlExecute(sql);
@@ -178,5 +211,7 @@ public class DatabaseManager{
         }
         catch(Exception e){ System.out.println(e);}
     }
+
+
 }
 

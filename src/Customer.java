@@ -24,15 +24,15 @@ public class Customer extends User {
 
      public void openCheckingAccount(float amount, Currency c) {
         // Create Checking Account
-        CheckingAccount checkingAccount = new CheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transferFee, withdrawalFee);
+        //CheckingAccount checkingAccount = new CheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transferFee, withdrawalFee);
         // Add to Database
-        DatabaseManager.addCheckingAccount(checkingAccount, this);
+        //DatabaseManager.addCheckingAccount(checkingAccount, this);
      }
      public void openSavingsAccount(float amount, Currency c) {
         // Create Savings Account
-        SavingsAccount savingsAccount = new SavingsAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, interest);
+        //SavingsAccount savingsAccount = new SavingsAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, interest);
         // Add to Database
-        DatabaseManager.addSavingsAccount(savingsAccount, this);
+        //DatabaseManager.addSavingsAccount(savingsAccount, this);
      }
      public boolean enoughToOpenSECAcc() {
         // Check if Customers are rich enough >$5000.00 in their Savings
@@ -54,22 +54,24 @@ public class Customer extends User {
      }
      public void openSecuritiesAccount(Account account, float amount, Currency c) {
         // Create Securities Account & transfer >$1000.00 into securities account from specified Account(s) but MUST keep at least $2500.00 in other accounts
-        SecurityAccount securitiesAccount = new SecurityAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge);
+        //SecurityAccount securitiesAccount = new SecurityAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge);
         account.withdrawAmount(amount);
         // Add to Database
-         DatabaseManager.addSecurityAccount(securitiesAccount, this);
+         //DatabaseManager.addSecurityAccount(securitiesAccount, this);
         // Should we keep max 1?
      }
      // Close Accounts?
 
-     public String closeAccount(Account account) {
-        boolean closed = account.close();
-        if (closed) {
-           return "Your account [" + account.getAccountNumber() + "] has been successfully closed.";
-        }
-        else {
-           return "You do not have enough balance in this account to cover the closing charge. Closure denied.";
-        }
+     public String closeAccount(Account account)
+     {
+         boolean closed = account.close();
+         if (closed)
+         {
+             return "Your account [" + account.getAccountNumber() + "] has been successfully closed.";
+         } else
+         {
+             return "You do not have enough balance in this account to cover the closing charge. Closure denied.";
+         }
      }
 
 

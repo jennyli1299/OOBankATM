@@ -1,5 +1,10 @@
 package frontend;
 
+import src.Customer;
+import src.DatabaseManager;
+import src.Manager;
+import src.User;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -84,16 +89,19 @@ public class LoginScreen implements ActionListener {
         /* loginButton -> navigate to Customer or Manager screen */
         if (e.getSource() == loginButton) {
 
-            /* IMPLEMENTATION NEEDED
-                verify user credentials before logging in */
+            User logedInUser = null;
+            logedInUser = DatabaseManager.getUserWithCredentials(usernameField.getText().toString(), passwordField.getPassword().toString());
 
-            Boolean userExists = true;
-            if (!userExists) {
+            if (logedInUser == null) {
                 warningLabel.setText("Your username or password are incorrect. Try again.");
-            } else {
-                CustomerScreen customerScreen = new CustomerScreen();
-                frame.dispose();
-                customerScreen.frame.setVisible(true);
+            } else if(logedInUser instanceof Customer)
+            {
+                    CustomerScreen customerScreen = new CustomerScreen((Customer)logedInUser);
+                    frame.dispose();
+                    customerScreen.frame.setVisible(true);
+            }else if(logedInUser instanceof Manager)
+            {
+                //show manager screen
             }
 
         /* signupButton -> navigate to Signup screen */
