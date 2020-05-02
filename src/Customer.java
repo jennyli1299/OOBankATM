@@ -9,7 +9,7 @@ public class Customer extends User {
     // Where does DatabaseManager come into play?
 
     /* constructor */
-    public Customer(String firstName, String lastName, int id, String username, String password) {
+    public Customer(String firstName, String lastName, String id, String username, String password) {
         super(firstName, lastName, id, username, password);
         DatabaseManager.addCustomer(this);
     }

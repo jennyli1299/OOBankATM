@@ -5,12 +5,12 @@ public abstract class User {
     /* member variables */
     private String firstName;
     private String lastName;
-    private int id;
+    private String id;
     private String username;
     private String password;
 
     /* constructor */
-    public User(String firstName, String lastName, int id, String username, String password) {
+    public User(String firstName, String lastName, String id, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
@@ -19,11 +19,11 @@ public abstract class User {
     }
     
     /* getters and setters */
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

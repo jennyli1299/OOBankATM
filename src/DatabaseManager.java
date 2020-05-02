@@ -1,5 +1,6 @@
 package src;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -46,23 +47,32 @@ public class DatabaseManager{
         ArrayList<User> list = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM BankATM.Users where username = " + username + " AND password = " + password;
-            ResultSet rs=stmt.executeQuery(sql);
+            String sql = "SELECT * FROM BankATM.Users where username = \"" + username + "\" AND password = \"" + password+"\"";
+            System.out.println("sql: " + sql);
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println("results: " + rs);
             User temp;
             while(rs.next()) {
                 //add customers to list and return
                 if(rs.getString("status").equals("Manager"))
                 {
-                    temp = new Manager(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+                    temp = new Manager(rs.getString("firstname"), rs.getString("lastname"), rs.getString("id"), rs.getString("username"), rs.getString("password"));
                 }else
                 {
-                    temp = new Customer(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+                    temp = new Customer(rs.getString("firstname"), rs.getString("lastname"), rs.getString("id"), rs.getString("username"), rs.getString("password"));
                 }
                 list.add(temp);
             }
         }
         catch(Exception e){ System.out.println(e);}
-        return list.get(0);
+        if(list.size() > 0)
+        {
+            return list.get(0);
+        }else
+        {
+            return null;
+        }
+
     }
 
     public static void addCustomer(Customer customer){
@@ -83,25 +93,30 @@ public class DatabaseManager{
     }
 
 
-    public static void addDeposit(Deposit transaction){
-
-        //add to transactions table
-    }
-    public static void addWithdrawal(Withdrawal transaction){
-        //add to transactions table
-    }
-    public static void addTransfer(Transfer transaction){
-        //add to transactiosn table
+    public void addUser(User user){
+        String sql = "INSERT INTO BankATM.Users (firstname, lastname, id, username, status,  password) VALUES (\""+  user.getfirstName() + "\", \"" + user.getlastName()+ "\", \"" +user.getId()+ "\", \"" +user.getUsername() + "\", \"Customer\", \"" + user.getPassword() + "\");";
+        System.out.println(sql);
+        sqlExecute(sql);
     }
 
-    public static void addLoan(Loan loan, Customer customer){
-        //addd to loans
-    }
-
-    public static void addStock(Stock stock){
-
-        //insert to stocks table
-    }
+//    public void addTransfer(Transfer transaction){
+//        String sql = "INSERT INTO bank_atm.transaction (sender_acc_num, sender_routing_num, rec_acc_num, rec_routing_num, currency, amount, type) VALUES (\'" +transaction.getSenderAccountNumber()+ "\', \'"+ transaction.getSenderRoutingNumber()+"\', \'" + transaction.getReceiverAccountNumber()+ "\', \'"+transaction.getReceiverRoutingNumber()+"\', \'"+transaction.getCurrency().toString()+"\', \'"+transaction.getAmount()+"\', \'T\');";
+//        System.out.println(sql);
+//        sqlExecute(sql);
+//    }
+//
+//    public void addLoan(Loan loan, CustomerAccount customerAccount){
+//        String sql = " INSERT INTO bank_atm.loan (initial_amount, debt, owner, interest) VALUES (\'"+loan.getInitialAmountInLocalCurrency()+"\', \'"+loan.getDebtInLocalCurrency()+"\', \'"+customerAccount.getPerson().getName().getFirstName()+ " " +  customerAccount.getPerson().getName().getLastName()+"\', \'"+loan.getInterest()+"\');";
+//        sqlExecute(sql);
+//    }
+//
+//    public void addStock(Stock stock){
+//
+//        String sql = "INSERT INTO bank_atm.stock (name, price, total_shares, avai_shares) VALUES (\'"+stock.getName()+"\', \' " + stock.getCurrentPrice()+ "\', \'"+ stock.getTotalShares()+"\', \'"+ stock.getCurrentlyAvailableShares()+"\');";
+//        System.out.println(sql);
+//        sqlExecute(sql);
+//
+//    }
 
 
     // SELECT
