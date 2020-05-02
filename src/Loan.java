@@ -13,15 +13,15 @@ public class Loan {
     private Customer borrower;
     private Manager lender;
     private Status status;
-    private float initialPrincipal;
-    private float principal;
+    private double initialPrincipal;
+    private double principal;
     private String collateral;
     private float interestRate;
     private int termInMonths;
     private LocalDateTime dateIssued;
 
     /* constructor */
-    public Loan(Customer borrower, float initialPrincipal, String collateral, int termInMonths) {
+    public Loan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) {
         this.borrower = borrower;
         /* the manager is null until a manager decides on a loan status */
         this.status = Status.Pending;

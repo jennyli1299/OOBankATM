@@ -74,49 +74,49 @@ public class DatabaseManager{
         }
 
     }
-
-    public static void addCustomer(Customer customer){
+    public static void addCheckingAccount(CheckingAccount checkingAccount, User user){
         String sql = "";
         sqlExecute(sql);
     }
-    public static void addCheckingAccount(CheckingAccount checkingAccount, Customer customer){
+    public static void addSavingsAccount(SavingsAccount savingsAccount, User user){
         String sql = "";
         sqlExecute(sql);
     }
-    public static void addSavingsAccount(SavingsAccount savingsAccount, Customer customer){
-        String sql = "";
-        sqlExecute(sql);
-    }
-    public static void addSecurityAccount(SecurityAccount securitiesAccount, Customer customer){
+    public static void addSecurityAccount(SecurityAccount securitiesAccount, User user){
         String sql = "";
         sqlExecute(sql);
     }
 
+    public void addManager(User user)
+    {
+        String sql = "INSERT INTO BankATM.Users (firstname, lastname, id, username, status,  password) VALUES (\""+  user.getfirstName() + "\", \"" + user.getlastName()+ "\", \"" +user.getId()+ "\", \"" +user.getUsername() + "\", \"Manager\", \"" + user.getPassword() + "\");";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
 
-    public void addUser(User user){
+    public void addCustomer(User user){
         String sql = "INSERT INTO BankATM.Users (firstname, lastname, id, username, status,  password) VALUES (\""+  user.getfirstName() + "\", \"" + user.getlastName()+ "\", \"" +user.getId()+ "\", \"" +user.getUsername() + "\", \"Customer\", \"" + user.getPassword() + "\");";
         System.out.println(sql);
         sqlExecute(sql);
     }
 
-//    public void addTransfer(Transfer transaction){
-//        String sql = "INSERT INTO bank_atm.transaction (sender_acc_num, sender_routing_num, rec_acc_num, rec_routing_num, currency, amount, type) VALUES (\'" +transaction.getSenderAccountNumber()+ "\', \'"+ transaction.getSenderRoutingNumber()+"\', \'" + transaction.getReceiverAccountNumber()+ "\', \'"+transaction.getReceiverRoutingNumber()+"\', \'"+transaction.getCurrency().toString()+"\', \'"+transaction.getAmount()+"\', \'T\');";
-//        System.out.println(sql);
-//        sqlExecute(sql);
-//    }
-//
-//    public void addLoan(Loan loan, CustomerAccount customerAccount){
-//        String sql = " INSERT INTO bank_atm.loan (initial_amount, debt, owner, interest) VALUES (\'"+loan.getInitialAmountInLocalCurrency()+"\', \'"+loan.getDebtInLocalCurrency()+"\', \'"+customerAccount.getPerson().getName().getFirstName()+ " " +  customerAccount.getPerson().getName().getLastName()+"\', \'"+loan.getInterest()+"\');";
-//        sqlExecute(sql);
-//    }
-//
-//    public void addStock(Stock stock){
-//
-//        String sql = "INSERT INTO bank_atm.stock (name, price, total_shares, avai_shares) VALUES (\'"+stock.getName()+"\', \' " + stock.getCurrentPrice()+ "\', \'"+ stock.getTotalShares()+"\', \'"+ stock.getCurrentlyAvailableShares()+"\');";
-//        System.out.println(sql);
-//        sqlExecute(sql);
-//
-//    }
+    public void addTransaction(Transaction transaction){
+        //TODO
+    }
+
+    public void addLoan(Loan loan, User user){
+        //TODO
+    }
+
+    public void addStock(Stock stock){
+
+       //TODO
+    }
+
+    public void addStock(Stock stock, User user){
+
+        //TODO
+    }
 
 
     // SELECT
@@ -126,27 +126,54 @@ public class DatabaseManager{
 
         try {
             Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM bank_atm.Customers";
+            String sql = "SELECT * FROM BankATM.Users WHERE status = \"Customer\"";
             ResultSet rs=stmt.executeQuery(sql);
             Customer temp;
             while(rs.next()) {
-                //add customers to list and return
+                temp = new Customer(rs.getString("firstname"), rs.getString("lastname"), rs.getString("id"), rs.getString("username"), rs.getString("password" ));
+                list.add(temp);
             }
         }
         catch(Exception e){ System.out.println(e);}
         return list;
     }
 
-    public static ArrayList<Loan> getLoans(String firstName, String lastName){
+    // SELECT
+    public static ArrayList<Manager> getManagers(){
+        ArrayList<Manager> list = new ArrayList<>();
+
+
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "SELECT * FROM BankATM.Users WHERE status = \"Manager\"";
+            ResultSet rs=stmt.executeQuery(sql);
+            Manager temp;
+            while(rs.next()) {
+                temp = new Manager(rs.getString("firstname"), rs.getString("lastname"), rs.getString("id"), rs.getString("username"), rs.getString("password" ));
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+
+    public static ArrayList<Loan> getLoans(User user){
         ArrayList<Loan> list = new ArrayList<>();
 
         try {
             Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM bank_atm.Loans WHERE owner = \'"+firstName + " " + lastName+"\'";
+            String sql = "SELECT * FROM BankATM.Loans WHERE user_id = \""+ user.getId() + "\"";
+            String sql2 = "SELECT * FROM BankATM.Users WHERE user_id = \""+ user.getId() + "\"";
             ResultSet rs=stmt.executeQuery(sql);
+            ResultSet rsCustomer = stmt.executeQuery(sql2);
+
+            Customer borrower = new Customer(rsCustomer.getString("firstname"), rsCustomer.getString("lastname"), rsCustomer.getString("id"), rsCustomer.getString("username"), rsCustomer.getString("password" ));
+
             Loan temp;
             while(rs.next()) {
-                //add loans to list and return
+                temp = new Loan(borrower, rs.getDouble("initial_principal"), rs.getString("collateral"), rs.getInt("termInMonths"));
+                list.add(temp);
             }
         }
         catch(Exception e){ System.out.println(e);}
@@ -155,35 +182,88 @@ public class DatabaseManager{
 
 
 
-    public static ArrayList<Account> getAccounts(String firstName, String lastName, String type){
+    public static ArrayList<CheckingAccount> getCheckingAccounts(User user){
         ArrayList<CheckingAccount> list = new ArrayList<>();
-        //type can be CH, SAV, SEC
-        //find accounts and return
-        //the schema will have 3 tables, one for each account type
-        return null;
-    }
 
-
-    public static ArrayList<Stock> getStocks(){
-        ArrayList<Stock> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
-
-            String sql = "select * from bank_atm.Stocks";
+            String sql = "SELECT * FROM BankATM.checkings_accounts WHERE user_id = \""+ user.getId() + "\"";
             ResultSet rs=stmt.executeQuery(sql);
-            Stock temp;
-            while(rs.next()) {
-
-                //add stocks to list and return
+            CheckingAccount temp = null;
+            while(rs.next())
+            {
+                temp = new CheckingAccount(rs.getString("iban"), rs.getFloat("balance_in_local_currency"), rs.getInt("routing_number"), rs.getInt("account_number"), rs.getString("is_active").equals("true"), new Currency(rs.getString("currency")), rs.getFloat("closing_charge"), rs.getFloat("opening_charge"), rs.getFloat("transferFee") , rs.getFloat("withdrawalFee"));
+                list.add(temp);
             }
         }
         catch(Exception e){ System.out.println(e);}
         return list;
     }
 
-    public static ArrayList<Transaction> getCustomerTransactions(Customer customer) {
-        String customerfirstName = customer.getfirstName();
-        String customerlastName = customer.getlastName();
+    public static ArrayList<SavingsAccount> getSavingsAccounts(User user){
+        ArrayList<SavingsAccount> list = new ArrayList<>();
+
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "SELECT * FROM BankATM.savings_accounts WHERE user_id = \""+ user.getId() + "\"";
+            ResultSet rs=stmt.executeQuery(sql);
+            SavingsAccount temp = null;
+            while(rs.next())
+            {
+                temp = new SavingsAccount(rs.getString("iban"), rs.getFloat("balance_in_local_currency"), rs.getInt("routing_number"), rs.getInt("account_number"), rs.getString("is_active").equals("true"), new Currency(rs.getString("currency")), rs.getFloat("closing_charge"), rs.getFloat("opening_charge"), rs.getFloat("interest"));
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+    public static ArrayList<SecurityAccount> getSecurityAccounts(User user){
+        ArrayList<SecurityAccount> list = new ArrayList<>();
+
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "SELECT * FROM BankATM.security_accounts WHERE user_id = \""+ user.getId() + "\"";
+            ResultSet rs=stmt.executeQuery(sql);
+            SecurityAccount temp = null;
+            while(rs.next())
+            {
+                temp = new SecurityAccount(rs.getString("iban"), rs.getFloat("balance_in_local_currency"), rs.getInt("routing_number"), rs.getInt("account_number"), rs.getString("is_active").equals("true"), new Currency(rs.getString("currency")), rs.getFloat("closing_charge"), rs.getFloat("opening_charge"));
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+    public static ArrayList<Account> getAllAccounts(User user){
+        ArrayList<Account> list = new ArrayList<>();
+        list.addAll(getCheckingAccounts(user));
+        list.addAll(getSavingsAccounts(user));
+        list.addAll(getSecurityAccounts(user));
+        return list;
+    }
+
+
+    public static ArrayList<Stock> getStocks(User user){
+        ArrayList<Stock> list = new ArrayList<>();
+        try {
+            //TODO
+//            Statement stmt=con.createStatement();
+//
+//            String sql = "select * from bank_atm.Stocks";
+//            ResultSet rs=stmt.executeQuery(sql);
+//            Stock temp;
+//            while(rs.next()) {
+//
+//                //add stocks to list and return
+//            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+    public static ArrayList<Transaction> getTransactions(User user) {
         // return all transactions related to customer with an indefinite date
         return null;
     }

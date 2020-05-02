@@ -133,7 +133,7 @@ public class SignupScreen implements ActionListener {
         if (e.getSource() == signupButton) {
 
             Customer customer = new Customer(firstNameField.getText(), lastNameField.getText(), SSNField.getText(), usernameField.getText(), new String(passwordField.getPassword()));
-            StaticVariables.getDatabaseManager().addUser(customer);
+            StaticVariables.getDatabaseManager().addCustomer(customer);
             //TODO show that passwords do not match
             //TODO make passwords save as hashes and not PLAIN TEXT!!
 
