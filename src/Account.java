@@ -7,19 +7,19 @@ public abstract class Account {
     protected String IBAN;
     private boolean active;
     private Currency currency;
-    protected Float openingCharge;
-    protected Float closingCharge;
+    protected static float openingCharge;
+    protected static float closingCharge;
     protected String accountType;
     private String accountStatus;
 
-    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
+    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency) {
         this.balanceInLocalCurrency = balanceInLocalCurrency;
         this.routingNumber = routingNumber;
         this.accountNumber = accountNumber;
         this.active = active;
         this.currency = currency;
-        this.closingCharge = closingCharge;
-        this.openingCharge = openingCharge;
+        // this.closingCharge = closingCharge;
+        // this.openingCharge = openingCharge;
         this.IBAN = IBAN;
         this.accountStatus = "Open";
     }
@@ -47,6 +47,12 @@ public abstract class Account {
     }
 
     // set Opening & Closing charges by manager?
+    public static void setOpeningCharge(float openingcharge) {
+        openingCharge = openingcharge;
+    }
+    public static void setClosingCharge(float closingcharge) {
+        closingCharge = closingcharge;
+    }
 
     public Float getBalanceInLocalCurrency() {
         return balanceInLocalCurrency;
@@ -93,7 +99,7 @@ public abstract class Account {
     }
 
     public boolean close() {
-        if (closingCharge.floatValue() > balanceInLocalCurrency.floatValue()) {
+        if (closingCharge > balanceInLocalCurrency.floatValue()) {
             return false;
         }
         else {
