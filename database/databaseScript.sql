@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Users (
-    id INT PRIMARY KEY,
+    id VARCHAR(200) PRIMARY KEY,
     firstname VARCHAR(255) NOT NULL,
     lastname VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
@@ -10,19 +10,19 @@ CREATE TABLE IF NOT EXISTS Users (
 
 CREATE TABLE IF NOT EXISTS Loans (
     id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
+    user_id VARCHAR(200) NOT NULL,
     collateral VARCHAR(255) NOT NULL,
     date_issued VARCHAR(255) NOT NULL,
     termInMonths INT NOT NULL,
     initial_principal DOUBLE NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id)
-        REFERENCES  BankATM.User (id)
+        REFERENCES  BankATM.Users (id)
 );
 
 
 CREATE TABLE IF NOT EXISTS Accounts (
-	user_id INT NOT NULL,
+	user_id VARCHAR(200) NOT NULL,
     iban VARCHAR(100) NOT NULL,
     balance_in_local_currency FLOAT NOT NULL,
     routing_number INT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Stocks (
 );
 
 CREATE TABLE IF NOT EXISTS users_stocks (
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(200) NOT NULL,
     stock_id VARCHAR(20) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES BankATM.Users (id),
     FOREIGN KEY (stock_id) REFERENCES BankATM.Stocks (name),

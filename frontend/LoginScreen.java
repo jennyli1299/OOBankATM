@@ -1,9 +1,6 @@
 package frontend;
 
-import src.Customer;
-import src.DatabaseManager;
-import src.Manager;
-import src.User;
+import src.*;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -21,10 +18,18 @@ public class LoginScreen implements ActionListener {
     JButton signupButton;
     JLabel warningLabel;
 
+
     /* initializes the login screen */
     public LoginScreen() {
         createWindow();
         createUI();
+        connectToDatabase(); //this should happen when main is launched not here todo
+
+    }
+    public void connectToDatabase()
+    {
+        DatabaseManager databaseManager = new DatabaseManager();
+        StaticVariables.setDatabaseManager(databaseManager);
     }
 
     private void createWindow() {
@@ -89,17 +94,17 @@ public class LoginScreen implements ActionListener {
         /* loginButton -> navigate to Customer or Manager screen */
         if (e.getSource() == loginButton) {
 
-            User logedInUser = null;
-            logedInUser = DatabaseManager.getUserWithCredentials(usernameField.getText().toString(), passwordField.getPassword().toString());
 
-            if (logedInUser == null) {
+            StaticVariables.setLoggedInUser(DatabaseManager.getUserWithCredentials(usernameField.getText().toString(), new String(passwordField.getPassword())));
+
+            if (StaticVariables.getLoggedInUser() == null) {
                 warningLabel.setText("Your username or password are incorrect. Try again.");
-            } else if(logedInUser instanceof Customer)
+            } else if(StaticVariables.getLoggedInUser() instanceof Customer)
             {
-                    CustomerScreen customerScreen = new CustomerScreen((Customer)logedInUser);
+                    CustomerScreen customerScreen = new CustomerScreen();
                     frame.dispose();
                     customerScreen.frame.setVisible(true);
-            }else if(logedInUser instanceof Manager)
+            }else if(StaticVariables.getLoggedInUser() instanceof Manager)
             {
                 //show manager screen
             }

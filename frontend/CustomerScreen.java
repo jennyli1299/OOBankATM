@@ -18,12 +18,10 @@ public class CustomerScreen implements ActionListener {
     JButton loansButton;
     JButton stocksButton;
     JButton logoutButton;
-    Customer logedInCustomer;
 
     /* pass in customer as parameter */
-    public CustomerScreen(Customer logedInCustomer) {
+    public CustomerScreen() {
         // this.customer = customer;
-        this.logedInCustomer = logedInCustomer;
         createWindow();
         createUI();
     }
@@ -98,7 +96,7 @@ public class CustomerScreen implements ActionListener {
     }
 
     public static void main(String[] args) {
-        CustomerScreen screen = new CustomerScreen(null);
+        CustomerScreen screen = new CustomerScreen();
         screen.frame.setVisible(true);
     }
 }
