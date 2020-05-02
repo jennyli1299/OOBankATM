@@ -12,13 +12,13 @@ public abstract class Account {
     protected String accountType;
     private String accountStatus;
 
-    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
+    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closing, Float opening) {
         this.routingNumber = routingNumber;
         this.accountNumber = accountNumber;
         this.active = active;
         this.currency = currency;
-        this.closingCharge = closingCharge;
-        this.openingCharge = openingCharge;
+        closingCharge = closing;
+        openingCharge = opening;
         this.IBAN = IBAN;
         this.accountStatus = "Open";
     }
@@ -78,11 +78,11 @@ public abstract class Account {
     }
 
     public void chargeOpeningCharge(){
-        balanceInLocalCurrency -= openingCharge;
+        this.balanceInLocalCurrency -= openingCharge;
     }
 
     public void chargeClosingCharge(){
-        balanceInLocalCurrency -= closingCharge;
+        this.balanceInLocalCurrency -= closingCharge;
     }
 
     public boolean withdrawAmount(Float amount){
@@ -110,7 +110,16 @@ public abstract class Account {
 
     @Override
     public String toString() {
-        return "Account number: " + accountNumber + " balance: " + balanceInLocalCurrency*Currency.getRate(currency.toString()) + currency.toString();
+        // return "<Account number:> " + accountNumber + " balance: " + balanceInLocalCurrency*Currency.getRate(currency.toString()) + currency.toString();
+        String repr = "<" + this.getIBAN() + "> - ";
+        if (this instanceof CheckingAccount) {
+            repr += "Checking";
+        } else if (this instanceof SavingsAccount) {
+            repr += "Savings";
+        } else if (this instanceof SecurityAccount) {
+            repr += "Security";
+        }
+        return repr;
     }
 
     public Currency getCurrency() {

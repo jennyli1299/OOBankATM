@@ -9,7 +9,7 @@ public class CustomerScreen implements ActionListener {
     
     /* state - hold a copy of the logged in customer
         pass to other screens and use to do database queries/backend calls */
-    // Customer customer;
+    Customer customer;
 
     /* UI components */
     JFrame frame;

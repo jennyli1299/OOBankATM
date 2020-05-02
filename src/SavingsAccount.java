@@ -22,5 +22,5 @@ public class SavingsAccount extends Account {
     public static void setSavingsAccountInterest(float manager_set_interest) {
         interest = Float.valueOf(manager_set_interest);
     }
-
+    
 }
