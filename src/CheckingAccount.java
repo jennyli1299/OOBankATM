@@ -1,15 +1,14 @@
 package src;
 
 public class CheckingAccount extends Account {
-    private Float transferFee;
-    private Float withdrawalFee;
+    private static float transferFee;
+    private static float withdrawalFee;
 
-    public CheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
-                           Float closingCharge, Float openingCharge, Float transferFee, Float withdrawalFee) {
-        super(IBAN,amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
+    public CheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency) {
+        super(IBAN,amountInLocalCurrency, routingNumber, accountNumber, active, currency);
         this.accountType = "Checking";
-        this.transferFee = transferFee;
-        this.withdrawalFee = withdrawalFee;
+        // this.transferFee = transferFee;
+        // this.withdrawalFee = withdrawalFee;
         chargeOpeningCharge();
     }
 
@@ -30,16 +29,16 @@ public class CheckingAccount extends Account {
         return transferFee;
     }
 
-    public void setTransferFee(Float transferFee) {
-        this.transferFee = transferFee;
+    public static void setTransferFee(Float manager_set_transferFee) {
+        transferFee = manager_set_transferFee;
     }
 
     public Float getWithdrawalFee() {
         return withdrawalFee;
     }
 
-    public void setWithdrawalFee(Float withdrawalFee) {
-        this.withdrawalFee = withdrawalFee;
+    public static void setWithdrawalFee(Float manager_set_withdrawalFee) {
+        withdrawalFee = manager_set_withdrawalFee;
     }
 
 }
