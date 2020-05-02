@@ -12,14 +12,13 @@ public abstract class Account {
     protected String accountType;
     private String accountStatus;
 
-    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency) {
-        this.balanceInLocalCurrency = balanceInLocalCurrency;
+    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
         this.routingNumber = routingNumber;
         this.accountNumber = accountNumber;
         this.active = active;
         this.currency = currency;
-        // this.closingCharge = closingCharge;
-        // this.openingCharge = openingCharge;
+        this.closingCharge = closingCharge;
+        this.openingCharge = openingCharge;
         this.IBAN = IBAN;
         this.accountStatus = "Open";
     }

@@ -4,11 +4,12 @@ public class CheckingAccount extends Account {
     private static float transferFee;
     private static float withdrawalFee;
 
-    public CheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency) {
-        super(IBAN,amountInLocalCurrency, routingNumber, accountNumber, active, currency);
+    public CheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
+                           Float closingCharge, Float openingCharge, Float transferFee, Float withdrawalFee) {
+        super(IBAN,amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
         this.accountType = "Checking";
-        // this.transferFee = transferFee;
-        // this.withdrawalFee = withdrawalFee;
+        this.transferFee = transferFee;
+        this.withdrawalFee = withdrawalFee;
         chargeOpeningCharge();
     }
 
