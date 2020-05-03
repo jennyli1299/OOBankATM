@@ -11,7 +11,7 @@ public class Customer extends User {
     /* constructor */
     public Customer(String firstName, String lastName, String id, String username, String password) {
         super(firstName, lastName, id, username, password);
-        DatabaseManager.addCustomer(this);
+      //   DatabaseManager.addCustomer(this); // TODO: add multiple times???
     }
 
 
@@ -24,28 +24,28 @@ public class Customer extends User {
 
      public void openCheckingAccount(float amount, Currency c) {
         // Create Checking Account
-        //CheckingAccount checkingAccount = new CheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transferFee, withdrawalFee);
+        CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transfer, withdrawal);
         // Add to Database
-        //DatabaseManager.addCheckingAccount(checkingAccount, this);
+        DatabaseManager.addCheckingAccount(newCheckingAccount, this);
      }
-     public void openSavingsAccount(float amount, Currency c) {
+     public void openSavingsAccount(float amount, Currency currency) {
         // Create Savings Account
-        //SavingsAccount savingsAccount = new SavingsAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, interest);
+        SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(IBAN, amount, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest)
         // Add to Database
-        //DatabaseManager.addSavingsAccount(savingsAccount, this);
+        DatabaseManager.addSavingsAccount(newSavingsAccount, this);
      }
      public boolean enoughToOpenSECAcc() {
         // Check if Customers are rich enough >$5000.00 in their Savings
-        ArrayList<Account> customerAccs = DatabaseManager.getAccounts(this.getfirstName(), this.getlastName(), "SAV");
+        ArrayList<SavingsAccount> customerSavingsAccs = DatabaseManager.getSavingsAccounts(this);
         float totalbalance = 0;
         boolean over1000 = false;
-        for (Account a : customerAccs) {
-            if (a.getAccountType().equals("Savings")) {
+        for (Account a : customerSavingsAccs) {
+            // if (a.getAccountType().equals("Savings")) {
                totalbalance += a.getBalanceInLocalCurrency(); // What is Local Currency?
                if (a.getBalanceInLocalCurrency() >= 1000) {
                   over1000 = true;
                }
-            }
+            // }
         }
         if (totalbalance >= 5000.0 && over1000) {
            return true;
@@ -55,9 +55,11 @@ public class Customer extends User {
      public void openSecuritiesAccount(Account account, float amount, Currency c) {
         // Create Securities Account & transfer >$1000.00 into securities account from specified Account(s) but MUST keep at least $2500.00 in other accounts
         //SecurityAccount securitiesAccount = new SecurityAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge);
+        SecurityAccount newSecurityAccount = SecurityAccount.openSecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge)
         account.withdrawAmount(amount);
+        newSecurityAccount.depositAmount(amount);
         // Add to Database
-         //DatabaseManager.addSecurityAccount(securitiesAccount, this);
+         DatabaseManager.addSecurityAccount(newSecurityAccount, this);
         // Should we keep max 1?
      }
      // Close Accounts?
@@ -76,19 +78,24 @@ public class Customer extends User {
 
 
      /* View Current Balances (database query) */
-     public int viewAllBalances() {
-        ArrayList<Account> allAccounts = DatabaseManager.getAccounts(getfirstName(), getlastName(), "CH");
-        allAccounts.addAll(DatabaseManager.getAccounts(getfirstName(), getlastName(), "SAV"));
-        allAccounts.addAll(DatabaseManager.getAccounts(getfirstName(), getlastName(), "SEC"));
+     public ArrayList<Account> viewAllBalances() {
+        ArrayList<Account> allAccounts = new ArrayList<Account>();
+        ArrayList<CheckingAccount> checking = DatabaseManager.getCheckingAccounts(this);
+        ArrayList<SavingsAccount> savings = DatabaseManager.getSavingsAccounts(this);
+        ArrayList<SecurityAccount> security = DatabaseManager.getSecurityAccounts(this);
+        allAccounts.addAll(checking);
+        allAccounts.addAll(savings);
+        allAccounts.addAll(security);
 
-        return -1;
+        return allAccounts;
      }
 
 
      /* View Current Balances (database query) */
-     public void viewallPastTransactions() {
-        // get past transactions and display
-     }
+     public ArrayList<Transaction> viewallPastTransactions() {
+        ArrayList<Transaction> allTransactions = DatabaseManager.getTransactions(this);
+         return allTransactions;
+      }
 
 
      /* Make a Withdrawal from an account */
@@ -112,14 +119,14 @@ public class Customer extends User {
 
 
      /* Request a Loan */
-     public void requestLoan(float amount, Currency c) {
-         // COLLATERAL
-
+     public void requestLoan(double initialPrincipal, Currency c, String collateral, int termInMonths) {
+         Loan.RequestALoan(this, initialPrincipal, collateral, termInMonths);
      }
 
      /* View the Status of all Loans/Loan Requests */
-     public void viewAllLoanStatus() {
-
+     public ArrayList<Loan> viewAllLoanStatus() {
+         ArrayList<Loan> allLoans = StaticVariables.getDatabaseManager().getLoans(this);
+         return allLoans;
      }
 
 

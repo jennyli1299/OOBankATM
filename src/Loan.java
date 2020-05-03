@@ -27,7 +27,7 @@ public class Loan {
     public Loan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) {
         this.borrower = borrower;
         // the manager is null until a manager decides on a loan status */
-        this.status = Status.Pending;
+        this.status = Status.Pending; // TODO: DB
 
         /* terms of the loan */ 
         this.initialPrincipal = initialPrincipal;
@@ -44,9 +44,17 @@ public class Loan {
         this.monthlyPayment = Math.round((numerator / denominator) * 100.0) / 100.0;
     }
 
+    public static void RequestALoan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) {
+        Loan loan = new Loan(borrower, initialPrincipal, collateral, termInMonths);
+        DatabaseManager.addLoan(loan, borrower);
+    }
+
     /* getters and setters */
     public void setStatus(Status status) {
         this.status = status;
+    }
+    public Status getStatus() {
+        return this.status;
     }
 
     public double getMonthlyPayment() {

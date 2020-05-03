@@ -1,7 +1,8 @@
 package src;
 
+import java.util.ArrayList;
 
-public class Manager extends User{
+public class Manager extends User {
 
     public static double currentYearlyInterestRate = 0.10;
 
@@ -43,6 +44,52 @@ updating the current price of each stock.
     }
     public void setSavingsAccInterest(float interest) {
         SavingsAccount.setSavingsAccountInterest(interest);
+    }
+
+    public ArrayList<Loan> getPendingLoans() { //TODO: STATUS
+        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        ArrayList<Loan> allPending = new ArrayList<Loan>();
+        for (Customer customer : allCustomers) {
+            ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
+            for (Loan l: loans) {
+                if (l.getStatus() == Status.Pending) {
+                    allPending.add(l);
+                }
+            }
+        }
+        // TODO: Sort by order [time]
+        return allPending;
+    }
+    public ArrayList<Loan> getApprovedLoans() {
+        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        ArrayList<Loan> allApproved = new ArrayList<Loan>();
+        for (Customer customer : allCustomers) {
+            ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
+            for (Loan l: loans) {
+                if (l.getStatus() == Status.Approved) {
+                    allApproved.add(l);
+                }
+            }
+        }
+        // TODO: Sort by order [time]
+        return allApproved;
+    }
+    public ArrayList<Loan> getAllLoans() {
+        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        ArrayList<Loan> allLoans = new ArrayList<Loan>();
+        for (Customer customer : allCustomers) {
+            ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
+            allLoans.addAll(loans);
+        }
+        // TODO: Sort by order [time]
+        return allLoans;
+    }
+
+    public void approveLoan(Loan loan) {
+        loan.setStatus(Status.Approved);
+    }
+    public void denyLoan(Loan loan) {
+        loan.setStatus(Status.Denied);
     }
     
 }
