@@ -21,18 +21,6 @@ public class CheckingAccount extends Account {
         return checkingAccount;
     }
 
-    @Override
-    public boolean withdrawAmount(Float amount){
-        if (super.withdrawAmount(amount)){
-            if (withdrawalFee > balanceInLocalCurrency){
-                balanceInLocalCurrency += amount;
-                return false;
-            }
-            balanceInLocalCurrency -= withdrawalFee;
-            return true;
-        }
-        return false;
-    }
 
     public float getTransferFee() {
         return transferFee;

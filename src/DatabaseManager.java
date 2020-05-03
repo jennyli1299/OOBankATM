@@ -268,6 +268,11 @@ public class DatabaseManager{
         return null;
     }
 
+    public ArrayList<Transaction> getTransactions(User user) {
+        // return all transactions related to customer with an indefinite date
+        return null;
+    }
+
     public void closeAccount(Account account)
     {
 

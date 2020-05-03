@@ -74,9 +74,6 @@ public class Loan {
         return this.collateral;
     }
 
-    public double getAmountDue() {
-        return this.amountDue;
-    }
     public Status getStatus() {
         return this.status;
     }

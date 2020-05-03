@@ -56,7 +56,7 @@ public class Customer extends User {
         // Create Securities Account & transfer >$1000.00 into securities account from specified Account(s) but MUST keep at least $2500.00 in other accounts
         //SecurityAccount securitiesAccount = new SecurityAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge);
         //SecurityAccount newSecurityAccount = SecurityAccount.openSecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge)
-        account.withdrawAmount(amount);
+        //account.withdrawAmount(amount);
         //newSecurityAccount.depositAmount(amount);
         // Add to Database
          //StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, this);
@@ -103,7 +103,7 @@ public class Customer extends User {
         // Need to decide from which account and which currency
         // withdrawal fee
         Float Famount = Float.valueOf(amount);
-        acc.withdrawAmount(Famount);
+        //acc.withdrawAmount(Famount);
         CheckingAccount chAcc = (CheckingAccount)(acc);
         // CHARGE WITHDRAWAL FEE
      }
@@ -120,7 +120,7 @@ public class Customer extends User {
 
      /* Request a Loan */
      public void requestLoan(double initialPrincipal, Currency c, String collateral, int termInMonths) {
-         Loan.RequestALoan(this, initialPrincipal, collateral, termInMonths);
+         //Loan.RequestALoan(this, initialPrincipal, collateral, termInMonths);
      }
 
      /* View the Status of all Loans/Loan Requests */
