@@ -52,7 +52,7 @@ updating the current price of each stock.
         for (Customer customer : allCustomers) {
             ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
             for (Loan l: loans) {
-                if (l.getStatus() == Status.Pending) {
+                if (l.getStatus() == Loan.Status.Pending) {
                     allPending.add(l);
                 }
             }
@@ -66,7 +66,7 @@ updating the current price of each stock.
         for (Customer customer : allCustomers) {
             ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
             for (Loan l: loans) {
-                if (l.getStatus() == Status.Approved) {
+                if (l.getStatus() == Loan.Status.Approved) {
                     allApproved.add(l);
                 }
             }
@@ -86,10 +86,10 @@ updating the current price of each stock.
     }
 
     public void approveLoan(Loan loan) {
-        loan.setStatus(Status.Approved);
+        loan.setStatus(Loan.Status.Approved);
     }
     public void denyLoan(Loan loan) {
-        loan.setStatus(Status.Denied);
+        loan.setStatus(Loan.Status.Denied);
     }
     
 }
