@@ -109,8 +109,15 @@ public class LoanRequestScreen implements ActionListener {
 
             /* on second attempt make the request */
             } else if (request) {
+                try{
+                    Loan loan = new Loan(StaticVariables.getLoggedInUser(), Double.parseDouble(amount.getText()), collateral.getText(), Integer.parseInt(term.getText()), 0);
+                    loan.requestALoan(StaticVariables.getLoggedInUser());
 
-                // TODO make loan request and send to database
+                }catch(Exception excep)
+                {
+                    //todo warn that user input was in wrong format
+                }
+
 
                 /* navigate back to account */
                 CustomerLoansScreen screen = new CustomerLoansScreen();

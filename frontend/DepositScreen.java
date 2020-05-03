@@ -88,6 +88,14 @@ public class DepositScreen implements ActionListener {
             } else if (transact && ((account.getBalanceInLocalCurrency() + Integer.parseInt(amount.getText())) >= account.getDepositFee())) {
 
                 // TODO make transaction
+                try
+                {
+                    account.makeDeposit(Integer.parseInt(amount.getText()));
+                }catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    //TODO warn the user to type number not string
+                }
 
                 /* navigate back to account */
                 AccountDetailsScreen screen = new AccountDetailsScreen();

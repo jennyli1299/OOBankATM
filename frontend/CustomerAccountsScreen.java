@@ -27,7 +27,8 @@ public class CustomerAccountsScreen implements ActionListener {
     public CustomerAccountsScreen() {
         // this.customer = customer;
         createWindow();
-        initDummyState();
+        //initDummyState();
+        loadAccountsFromDatabase();
         createUI();
     }
 
@@ -38,6 +39,20 @@ public class CustomerAccountsScreen implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(null);
+    }
+
+    private void loadAccountsFromDatabase() {
+
+        /* mock data */
+        accounts = new ArrayList<Account>();
+        accounts = StaticVariables.getDatabaseManager().getAllAccounts(StaticVariables.getLoggedInUser());
+
+        /* add string representation to list */
+        listModel = new DefaultListModel<>();
+        for (Account account : accounts) {
+            listModel.addElement(account.toString());
+        }
+
     }
 
     private void initDummyState() {
@@ -112,6 +127,7 @@ public class CustomerAccountsScreen implements ActionListener {
             AccountDetailsScreen screen = new AccountDetailsScreen();
             frame.dispose();
             screen.frame.setVisible(true);
+            StaticVariables.setSelectedAccount(accounts.get(index));
 
         /* back button -> navigate to customer screen */
         } else if (e.getSource() == backButton) {
