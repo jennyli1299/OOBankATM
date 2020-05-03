@@ -10,7 +10,15 @@ public class CheckingAccount extends Account {
         this.accountType = "Checking";
         transferFee = transfer;
         withdrawalFee = withdrawal;
-        chargeOpeningCharge();
+        // chargeOpeningCharge();
+    }
+
+    public static CheckingAccount openCheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
+    Float closingCharge, Float openingCharge, Float transfer, Float withdrawal) {
+        CheckingAccount checkingAccount = new CheckingAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, transfer, withdrawal)
+        checkingAccount.chargeOpeningCharge();
+        // DatabaseManager.addCheckingAccount(checkingAccount, user);
+        return checkingAccount;
     }
 
     @Override

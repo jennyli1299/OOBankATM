@@ -12,6 +12,13 @@ public class SecurityAccount extends Account {
         chargeOpeningCharge();
     }
 
+    public static SecurityAccount openSecurityAccount(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
+        SecurityAccount newSecurityAccount = new SecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
+        newSecurityAccount.chargeOpeningCharge();
+        // DatabaseManager.addSecurityAccount(securitiesAccount, user);
+        return newSecurityAccount;
+    }
+
     // Adds shares to the stock. If this stock has not been bought before
     // we create a new BoughtStock for this stock and instantiate it with "amount" shares
     public void addNewSharesToStock(Stock stock, int amount){
