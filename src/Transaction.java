@@ -1,6 +1,7 @@
 package src;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public abstract class Transaction {
 
@@ -20,6 +21,10 @@ public abstract class Transaction {
 
     public float getAmount() {
         return this.amount;
+    }
+
+    public LocalDateTime getDate() {
+        return this.date;
     }
 
 }

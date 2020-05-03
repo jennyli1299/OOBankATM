@@ -63,8 +63,8 @@ public class CustomerAccountsScreen implements ActionListener {
 
         /* add label */
         label = new JLabel();
-        label.setBounds(50, 50, 400, 50);
-        label.setText("Accounts Screen");
+        label.setBounds(50, 50, 800, 50);
+        label.setText("Select an account to view balance, make transactions, or close the account.");
         frame.add(label);
 
         /* add accountsList */
@@ -108,7 +108,7 @@ public class CustomerAccountsScreen implements ActionListener {
             }
 
             /* okay, navigate to selected account */
-            //Account selectedAccount = accounts.get(index);
+            // Account selectedAccount = accounts.get(index);
             AccountDetailsScreen screen = new AccountDetailsScreen();
 
         /* back button -> navigate to customer screen */

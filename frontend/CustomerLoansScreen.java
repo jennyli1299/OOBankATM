@@ -112,7 +112,7 @@ public class CustomerLoansScreen implements ActionListener {
 
         /* add warning label */
         warningLabel = new JLabel();
-        warningLabel.setBounds(50, 500, 600, 50);
+        warningLabel.setBounds(50, 525, 600, 50);
         frame.add(warningLabel);
 
         /* add back button */

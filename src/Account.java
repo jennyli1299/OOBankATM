@@ -7,12 +7,18 @@ public abstract class Account {
     protected String IBAN;
     private boolean active;
     private Currency currency;
-    protected static float openingCharge;
-    protected static float closingCharge;
     protected String accountType;
     private String accountStatus;
 
+    /* charges and fees */
+    protected static float openingCharge = 10;
+    protected static float closingCharge = 20;
+    protected static float depositFee = 5;
+    protected static float withdrawalFee = 3;
+    protected static float transferFee = 1;
+
     public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closing, Float opening) {
+        this.balanceInLocalCurrency = balanceInLocalCurrency;
         this.routingNumber = routingNumber;
         this.accountNumber = accountNumber;
         this.active = active;
@@ -75,6 +81,18 @@ public abstract class Account {
 
     public int getAccountNumber() {
         return accountNumber;
+    }
+
+    public float getDepositFee() {
+        return this.depositFee;
+    }
+
+    public float getWithdrawalFee() {
+        return this.withdrawalFee;
+    }
+
+    public float getTransferFee() {
+        return this.transferFee;
     }
 
     public void chargeOpeningCharge(){
