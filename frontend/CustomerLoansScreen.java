@@ -72,8 +72,8 @@ public class CustomerLoansScreen implements ActionListener {
 
         /* add label */
         label = new JLabel();
-        label.setBounds(50, 50, 600, 50);
-        label.setText("All loans are shown on the top. Due loans are shown on the bottom.");
+        label.setBounds(50, 25, 600, 50);
+        label.setText("All loans are shown at the top. Due loans are shown at the bottom.");
         frame.add(label);
 
         /* add loans list */
@@ -134,7 +134,7 @@ public class CustomerLoansScreen implements ActionListener {
         } else if (e.getSource() == requestButton) {
             LoanRequestScreen screen = new LoanRequestScreen();
             frame.dispose();
-            // screen.frame.setVisible(true);
+            screen.frame.setVisible(true);
 
         /* select -> navigate to loan details */
         } else if (e.getSource() == selectAllButton) {
@@ -143,14 +143,14 @@ public class CustomerLoansScreen implements ActionListener {
             int index = allLoansList.getSelectedIndex();
             if (index == -1) {
                 warningLabel.setText("Select a loan first.");
-            }
 
             /* okay, navigate to selected account */
-            Loan selectedLoan = loans.get(index);
-            LoanDetailsScreen screen = new LoanDetailsScreen();
-            frame.dispose();
-            // screen.frame.setVisible(true);
-        
+            } else {
+                Loan selectedLoan = loans.get(index);
+                LoanDetailsScreen screen = new LoanDetailsScreen();
+                frame.dispose();
+                // screen.frame.setVisible(true);
+            }
         /* pay -> pay the amount on the selected due loan */
         } else if (e.getSource() == payButton) {
             // TODO make a monthly payment and update database
@@ -161,13 +161,14 @@ public class CustomerLoansScreen implements ActionListener {
             int index = dueLoansList.getSelectedIndex();
             if (index == -1) {
                 warningLabel.setText("Select a loan first.");
-            }
 
             /* okay, navigate to selected account */
-            Loan selectedLoan = dueLoans.get(index);
-            LoanDetailsScreen screen = new LoanDetailsScreen();
-            frame.dispose();
-           //  screen.frame.setVisible(true);
+            } else {
+                Loan selectedLoan = dueLoans.get(index);
+                LoanDetailsScreen screen = new LoanDetailsScreen();
+                frame.dispose();
+            //  screen.frame.setVisible(true);
+            }
         }
     }
 
