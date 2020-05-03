@@ -36,6 +36,7 @@ public class CustomerLoansScreen implements ActionListener {
         // this.customer = customer;
         createWindow();
         //initDummyState();
+        loadAccountsFromDatabase();
         loadLoansFromDatabase();
         createUI();
     }
@@ -66,6 +67,18 @@ public class CustomerLoansScreen implements ActionListener {
         dueLoansListModel = new DefaultListModel<>();
         for (Loan loan : dueLoans) {
             dueLoansListModel.addElement(loan.toString() + ": " + loan.getMonthlyPayment() + " DUE");
+        }
+    }
+
+    private void loadAccountsFromDatabase() {
+
+        accounts = new ArrayList<Account>();
+        accounts = StaticVariables.getDatabaseManager().getAllAccounts(StaticVariables.getLoggedInUser());
+
+        accountsListModel = new DefaultListModel<>();
+        for (Account account : accounts) {
+            // TODO: need a way on the backend to convert currencies
+            accountsListModel.addElement(account.toString() + " - " + account.getBalanceInLocalCurrency());
         }
     }
 
@@ -157,7 +170,7 @@ public class CustomerLoansScreen implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
 
-        StaticVariables.setSelectedLoan(loans.get(allLoansList.getSelectedIndex()));
+        //StaticVariables.setSelectedLoan(loans.get(allLoansList.getSelectedIndex())); TODO fix DIMITRIS 
         /* back -> go back to customer screen */
         if (e.getSource() == backButton) {
             CustomerScreen screen = new CustomerScreen();
