@@ -78,7 +78,7 @@ public class Customer extends User {
 
 
      /* View Current Balances (database query) */
-     public ArrayList<Account> viewAllBalances() {
+     public <T extends Account> ArrayList<Account> viewAllBalances() {
         ArrayList<Account> allAccounts = new ArrayList<Account>();
         ArrayList<CheckingAccount> checking = DatabaseManager.getCheckingAccounts(this);
         ArrayList<SavingsAccount> savings = DatabaseManager.getSavingsAccounts(this);
@@ -93,7 +93,7 @@ public class Customer extends User {
 
      /* View Current Balances (database query) */
      public ArrayList<Transaction> viewallPastTransactions() {
-        ArrayList<Transaction> allTransactions = DatabaseManager.getTransactions(this);
+        ArrayList<Transaction> allTransactions = StaticVariables.getDatabaseManager().getTransactions(this);
          return allTransactions;
       }
 

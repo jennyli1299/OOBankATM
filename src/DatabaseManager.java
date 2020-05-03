@@ -74,15 +74,15 @@ public class DatabaseManager{
         }
 
     }
-    public static void addCheckingAccount(CheckingAccount checkingAccount, User user){
+    public void addCheckingAccount(CheckingAccount checkingAccount, User user){
         String sql = "";
         sqlExecute(sql);
     }
-    public static void addSavingsAccount(SavingsAccount savingsAccount, User user){
+    public void addSavingsAccount(SavingsAccount savingsAccount, User user){
         String sql = "";
         sqlExecute(sql);
     }
-    public static void addSecurityAccount(SecurityAccount securitiesAccount, User user){
+    public void addSecurityAccount(SecurityAccount securitiesAccount, User user){
         String sql = "";
         sqlExecute(sql);
     }
@@ -120,7 +120,7 @@ public class DatabaseManager{
 
 
     // SELECT
-    public static ArrayList<Customer> getCustomers(){
+    public ArrayList<Customer> getCustomers(){
         ArrayList<Customer> list = new ArrayList<>();
 
 
@@ -139,7 +139,7 @@ public class DatabaseManager{
     }
 
     // SELECT
-    public static ArrayList<Manager> getManagers(){
+    public ArrayList<Manager> getManagers(){
         ArrayList<Manager> list = new ArrayList<>();
 
 
@@ -158,7 +158,7 @@ public class DatabaseManager{
     }
 
 
-    public static ArrayList<Loan> getLoans(User user){
+    public ArrayList<Loan> getLoans(User user){
         ArrayList<Loan> list = new ArrayList<>();
 
         try {
@@ -245,7 +245,7 @@ public class DatabaseManager{
     }
 
 
-    public static ArrayList<Stock> getStocks(User user){
+    public ArrayList<Stock> getStocks(User user){
         ArrayList<Stock> list = new ArrayList<>();
         try {
             //TODO
@@ -263,13 +263,13 @@ public class DatabaseManager{
         return list;
     }
 
-    public static ArrayList<Transaction> getTransactions(User user) {
+    public ArrayList<Transaction> getTransactions(User user) {
         // return all transactions related to customer with an indefinite date
         return null;
     }
 
     /* manager - daily report on transactions */
-    public static ArrayList<Transaction> getDailyTransactions() {
+    public ArrayList<Transaction> getDailyTransactions() {
 
         /* select * from transactions such that date == today */
         return null;
@@ -278,13 +278,13 @@ public class DatabaseManager{
     // UPDATES PENDING
 
     /* manager - update stock price */
-    public static Stock updateStockPrice(Stock stock, float price) {
+    public Stock updateStockPrice(Stock stock, float price) {
         /* change the given stock's price */
         return null;
     }
 
     /* manager - add (or remove) more of an existing stock */
-    public static Stock updateStockQuantity(Stock stock, int quantity) {
+    public Stock updateStockQuantity(Stock stock, int quantity) {
         /*
         stock.totalShares += quantity
         stock.currentlyAvailableShares += quantity
