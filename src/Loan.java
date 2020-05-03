@@ -4,11 +4,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-enum Status {
-    Pending, Approved, Denied
-}
 
 public class Loan {
+
+    public enum Status {
+        Pending, Approved, Denied
+    }
 
     /* member variables */
     private User borrower;
@@ -68,6 +69,14 @@ public class Loan {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public String getCollateral() {
+        return this.collateral;
+    }
+
+    public double getAmountDue() {
+        return this.amountDue;
+    }
     public Status getStatus() {
         return this.status;
     }
@@ -76,6 +85,17 @@ public class Loan {
         return this.monthlyPayment;
     }
 
+    public LocalDateTime getDateIssued() {
+        return this.dateIssued;
+    }
+
+    public int getTermInMonths() {
+        return this.termInMonths;
+    }
+
+    public double getInitialPrincipal() {
+        return this.initialPrincipal;
+    }
 
     public String toString() {
         String repr = "<" + dateIssued.format(DateTimeFormatter.ofPattern("MM/dd/YYYY")) + "> - $" + initialPrincipal;
