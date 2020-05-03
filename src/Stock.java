@@ -56,4 +56,8 @@ public class Stock {
     public void setTotalShares(int totalShares) {
         this.totalShares = totalShares;
     }
+
+    public String toString() {
+        return "<" + this.name + "> - $" + this.price + " per share";
+    }
 }

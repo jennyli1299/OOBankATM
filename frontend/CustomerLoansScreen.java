@@ -60,8 +60,10 @@ public class CustomerLoansScreen implements ActionListener {
             loansListModel.addElement(loan.toString());
         }
 
+        dueLoans = loans;
+
         dueLoansListModel = new DefaultListModel<>();
-        for (Loan loan : loans) {
+        for (Loan loan : dueLoans) {
             dueLoansListModel.addElement(loan.toString() + ": " + loan.getMonthlyPayment() + " DUE");
         }
     }
