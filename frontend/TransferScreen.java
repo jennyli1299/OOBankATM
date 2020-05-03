@@ -26,8 +26,8 @@ public class TransferScreen implements ActionListener {
         // this.customer = customer;
         // this.account = account;
 
-        account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
-
+        //account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
+        account = StaticVariables.getSelectedAccount();
         createWindow();
         createUI();
     }
@@ -100,7 +100,15 @@ public class TransferScreen implements ActionListener {
             /* two attempts and enough money to make transfer */
             } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= account.getTransferFee())) {
 
-                // TODO make transaction
+                try
+                {
+                    account.makeTransfer(Float.parseFloat(amount.getText()) + account.getTransferFee(), recipient.getText());
+
+                }catch(Exception exception)
+                {
+                    //TODO warn that user input was in wrong format
+                }
+
 
                 /* navigate back to account */
                 AccountDetailsScreen screen = new AccountDetailsScreen();

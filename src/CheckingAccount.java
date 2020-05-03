@@ -15,7 +15,7 @@ public class CheckingAccount extends Account {
 
     public static CheckingAccount openCheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
     Float closingCharge, Float openingCharge, Float transfer, Float withdrawal, User user) {
-        CheckingAccount checkingAccount = new CheckingAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, transfer, withdrawal)
+        CheckingAccount checkingAccount = new CheckingAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, transfer, withdrawal);
         checkingAccount.chargeOpeningCharge();
         StaticVariables.getDatabaseManager().addCheckingAccount(checkingAccount, user);
         return checkingAccount;
@@ -34,7 +34,7 @@ public class CheckingAccount extends Account {
         return false;
     }
 
-    public Float getTransferFee() {
+    public float getTransferFee() {
         return transferFee;
     }
 
@@ -42,7 +42,7 @@ public class CheckingAccount extends Account {
         transferFee = manager_set_transferFee;
     }
 
-    public Float getWithdrawalFee() {
+    public float getWithdrawalFee() {
         return withdrawalFee;
     }
 

@@ -34,7 +34,8 @@ public class CustomerLoansScreen implements ActionListener {
     public CustomerLoansScreen() {
         // this.customer = customer;
         createWindow();
-        initDummyState();
+        //initDummyState();
+        loadLoansFromDatabase();
         createUI();
     }
 
@@ -45,6 +46,26 @@ public class CustomerLoansScreen implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(null);
+    }
+
+    private void loadLoansFromDatabase() {
+
+        /* mock data - Loan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) */
+        loans = new ArrayList<Loan>();
+        loans = StaticVariables.getDatabaseManager().getLoans(StaticVariables.getLoggedInUser());
+
+        /* add string representation to list */
+        loansListModel = new DefaultListModel<>();
+        for (Loan loan : loans) {
+            loansListModel.addElement(loan.toString());
+        }
+
+        dueLoans = loans;
+
+        dueLoansListModel = new DefaultListModel<>();
+        for (Loan loan : dueLoans) {
+            dueLoansListModel.addElement(loan.toString() + ": " + loan.getMonthlyPayment() + " DUE");
+        }
     }
 
     private void initDummyState() {

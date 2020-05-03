@@ -11,7 +11,7 @@ public class Customer extends User {
     /* constructor */
     public Customer(String firstName, String lastName, String id, String username, String password) {
         super(firstName, lastName, id, username, password);
-      //   DatabaseManager.addCustomer(this); // TODO: add multiple times???
+        StaticVariables.getDatabaseManager().addCustomer(this);
     }
 
 
@@ -24,22 +24,22 @@ public class Customer extends User {
 
      public void openCheckingAccount(float amount, Currency c) {
         // Create Checking Account
-        CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transfer, withdrawal, this);
+        //CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transfer, withdrawal, this);
         // Add to Database [Handled when Account is openned]
       //   StaticVariables.getDatabaseManager().addCheckingAccount(newCheckingAccount, this);
      }
      public void openSavingsAccount(float amount, Currency currency) {
         // Create Savings Account
-        SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(IBAN, amount, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest, this);
+        //SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(IBAN, amount, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest, this);
         // Add to Database [Handled when Account is opened]
       //   StaticVariables.getDatabaseManager().addSavingsAccount(newSavingsAccount, this);
      }
      public boolean enoughToOpenSECAcc() {
         // Check if Customers are rich enough >$5000.00 in their Savings
-        ArrayList<SavingsAccount> customerSavingsAccs = DatabaseManager.getSavingsAccounts(this);
+        ArrayList<Account> customerAccs = StaticVariables.getDatabaseManager().getAllAccounts(this);
         float totalbalance = 0;
         boolean over1000 = false;
-        for (Account a : customerSavingsAccs) {
+        for (Account a : customerAccs) {
             // if (a.getAccountType().equals("Savings")) {
                totalbalance += a.getBalanceInLocalCurrency(); // What is Local Currency?
                if (a.getBalanceInLocalCurrency() >= 1000) {
@@ -55,11 +55,11 @@ public class Customer extends User {
      public void openSecuritiesAccount(Account account, float amount, Currency c) {
         // Create Securities Account & transfer >$1000.00 into securities account from specified Account(s) but MUST keep at least $2500.00 in other accounts
         //SecurityAccount securitiesAccount = new SecurityAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge);
-        SecurityAccount newSecurityAccount = SecurityAccount.openSecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge)
+        //SecurityAccount newSecurityAccount = SecurityAccount.openSecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge)
         account.withdrawAmount(amount);
-        newSecurityAccount.depositAmount(amount);
+        //newSecurityAccount.depositAmount(amount);
         // Add to Database
-         StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, this);
+         //StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, this);
         // Should we keep max 1?
      }
      // Close Accounts?

@@ -187,7 +187,7 @@ public class DatabaseManager{
 
         try {
             Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM BankATM.checkings_accounts WHERE user_id = \""+ user.getId() + "\"";
+            String sql = "SELECT * FROM BankATM.checkings_accounts WHERE is_active = TRUE AND user_id = \""+ user.getId() + "\"";
             ResultSet rs=stmt.executeQuery(sql);
             CheckingAccount temp = null;
             while(rs.next())
@@ -205,7 +205,7 @@ public class DatabaseManager{
 
         try {
             Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM BankATM.savings_accounts WHERE user_id = \""+ user.getId() + "\"";
+            String sql = "SELECT * FROM BankATM.savings_accounts WHERE is_active = TRUE AND user_id = \""+ user.getId() + "\"";
             ResultSet rs=stmt.executeQuery(sql);
             SavingsAccount temp = null;
             while(rs.next())
@@ -223,7 +223,7 @@ public class DatabaseManager{
 
         try {
             Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM BankATM.security_accounts WHERE user_id = \""+ user.getId() + "\"";
+            String sql = "SELECT * FROM BankATM.security_accounts WHERE is_active = TRUE AND user_id = \""+ user.getId() + "\"";
             ResultSet rs=stmt.executeQuery(sql);
             SecurityAccount temp = null;
             while(rs.next())
@@ -263,9 +263,14 @@ public class DatabaseManager{
         return list;
     }
 
-    public ArrayList<Transaction> getTransactions(User user) {
+    public ArrayList<Transaction> getTransactions(Account account) {
         // return all transactions related to customer with an indefinite date
         return null;
+    }
+
+    public void closeAccount(Account account)
+    {
+
     }
 
     /* manager - daily report on transactions */

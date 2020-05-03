@@ -53,18 +53,12 @@ public class AccountDetailsScreen implements ActionListener {
     }
 
     private void initState() {
-        // TODO database: select transactions involving given account
-        
         /* below implementation is only for testing purposes */
-        account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
+        //account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
 
+        account = StaticVariables.getSelectedAccount();
         transactions = new ArrayList<Transaction>();
-        transactions.add(new Deposit(account, 5000));
-        transactions.add(new Deposit(account, 3000));
-        transactions.add(new Withdrawal(account, 400));
-        transactions.add(new Withdrawal(account, (float)6575.35));
-        transactions.add(new Transfer(account, account, 6000));
-        transactions.add(new Deposit(account, 1000));
+        transactions = StaticVariables.getDatabaseManager().getTransactions(account);
 
         transactionsListModel = new DefaultListModel<>();
         for (Transaction transaction : transactions) {
@@ -196,7 +190,8 @@ public class AccountDetailsScreen implements ActionListener {
             /* two attempts and enough money to close the account */
             if (close && account.getBalanceInLocalCurrency() >= account.getClosingCharge()) {
 
-                // TODO database: delete account, transfer fee to bank manager account
+                StaticVariables.getDatabaseManager().closeAccount(account);
+                // TODO transfer fee to bank manager account
 
                 /* navigate back to customer accounts */
                 CustomerAccountsScreen screen = new CustomerAccountsScreen();

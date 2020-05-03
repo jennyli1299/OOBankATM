@@ -29,6 +29,24 @@ public abstract class Account {
         this.accountStatus = "Open";
     }
 
+    public void makeTransfer(float amount, String recIBAN)
+    {
+        this.makeWithdrawal(amount);
+        //todo update the database
+    }
+
+    public void makeDeposit(int amount)
+    {
+        balanceInLocalCurrency += amount;
+        //TODO update the database
+    }
+
+    public void makeWithdrawal(Float amount){
+        if (amount > balanceInLocalCurrency){
+            //TODO show error message that the account does not have enough money
+        }
+        balanceInLocalCurrency -= amount;
+    }
     public String getIBAN()
     {
         return IBAN;
@@ -101,14 +119,6 @@ public abstract class Account {
 
     public void chargeClosingCharge(){
         this.balanceInLocalCurrency -= closingCharge;
-    }
-
-    public boolean withdrawAmount(Float amount){
-        if (amount > balanceInLocalCurrency){
-            return false;
-        }
-        balanceInLocalCurrency -= amount;
-        return true;
     }
 
     public void depositAmount(Float amount){

@@ -12,7 +12,7 @@ public class Loan {
     }
 
     /* member variables */
-    private Customer borrower;
+    private User borrower;
     private Manager lender;
     private Status status;
     private double initialPrincipal;
@@ -23,14 +23,16 @@ public class Loan {
     private int termInMonths;
     private LocalDateTime dateIssued;
     private LocalDateTime dateDue;
+    private int numberOfPayments;
 
     /* constructor */
-    public Loan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) {
+    public Loan(User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments) {
         this.borrower = borrower;
         // the manager is null until a manager decides on a loan status */
         this.status = Status.Pending; // TODO: DB
 
-        /* terms of the loan */ 
+        /* terms of the loan */
+        this.numberOfPayments = numberOfPayments;
         this.initialPrincipal = initialPrincipal;
         this.amountDue = this.initialPrincipal;
         this.collateral = collateral;
@@ -45,10 +47,23 @@ public class Loan {
         this.monthlyPayment = Math.round((numerator / denominator) * 100.0) / 100.0;
     }
 
-    public static void RequestALoan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) {
-        Loan loan = new Loan(borrower, initialPrincipal, collateral, termInMonths);
-        DatabaseManager.addLoan(loan, borrower);
+    public void requestALoan(User borrower) {
+        Loan loan = new Loan(borrower, this.initialPrincipal, this.collateral, this.termInMonths, 0);
+        //TODO add loan to database
     }
+
+    public void payMonthlyInstallment()
+    {
+        numberOfPayments++;
+        //todo update loan in database
+    }
+
+    public double getAmountDue()
+    {
+        return initialPrincipal - numberOfPayments * monthlyPayment;
+    }
+
+
 
     /* getters and setters */
     public void setStatus(Status status) {
