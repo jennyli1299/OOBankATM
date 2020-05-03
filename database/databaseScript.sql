@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS Loans (
     date_issued VARCHAR(255) NOT NULL,
     termInMonths INT NOT NULL,
     initial_principal DOUBLE NOT NULL,
+    number_of_payments INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id)
         REFERENCES  BankATM.Users (id)

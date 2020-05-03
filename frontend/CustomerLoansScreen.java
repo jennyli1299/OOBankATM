@@ -68,25 +68,25 @@ public class CustomerLoansScreen implements ActionListener {
 
     private void initDummyState() {
         
-        /* mock data - Loan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) */
-        loans = new ArrayList<Loan>();
-        loans.add(new Loan(customer, 30000, "second house mortgage", 12));
-        loans.add(new Loan(customer, 10000, "car", 24));
-        loans.add(new Loan(customer, 5000, "", 18));
-        loans.add(new Loan(customer, 75000, "trust fund", 24));
-        
-        /* add string representation to list */
-        loansListModel = new DefaultListModel<>();
-        for (Loan loan : loans) {
-            loansListModel.addElement(loan.toString());
-        }
-
-        dueLoans = loans;
-
-        dueLoansListModel = new DefaultListModel<>();
-        for (Loan loan : dueLoans) {
-            dueLoansListModel.addElement(loan.toString() + ": " + loan.getMonthlyPayment() + " DUE");
-        }
+//        /* mock data - Loan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) */
+//        loans = new ArrayList<Loan>();
+//        loans.add(new Loan(customer, 30000, "second house mortgage", 12));
+//        loans.add(new Loan(customer, 10000, "car", 24));
+//        loans.add(new Loan(customer, 5000, "", 18));
+//        loans.add(new Loan(customer, 75000, "trust fund", 24));
+//
+//        /* add string representation to list */
+//        loansListModel = new DefaultListModel<>();
+//        for (Loan loan : loans) {
+//            loansListModel.addElement(loan.toString());
+//        }
+//
+//        dueLoans = loans;
+//
+//        dueLoansListModel = new DefaultListModel<>();
+//        for (Loan loan : dueLoans) {
+//            dueLoansListModel.addElement(loan.toString() + ": " + loan.getMonthlyPayment() + " DUE");
+//        }
     }
 
     private void createUI() {
@@ -145,6 +145,7 @@ public class CustomerLoansScreen implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
 
+        StaticVariables.setSelectedLoan(loans.get(allLoansList.getSelectedIndex()));
         /* back -> go back to customer screen */
         if (e.getSource() == backButton) {
             CustomerScreen screen = new CustomerScreen();
@@ -174,7 +175,8 @@ public class CustomerLoansScreen implements ActionListener {
             }
         /* pay -> pay the amount on the selected due loan */
         } else if (e.getSource() == payButton) {
-            // TODO make a monthly payment and update database
+            StaticVariables.getSelectedLoan().payMonthlyInstallment();
+
 
         } else if (e.getSource() == selectPayButton) {
             

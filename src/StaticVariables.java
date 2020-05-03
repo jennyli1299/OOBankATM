@@ -5,6 +5,7 @@ public class StaticVariables
     private static User loggedInUser = null;
     private static DatabaseManager databaseManager = null;
     private static Account selectedAccount = null;
+    private static Loan selectedLoan = null;
 
     public static User getLoggedInUser()
     {
@@ -34,5 +35,15 @@ public class StaticVariables
     public static void setSelectedAccount(Account selectedAccount)
     {
         StaticVariables.selectedAccount = selectedAccount;
+    }
+
+    public static Loan getSelectedLoan()
+    {
+        return selectedLoan;
+    }
+
+    public static void setSelectedLoan(Loan selectedLoan)
+    {
+        StaticVariables.selectedLoan = selectedLoan;
     }
 }

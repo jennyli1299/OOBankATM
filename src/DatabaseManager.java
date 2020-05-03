@@ -172,7 +172,7 @@ public class DatabaseManager{
 
             Loan temp;
             while(rs.next()) {
-                temp = new Loan(borrower, rs.getDouble("initial_principal"), rs.getString("collateral"), rs.getInt("termInMonths"));
+                temp = new Loan(borrower, rs.getDouble("initial_principal"), rs.getString("collateral"), rs.getInt("termInMonths"), rs.getInt("number_of_payments"));
                 list.add(temp);
             }
         }
