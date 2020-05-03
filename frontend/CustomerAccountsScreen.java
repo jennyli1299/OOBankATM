@@ -10,7 +10,7 @@ public class CustomerAccountsScreen implements ActionListener {
 
     /* state */
     Customer customer;
-    ArrayList<Account> accounts;
+    ArrayList<Account> accounts; // keep database query here
     DefaultListModel<String> listModel;
 
 
@@ -50,12 +50,12 @@ public class CustomerAccountsScreen implements ActionListener {
         
         /* add string representation to list */
         listModel = new DefaultListModel<>();
-        // for (Account account : accounts) {
-        //     listModel.addElement(account.toString());
-        // }
-        listModel.addElement("<GB12345678 - Checking");
-        listModel.addElement("<US87654321 - Checking");
-        listModel.addElement("<CH88888888 - Savings");
+        for (Account account : accounts) {
+            listModel.addElement(account.toString());
+        }
+        listModel.addElement("<GB12345678> - Checking");
+        listModel.addElement("<US87654321> - Checking");
+        listModel.addElement("<CH88888888> - Savings");
 
     }
 
@@ -80,11 +80,13 @@ public class CustomerAccountsScreen implements ActionListener {
         /* add select button */
         selectButton = new JButton("Select account");
         selectButton.setBounds(450, 100, 200, 50);
+        selectButton.addActionListener(this);
         frame.add(selectButton);
 
         /* add create button */
         createButton = new JButton("Open account");
         createButton.setBounds(450, 150, 200, 50);
+        createButton.addActionListener(this);
         frame.add(createButton);
 
         /* add back button */
@@ -99,13 +101,14 @@ public class CustomerAccountsScreen implements ActionListener {
         /* select button -> view details about account */
         if (e.getSource() == selectButton) {
             
-            /* if selected account is valid, navigate */
+            /* if selected account is invalid, display warning */
             int index = accountsList.getSelectedIndex();
             if (index == -1) {
                 warningLabel.setText("Select an account first.");
             }
 
-            Account selectedAccount = accounts.get(index);
+            /* okay, navigate to selected account */
+            //Account selectedAccount = accounts.get(index);
             AccountDetailsScreen screen = new AccountDetailsScreen();
 
         /* back button -> navigate to customer screen */

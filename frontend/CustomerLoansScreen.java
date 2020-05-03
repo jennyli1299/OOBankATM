@@ -2,23 +2,37 @@ package frontend;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
+import src.*;
 
 public class CustomerLoansScreen implements ActionListener {
 
-    /* state - hold a copy of the logged in customer
-        pass to other screens and use to do database queries/backend calls */
-    // Customer customer;
+    /* state */
+    Customer customer;
+    ArrayList<Loan> loans; // keep database query here
+    DefaultListModel<String> loansListModel;
+    ArrayList<Loan> dueLoans; // keep database query here
+    DefaultListModel<String> dueLoansListModel;
+
 
     /* UI components */
     JFrame frame;
     JLabel label;
-    
+    JList allLoansList;
+    JButton requestButton;
+    JButton selectAllButton;
+    JList dueLoansList;
+    JButton payButton;
+    JButton selectPayButton;
+    JLabel warningLabel;
     JButton backButton;
 
     /* pass in customer as parameter */
     public CustomerLoansScreen() {
         // this.customer = customer;
         createWindow();
+        initDummyState();
         createUI();
     }
 
@@ -31,28 +45,127 @@ public class CustomerLoansScreen implements ActionListener {
         frame.setLayout(null);
     }
 
+    private void initDummyState() {
+        
+        /* mock data - Loan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) */
+        loans = new ArrayList<Loan>();
+        loans.add(new Loan(customer, 30000, "second house mortgage", 12));
+        loans.add(new Loan(customer, 10000, "car", 24));
+        loans.add(new Loan(customer, 5000, "", 18));
+        loans.add(new Loan(customer, 75000, "trust fund", 24));
+        
+        /* add string representation to list */
+        loansListModel = new DefaultListModel<>();
+        for (Loan loan : loans) {
+            loansListModel.addElement(loan.toString());
+        }
+
+        dueLoansListModel = new DefaultListModel<>();
+        for (Loan loan : loans) {
+            dueLoansListModel.addElement(loan.toString() + ": " + loan.getMonthlyPayment() + " DUE");
+        }
+    }
+
     private void createUI() {
 
         /* add label */
         label = new JLabel();
-        label.setBounds(50, 50, 400, 50);
-        label.setText("Loans Screen");
+        label.setBounds(50, 50, 600, 50);
+        label.setText("All loans are shown on the top. Due loans are shown on the bottom.");
         frame.add(label);
+
+        /* add loans list */
+        allLoansList = new JList<>(loansListModel);
+        allLoansList.setBounds(50, 100, 300, 200);
+        frame.add(allLoansList);
+
+        /* add request button */
+        requestButton = new JButton("Request new loan");
+        requestButton.setBounds(375, 100, 150, 50);
+        requestButton.addActionListener(this);
+        frame.add(requestButton);
+
+        /* add select button */
+        selectAllButton = new JButton("Select loan");
+        selectAllButton.setBounds(375, 150, 150, 50);
+        selectAllButton.addActionListener(this);
+        frame.add(selectAllButton);
+
+        /* add dueLoansList */
+        dueLoansList = new JList<>(dueLoansListModel);
+        dueLoansList.setBounds(50, 325, 300, 200);
+        frame.add(dueLoansList);
+
+        /* add pay button */
+        payButton = new JButton("Pay monthly payment");
+        payButton.setBounds(375, 325, 150, 50);
+        payButton.addActionListener(this);
+        frame.add(payButton);
+
+        /* add select button */
+        selectPayButton = new JButton("Select loan");
+        selectPayButton.setBounds(375, 375, 150, 50);
+        selectPayButton.addActionListener(this);
+        frame.add(selectPayButton);
+
+        /* add warning label */
+        warningLabel = new JLabel();
+        warningLabel.setBounds(50, 500, 600, 50);
+        frame.add(warningLabel);
 
         /* add back button */
         backButton = new JButton("Go back to main menu");
-        backButton.setBounds(50, 400, 200, 50);
+        backButton.setBounds(575, 50, 200, 50);
         backButton.addActionListener(this);
         frame.add(backButton);
 
     }
     public void actionPerformed(ActionEvent e) {
 
-        /* back button -> navigate to customer screen */
+        /* back -> go back to customer screen */
         if (e.getSource() == backButton) {
-            CustomerScreen customerScreen = new CustomerScreen();
+            CustomerScreen screen = new CustomerScreen();
             frame.dispose();
-            customerScreen.frame.setVisible(true);
+            screen.frame.setVisible(true);
+
+        /* request -> navigate to request screen */
+        } else if (e.getSource() == requestButton) {
+            LoanRequestScreen screen = new LoanRequestScreen();
+            frame.dispose();
+            // screen.frame.setVisible(true);
+
+        /* select -> navigate to loan details */
+        } else if (e.getSource() == selectAllButton) {
+
+            /* if selected account is invalid, display warning */
+            int index = allLoansList.getSelectedIndex();
+            if (index == -1) {
+                warningLabel.setText("Select a loan first.");
+            }
+
+            /* okay, navigate to selected account */
+            Loan selectedLoan = loans.get(index);
+            LoanDetailsScreen screen = new LoanDetailsScreen();
+            frame.dispose();
+            // screen.frame.setVisible(true);
+        
+        /* pay -> pay the amount on the selected due loan */
+        } else if (e.getSource() == payButton) {
+            // TODO make a monthly payment and update database
+
+        } else if (e.getSource() == selectPayButton) {
+            
+            /* if selected account is invalid, display warning */
+            int index = dueLoansList.getSelectedIndex();
+            if (index == -1) {
+                warningLabel.setText("Select a loan first.");
+            }
+
+            /* okay, navigate to selected account */
+            Loan selectedLoan = dueLoans.get(index);
+            LoanDetailsScreen screen = new LoanDetailsScreen();
+            frame.dispose();
+           //  screen.frame.setVisible(true);
         }
     }
 
