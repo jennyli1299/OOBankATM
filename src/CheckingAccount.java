@@ -14,10 +14,10 @@ public class CheckingAccount extends Account {
     }
 
     public static CheckingAccount openCheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
-    Float closingCharge, Float openingCharge, Float transfer, Float withdrawal) {
+    Float closingCharge, Float openingCharge, Float transfer, Float withdrawal, User user) {
         CheckingAccount checkingAccount = new CheckingAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, transfer, withdrawal)
         checkingAccount.chargeOpeningCharge();
-        // DatabaseManager.addCheckingAccount(checkingAccount, user);
+        StaticVariables.getDatabaseManager().addCheckingAccount(checkingAccount, user);
         return checkingAccount;
     }
 

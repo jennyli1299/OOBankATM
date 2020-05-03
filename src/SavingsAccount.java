@@ -12,9 +12,10 @@ public class SavingsAccount extends Account {
     }
 
     public static SavingsAccount openSavingsAccount (String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
-    Float closingCharge, Float openingCharge, Float interest) {
+    Float closingCharge, Float openingCharge, Float interest, User user) {
         SavingsAccount newSavingsAccount = new SavingsAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest);
         newSavingsAccount.chargeOpeningCharge();
+        StaticVariables.getDatabaseManager().addSavingsAccount(newSavingsAccount, user);
         return newSavingsAccount;
     }
 

@@ -24,15 +24,15 @@ public class Customer extends User {
 
      public void openCheckingAccount(float amount, Currency c) {
         // Create Checking Account
-        CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transfer, withdrawal);
-        // Add to Database
-        DatabaseManager.addCheckingAccount(newCheckingAccount, this);
+        CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transfer, withdrawal, this);
+        // Add to Database [Handled when Account is openned]
+      //   StaticVariables.getDatabaseManager().addCheckingAccount(newCheckingAccount, this);
      }
      public void openSavingsAccount(float amount, Currency currency) {
         // Create Savings Account
-        SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(IBAN, amount, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest)
-        // Add to Database
-        DatabaseManager.addSavingsAccount(newSavingsAccount, this);
+        SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(IBAN, amount, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest, this);
+        // Add to Database [Handled when Account is opened]
+      //   StaticVariables.getDatabaseManager().addSavingsAccount(newSavingsAccount, this);
      }
      public boolean enoughToOpenSECAcc() {
         // Check if Customers are rich enough >$5000.00 in their Savings
@@ -59,7 +59,7 @@ public class Customer extends User {
         account.withdrawAmount(amount);
         newSecurityAccount.depositAmount(amount);
         // Add to Database
-         DatabaseManager.addSecurityAccount(newSecurityAccount, this);
+         StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, this);
         // Should we keep max 1?
      }
      // Close Accounts?
