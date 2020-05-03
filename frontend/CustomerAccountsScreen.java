@@ -44,18 +44,18 @@ public class CustomerAccountsScreen implements ActionListener {
         
         /* mock data */
         accounts = new ArrayList<Account>();
-        //accounts.add(new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40));
-        //accounts.add(new CheckingAccount("US87654321", (float) 12345, 23456789, 98765432, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40));
-        //accounts.add(new SavingsAccount("CH88888888", (float) 8888, 99887766, 55443322, true, new Currency("CDY"), (float)10, (float)20, (float)0.03));
+        accounts.add(new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40));
+        accounts.add(new CheckingAccount("US87654321", (float) 12345, 23456789, 98765432, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40));
+        accounts.add(new SavingsAccount("CH88888888", (float) 8888, 99887766, 55443322, true, new Currency("CDY"), (float)10, (float)20, (float)0.03));
         
         /* add string representation to list */
         listModel = new DefaultListModel<>();
         for (Account account : accounts) {
             listModel.addElement(account.toString());
         }
-        listModel.addElement("<GB12345678> - Checking");
-        listModel.addElement("<US87654321> - Checking");
-        listModel.addElement("<CH88888888> - Savings");
+        // listModel.addElement("<GB12345678> - Checking");
+        // listModel.addElement("<US87654321> - Checking");
+        // listModel.addElement("<CH88888888> - Savings");
 
     }
 
@@ -110,6 +110,8 @@ public class CustomerAccountsScreen implements ActionListener {
             /* okay, navigate to selected account */
             // Account selectedAccount = accounts.get(index);
             AccountDetailsScreen screen = new AccountDetailsScreen();
+            frame.dispose();
+            screen.frame.setVisible(true);
 
         /* back button -> navigate to customer screen */
         } else if (e.getSource() == backButton) {

@@ -13,7 +13,7 @@ public class AccountDetailsScreen implements ActionListener {
     Account account;
     ArrayList<Transaction> transactions;
     DefaultListModel<String> transactionsListModel;
-    Boolean close;
+    boolean close;
 
     /* UI components */
     JFrame frame;
