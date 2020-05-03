@@ -14,6 +14,8 @@ public class CustomerLoansScreen implements ActionListener {
     DefaultListModel<String> loansListModel;
     ArrayList<Loan> dueLoans; // keep database query here
     DefaultListModel<String> dueLoansListModel;
+    ArrayList<Account> accounts;
+    DefaultListModel<String> accountsListModel;
 
 
     /* UI components */
@@ -24,7 +26,7 @@ public class CustomerLoansScreen implements ActionListener {
     JButton selectAllButton;
     JList dueLoansList;
     JButton payButton;
-    JButton selectPayButton;
+    JComboBox payDropdown;
     JLabel warningLabel;
     JButton backButton;
 
@@ -53,19 +55,29 @@ public class CustomerLoansScreen implements ActionListener {
         loans.add(new Loan(customer, 10000, "car", 24));
         loans.add(new Loan(customer, 5000, "", 18));
         loans.add(new Loan(customer, 75000, "trust fund", 24));
-        
         /* add string representation to list */
         loansListModel = new DefaultListModel<>();
         for (Loan loan : loans) {
-            loansListModel.addElement(loan.toString());
+            loansListModel.addElement(loan.toString()+ ": " + loan.getStatus());
         }
 
         dueLoans = loans;
-
         dueLoansListModel = new DefaultListModel<>();
         for (Loan loan : dueLoans) {
             dueLoansListModel.addElement(loan.toString() + ": " + loan.getMonthlyPayment() + " DUE");
         }
+
+        /* mock data */
+        accounts = new ArrayList<Account>();
+        accounts.add(new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40));
+        accounts.add(new CheckingAccount("US87654321", (float) 12345, 23456789, 98765432, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40));
+        accounts.add(new SavingsAccount("CH88888888", (float) 8888, 99887766, 55443322, true, new Currency("CDY"), (float)10, (float)20, (float)0.03));
+        accountsListModel = new DefaultListModel<>();
+        for (Account account : accounts) {
+            // TODO: need a way on the backend to convert currencies
+            accountsListModel.addElement(account.toString() + " - " + account.getBalanceInLocalCurrency());
+        }
+
     }
 
     private void createUI() {
@@ -104,11 +116,10 @@ public class CustomerLoansScreen implements ActionListener {
         payButton.addActionListener(this);
         frame.add(payButton);
 
-        /* add select button */
-        selectPayButton = new JButton("Select loan");
-        selectPayButton.setBounds(375, 375, 150, 50);
-        selectPayButton.addActionListener(this);
-        frame.add(selectPayButton);
+        /* add pay dropdown */
+        payDropdown = new JComboBox(accountsListModel.toArray());
+        payDropdown.setBounds(375, 375, 150, 50);
+        frame.add(payDropdown);
 
         /* add warning label */
         warningLabel = new JLabel();
@@ -132,7 +143,7 @@ public class CustomerLoansScreen implements ActionListener {
 
         /* request -> navigate to request screen */
         } else if (e.getSource() == requestButton) {
-            LoanRequestScreen screen = new LoanRequestScreen();
+            LoanDetailsScreen screen = new LoanDetailsScreen();
             frame.dispose();
             screen.frame.setVisible(true);
 
@@ -153,21 +164,17 @@ public class CustomerLoansScreen implements ActionListener {
             }
         /* pay -> pay the amount on the selected due loan */
         } else if (e.getSource() == payButton) {
-            // TODO make a monthly payment and update database
-
-        } else if (e.getSource() == selectPayButton) {
             
-            /* if selected account is invalid, display warning */
-            int index = dueLoansList.getSelectedIndex();
-            if (index == -1) {
-                warningLabel.setText("Select a loan first.");
+            
+            /* if selected loan/account is invalid, display warning */
+            int loanIndex = dueLoansList.getSelectedIndex();
+            int accountIndex = payDropdown.getSelectedIndex();
+            if (loanIndex == -1 || accountIndex == -1) {
+                warningLabel.setText("Select a loan and account.");
 
-            /* okay, navigate to selected account */
+            /* okay, do loan payment on the backend */
             } else {
-                Loan selectedLoan = dueLoans.get(index);
-                LoanDetailsScreen screen = new LoanDetailsScreen();
-                frame.dispose();
-            //  screen.frame.setVisible(true);
+                // TODO make a monthly payment and update database
             }
         }
     }
