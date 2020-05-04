@@ -77,7 +77,7 @@ public class CustomerLoansScreen implements ActionListener {
 
         accountsListModel = new DefaultListModel<>();
         for (Account account : accounts) {
-            // TODO: need a way on the backend to convert currencies
+            // TODO: need a way on the backend to convert currencies [DONE] Currency.convertCurrencies(amount, fromthisCurrency, tothisCurrency);
             accountsListModel.addElement(account.toString() + " - " + account.getBalanceInLocalCurrency());
         }
     }

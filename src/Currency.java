@@ -15,6 +15,10 @@ public class Currency {
 
     }
 
+    public String getAbbrev() {
+        return this.abbreviation;
+    }
+
     public static Float getRate(String abbreviation) {
         return abbreviationToRate.get(abbreviation);
     }
@@ -23,8 +27,30 @@ public class Currency {
         abbreviationToRate.put(abbreviation, rate);
     }
 
+    public static float convertCurrencies(float amount, Currency from, Currency to) {
+        float converted = amount;
+        Float rateofUSDfrom = Currency.getRate(from.getAbbrev());
+        Float rateofUSDto = Currency.getRate(to.getAbbrev());
+        converted = converted/rateofUSDfrom;
+        converted = converted*rateofUSDto;
+        return converted;
+    }
+    public static float convertCurrencies(float amount, String fromAbbrev, String toAbbrev) {
+        float converted = amount;
+        Float rateofUSDfrom = Currency.getRate(fromAbbrev);
+        Float rateofUSDto = Currency.getRate(toAbbrev);
+        converted = converted/rateofUSDfrom;
+        converted = converted*rateofUSDto;
+        return converted;
+    }
+
     @Override
     public String toString() {
         return abbreviation;
+    }
+
+    public static void main(String[] args) {
+        Currency USD = new Currency("USD");
+        System.out.println(Currency.convertCurrencies((float)10.0, "EUR", "CHF"));
     }
 }

@@ -36,8 +36,7 @@ public class ManagerCustomerScreen implements ActionListener {
     }
 
     private void initState() {
-        // TODO get all customers from database
-        customers = new ArrayList<Customer>();
+        customers = StaticVariables.getDatabaseManager().getCustomers();
         customersListModel = new DefaultListModel<String>();
         for (Customer customer : customers) {
             customersListModel.addElement(customer.toString());

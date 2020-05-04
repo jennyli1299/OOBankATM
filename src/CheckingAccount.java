@@ -4,6 +4,7 @@ public class CheckingAccount extends Account {
     private static Float transferFee;
     private static Float withdrawalFee;
 
+    // TODO: ACCOUNT INFO
     public CheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
                            Float closingCharge, Float openingCharge, Float transfer, Float withdrawal) {
         super(IBAN,amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
@@ -21,21 +22,5 @@ public class CheckingAccount extends Account {
         return checkingAccount;
     }
 
-
-    public static Float getTransferFee() {
-        return transferFee;
-    }
-
-    public static void setTransferFee(Float manager_set_transferFee) {
-        transferFee = manager_set_transferFee;
-    }
-
-    public static Float getWithdrawalFee() {
-        return withdrawalFee;
-    }
-
-    public static void setWithdrawalFee(Float manager_set_withdrawalFee) {
-        withdrawalFee = manager_set_withdrawalFee;
-    }
 
 }

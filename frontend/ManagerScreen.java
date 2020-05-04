@@ -47,8 +47,7 @@ public class ManagerScreen implements ActionListener {
         /* mock data */
         manager = new Manager("Elton", "Cheung", "12345678", "eltonc", "pass");
         
-        // TODO get actual daily transactions
-        transactions = new ArrayList<Transaction>();
+        transactions = manager.getDailyTransactions();
         transactionsListModel = new DefaultListModel<String>();
         for (Transaction transaction : transactions) {
             transactionsListModel.addElement(transaction.getAccount().toString() + " - " + transaction.toString());

@@ -143,8 +143,9 @@ public class ManagerStocksScreen implements ActionListener {
             /* okay, try to change the price */
             } else {
                 // TODO update price of selected stock, remember to update list and listmodel too
-                // Stock stock = stocks.get(index);
-                stocksListModel.set(index, "Updated stock.toString here!");
+                Stock stock = stocks.get(index);
+                manager.setStockSharePrice(stock, Float.parseFloat(price.getText()));
+                stocksListModel.set(index, "Updated stock.toString here!"); //TODO what is this?
             }
 
         /* quantity -> increase/decrease price of selected stock */
@@ -159,7 +160,9 @@ public class ManagerStocksScreen implements ActionListener {
             } else {
                 // TODO update quantity by given amount, rememebr to update list and listmodel too
                 // NOTE: backend should have an elegant way to represent changing stock because people may own shares and setting total number of shares suddenly to 0 doesn't really make sense
-                // Stock stock = stocks.get(index);
+                Stock stock = stocks.get(index);
+                manager.setTotalStockShares(stock, Integer.parseInt(quantity.getText()));
+                manager.updateAvailableStockShares(stock, Integer.parseInt(quantity.getText()));
                 stocksListModel.set(index, "Updated stock.toString here!");
             }
         }

@@ -29,23 +29,38 @@ public abstract class Account {
         this.accountStatus = "Open";
     }
 
-    public void makeTransfer(float amount, String recIBAN)
+    public void noFeeAddMoney(float amount) {
+        balanceInLocalCurrency += amount;
+    }
+    public void noFeeTakeOutMonet(float amount) {
+        balanceInLocalCurrency -= amount;
+    }
+
+    public void makeTransfer(float amount, String recIBAN) //TODO: IBAN SEARCH
     {
         this.makeWithdrawal(amount);
         //todo update the database
+        Account receivingAcc = recIBAN; //some search with recIBAN
+        receivingAcc.noFeeAddMoney(amount);
+        // update database
     }
 
     public void makeDeposit(int amount)
     {
         balanceInLocalCurrency += amount;
+        Manager.updateLifetimeGain(Account.getDepositFee());
         //TODO update the database
     }
 
-    public void makeWithdrawal(Float amount){
+    public boolean makeWithdrawal(Float amount){
         if (amount > balanceInLocalCurrency){
-            //TODO show error message that the account does not have enough money
+            return false;
         }
-        balanceInLocalCurrency -= amount;
+        else {
+            balanceInLocalCurrency -= amount;
+            Manager.updateLifetimeGain(Account.getWithdrawalFee());
+            return true;
+        }
     }
     public String getIBAN()
     {
@@ -69,6 +84,18 @@ public abstract class Account {
         return closingCharge;
     }
 
+    public static Float getDepositFee() {
+        return depositFee;
+    }
+
+    public static Float getWithdrawalFee() {
+        return withdrawalFee;
+    }
+
+    public static Float getTransferFee() {
+        return transferFee;
+    }
+
 
 
     // set Opening & Closing charges by manager?
@@ -77,6 +104,15 @@ public abstract class Account {
     }
     public static void setClosingCharge(float closingcharge) {
         closingCharge = closingcharge;
+    }
+    public static void setTransferFee(Float manager_set_transferFee) {
+        transferFee = manager_set_transferFee;
+    }
+    public static void setWithdrawalFee(Float manager_set_withdrawalFee) {
+        withdrawalFee = manager_set_withdrawalFee;
+    }
+    public static void setDepositFee(float manager_set_depositFee) {
+        depositFee = manager_set_depositFee;
     }
 
     public Float getBalanceInLocalCurrency() {
@@ -101,18 +137,6 @@ public abstract class Account {
 
     public int getAccountNumber() {
         return accountNumber;
-    }
-
-    public static Float getDepositFee() {
-        return depositFee;
-    }
-
-    public static Float getWithdrawalFee() {
-        return withdrawalFee;
-    }
-
-    public static Float getTransferFee() {
-        return transferFee;
     }
 
     public void chargeOpeningCharge(){

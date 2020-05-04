@@ -112,7 +112,9 @@ public class LoanRequestScreen implements ActionListener {
                 try{
                     Loan loan = new Loan(StaticVariables.getLoggedInUser(), Double.parseDouble(amount.getText()), collateral.getText(), Integer.parseInt(term.getText()), 0);
                     loan.requestALoan(StaticVariables.getLoggedInUser());
-                    // TODO: Print successful application
+                    // User user = StaticVariables.getLoggedInUser();
+                    
+                    SuccessfulScreen sucess = new SuccessfulScreen("Loan has been requested.")
 
                 }catch(Exception excep)
                 {

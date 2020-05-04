@@ -120,7 +120,9 @@ public class AddStockScreen implements ActionListener {
 
             /* okay, try to add the stock */
             } else {
-                // TODO add stock
+                // TODO add stock DATABASE
+                Stock newStock = new Stock(Float.parseFloat(price.getText()), Integer.parseInt(totalShares.getText()), Integer.parseInt(available.getText()), name.getText());
+
             }
 
         /* back -> navigate back to stocks */
