@@ -61,13 +61,15 @@ public abstract class Account {
         return accountType;
     }
 
-    public Float getOpeningCharge() {
+    public static Float getOpeningCharge() {
         return openingCharge;
     }
 
-    public Float getClosingCharge() {
+    public static Float getClosingCharge() {
         return closingCharge;
     }
+
+
 
     // set Opening & Closing charges by manager?
     public static void setOpeningCharge(float openingcharge) {
@@ -101,16 +103,16 @@ public abstract class Account {
         return accountNumber;
     }
 
-    public float getDepositFee() {
-        return this.depositFee;
+    public static Float getDepositFee() {
+        return depositFee;
     }
 
-    public float getWithdrawalFee() {
-        return this.withdrawalFee;
+    public static Float getWithdrawalFee() {
+        return withdrawalFee;
     }
 
-    public float getTransferFee() {
-        return this.transferFee;
+    public static Float getTransferFee() {
+        return transferFee;
     }
 
     public void chargeOpeningCharge(){
