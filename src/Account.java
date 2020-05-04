@@ -17,7 +17,7 @@ public abstract class Account {
     protected static float withdrawalFee = 3;
     protected static float transferFee = 1;
 
-    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closing, Float opening) {
+    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closing, Float opening) { //TODO remove last two
         this.balanceInLocalCurrency = balanceInLocalCurrency;
         this.routingNumber = routingNumber;
         this.accountNumber = accountNumber;
@@ -32,13 +32,13 @@ public abstract class Account {
     public void makeTransfer(float amount, String recIBAN)
     {
         this.makeWithdrawal(amount);
-        //todo update the database
+        StaticVariables.getDatabaseManager().increaseBalanceBy(amount, recIBAN);
     }
 
     public void makeDeposit(int amount)
     {
         balanceInLocalCurrency += amount;
-        //TODO update the database
+        StaticVariables.getDatabaseManager().increaseBalanceBy(amount, this.getIBAN());
     }
 
     public void makeWithdrawal(Float amount){
@@ -46,6 +46,8 @@ public abstract class Account {
             //TODO show error message that the account does not have enough money
         }
         balanceInLocalCurrency -= amount;
+        StaticVariables.getDatabaseManager().increaseBalanceBy(-amount, this.getIBAN());
+
     }
     public String getIBAN()
     {

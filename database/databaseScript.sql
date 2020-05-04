@@ -21,6 +21,7 @@ INSERT INTO Users (id, firstname, lastname, username, status, password) VALUES (
 CREATE TABLE IF NOT EXISTS Loans (
     id INT NOT NULL AUTO_INCREMENT,
     user_id VARCHAR(200) NOT NULL,
+    status VARCHAR(20) NOT NULL,
     collateral VARCHAR(255) NOT NULL,
     date_issued VARCHAR(255) NOT NULL,
     termInMonths INT NOT NULL,
@@ -30,9 +31,12 @@ CREATE TABLE IF NOT EXISTS Loans (
     FOREIGN KEY (user_id) REFERENCES  BankATM.Users (id)
 );
 
-INSERT INTO Loans (user_id, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("0", "house", "17 November", 5, 1.5, 0);
-INSERT INTO Loans (user_id, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("1", "car", "18 November", 6, 1.2, 0);
-
+INSERT INTO Loans (user_id, status, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("0", "Pending","house", "17 November", 5, 5000, 0);
+INSERT INTO Loans (user_id, status, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("1", "Approved","car", "19 November", 6, 1200, 0);
+INSERT INTO Loans (user_id, status, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("0", "Approved","boat", "20 November", 5, 100000, 0);
+INSERT INTO Loans (user_id, status, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("1", "Pending","hotel", "3 November", 6, 19000, 0);
+INSERT INTO Loans (user_id, status, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("0", "Denied","car", "7 November", 5, 1000, 0);
+INSERT INTO Loans (user_id, status, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("1", "Denied","nothing", "8 November", 6, 6000, 0);
 
 CREATE TABLE IF NOT EXISTS security_accounts (
 	user_id VARCHAR(200) NOT NULL,

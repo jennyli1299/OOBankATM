@@ -24,8 +24,8 @@ public class DepositScreen implements ActionListener {
         // this.customer = customer;
         // this.account = account;
 
-        account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
-
+        //account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
+        account = StaticVariables.getSelectedAccount();
         createWindow();
         createUI();
     }

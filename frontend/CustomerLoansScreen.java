@@ -53,8 +53,17 @@ public class CustomerLoansScreen implements ActionListener {
     private void loadLoansFromDatabase() {
 
         /* mock data - Loan(Customer borrower, double initialPrincipal, String collateral, int termInMonths) */
-        loans = new ArrayList<Loan>();
+        loans = new ArrayList<>();
         loans = StaticVariables.getDatabaseManager().getLoans(StaticVariables.getLoggedInUser());
+        dueLoans = new ArrayList<>();
+        for (int i = 0; i<loans.size(); i++)
+        {
+            if(loans.get(i).getAmountDue() > 0)
+            {
+                dueLoans.add(loans.get(i));
+                loans.remove(loans.get(i));
+            }
+        }
 
         /* add string representation to list */
         loansListModel = new DefaultListModel<>();
@@ -62,11 +71,9 @@ public class CustomerLoansScreen implements ActionListener {
             loansListModel.addElement(loan.toString());
         }
 
-        dueLoans = loans;
-
         dueLoansListModel = new DefaultListModel<>();
         for (Loan loan : dueLoans) {
-            dueLoansListModel.addElement(loan.toString() + ": " + loan.getMonthlyPayment() + " DUE");
+            dueLoansListModel.addElement(loan.toString() + " - " + loan.getMonthlyPayment() + " DUE");
         }
     }
 
@@ -178,7 +185,7 @@ public class CustomerLoansScreen implements ActionListener {
 
         /* request -> navigate to request screen */
         } else if (e.getSource() == requestButton) {
-            LoanDetailsScreen screen = new LoanDetailsScreen();
+            LoanRequestScreen screen = new LoanRequestScreen();
             frame.dispose();
             screen.frame.setVisible(true);
 

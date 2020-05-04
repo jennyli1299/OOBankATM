@@ -124,10 +124,11 @@ public class CustomerAccountsScreen implements ActionListener {
 
             /* okay, navigate to selected account */
             // Account selectedAccount = accounts.get(index);
+            StaticVariables.setSelectedAccount(accounts.get(index));
             AccountDetailsScreen screen = new AccountDetailsScreen();
             frame.dispose();
             screen.frame.setVisible(true);
-            StaticVariables.setSelectedAccount(accounts.get(index));
+
 
         /* back button -> navigate to customer screen */
         } else if (e.getSource() == backButton) {

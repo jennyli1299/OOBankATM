@@ -122,9 +122,9 @@ public class ManagerStocksScreen implements ActionListener {
 
         /* add -> navigate to add stock screen */
         if (e.getSource() == addButton) {
-            //AddStockScreen screen = new AddStockScreen();
+            AddStockScreen screen = new AddStockScreen();
             frame.dispose();
-            //screen.frame.setVisible(true);
+            screen.frame.setVisible(true);
 
         /* back -> navigate back to main menu */
         } else if (e.getSource() == backButton) {
