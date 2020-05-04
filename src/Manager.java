@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Manager extends User {
 
     public static double currentYearlyInterestRate = 0.10;
+    public static double lifetimeLoss = 50000;
+    public static double lifetimeGain = 60000;
 
     public Manager(String firstName, String lastName, String id, String username, String password)
     {
