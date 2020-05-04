@@ -37,7 +37,7 @@ public class ManagerScreen implements ActionListener {
 
     private void createWindow() {
         /* initialize the frame */
-        frame = new JFrame("Bank ATM");
+        frame = new JFrame("Manager");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(null);
