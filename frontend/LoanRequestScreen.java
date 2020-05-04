@@ -112,10 +112,11 @@ public class LoanRequestScreen implements ActionListener {
                 try{
                     Loan loan = new Loan(StaticVariables.getLoggedInUser(), Double.parseDouble(amount.getText()), collateral.getText(), Integer.parseInt(term.getText()), 0);
                     loan.requestALoan(StaticVariables.getLoggedInUser());
+                    // TODO: Print successful application
 
                 }catch(Exception excep)
                 {
-                    //todo warn that user input was in wrong format
+                    warningLabel.setText("Please verify all information is in the correct format in order to apply for a Loan."); //+"\n The amount requested should be a positive and valid number.\n Enter what you wish to have as collateral for this loan in English\n Term should be a valid number of months.");
                 }
 
 

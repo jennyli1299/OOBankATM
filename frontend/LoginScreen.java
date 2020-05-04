@@ -106,7 +106,7 @@ public class LoginScreen implements ActionListener {
                     customerScreen.frame.setVisible(true);
             }else if(StaticVariables.getLoggedInUser() instanceof Manager)
             {
-                //show manager screen
+                // TODO: show manager screen
             }
 
         /* signupButton -> navigate to Signup screen */

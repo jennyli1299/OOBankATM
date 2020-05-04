@@ -94,7 +94,8 @@ public class DepositScreen implements ActionListener {
                 }catch (Exception ex)
                 {
                     ex.printStackTrace();
-                    //TODO warn the user to type number not string
+                    //TODO warn the user to type number not string [Done] This is not triggered
+                    warningLabel.setText("Amount to be deposited must be a valid number.");
                 }
 
                 /* navigate back to account */

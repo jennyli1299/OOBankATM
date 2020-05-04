@@ -106,7 +106,7 @@ public class TransferScreen implements ActionListener {
 
                 }catch(Exception exception)
                 {
-                    //TODO warn that user input was in wrong format
+                    warningLabel.setText("Please make sure inputs are valid.");
                 }
 
 

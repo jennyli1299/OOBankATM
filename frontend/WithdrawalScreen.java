@@ -94,7 +94,7 @@ public class WithdrawalScreen implements ActionListener {
 
                 }catch (Exception exception)
                 {
-                    //TODO warn that user input was wrong
+                    warningLabel.setText("Invalid input. Please correct entries and retry.");
                 }
                 /* navigate back to account */
                 AccountDetailsScreen screen = new AccountDetailsScreen();
