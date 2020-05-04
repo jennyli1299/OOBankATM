@@ -10,12 +10,12 @@ public abstract class Account {
     protected String accountType;
     private String accountStatus;
 
-    /* charges and fees */
-    // protected static float openingCharge = 10;
-    // protected static float closingCharge = 20;
-    // protected static float depositFee = 5;
-    // protected static float withdrawalFee = 3;
-    // protected static float transferFee = 1;
+    /* charges and fees */ // TODO: TAKE OUT
+    protected static float openingCharge;
+    protected static float closingCharge;
+    protected static float depositFee;
+    protected static float withdrawalFee;
+    protected static float transferFee;
 
     public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closing, Float opening) { //TODO remove last two
         this.balanceInLocalCurrency = balanceInLocalCurrency;
@@ -23,8 +23,8 @@ public abstract class Account {
         this.accountNumber = accountNumber;
         this.active = active;
         this.currency = currency;
-        // closingCharge = closing;
-        // openingCharge = opening;
+        closingCharge = StaticVariables.getClosingCharge();
+        openingCharge = StaticVariables.getOpeningCharge();
         this.IBAN = IBAN;
         this.accountStatus = "Open";
     }
@@ -126,10 +126,12 @@ public abstract class Account {
 
     public void chargeOpeningCharge(){
         this.balanceInLocalCurrency -= StaticVariables.getOpeningCharge();
+        StaticVariables.updateLifetimeGain(StaticVariables.getOpeningCharge());
     }
 
     public void chargeClosingCharge(){
         this.balanceInLocalCurrency -= StaticVariables.getClosingCharge();
+        StaticVariables.updateLifetimeGain(StaticVariables.getClosingCharge());
     }
 
     public void depositAmount(Float amount){

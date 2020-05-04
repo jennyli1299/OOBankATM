@@ -9,8 +9,8 @@ public class CheckingAccount extends Account {
                            Float closingCharge, Float openingCharge, Float transfer, Float withdrawal) {
         super(IBAN,amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
         this.accountType = "Checking";
-        // transferFee = transfer;
-        // withdrawalFee = withdrawal;
+        transferFee = StaticVariables.getTransferFee();
+        withdrawalFee = StaticVariables.getWithdrawalFee();
         // chargeOpeningCharge();
     }
 

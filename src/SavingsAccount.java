@@ -1,13 +1,13 @@
 package src;
 
 public class SavingsAccount extends Account {
-    // private static Float interest;
+    private static float interest;
 
     public SavingsAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
                           Float closingCharge, Float openingCharge, Float interest) {
         super(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
         this.accountType = "Savings";
-        // this.interest = interest;
+        interest = StaticVariables.getSavingsAccountInterest();
         // chargeOpeningCharge();
     }
 

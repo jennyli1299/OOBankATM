@@ -122,9 +122,11 @@ public class StaticVariables
     /* Bank Lifetime Gains/Losses */
     public static void updateLifetimeLoss(float n) {
         BanklifetimeLoss += n;
+        // TODO: UPDATE THIS IN DB
     }
     public static void updateLifetimeGain(float n) {
         BanklifetimeGain += n;
+        // TODO: update in db
     }
     public static float calculateProfit() {
         return BanklifetimeGain - BanklifetimeLoss;
