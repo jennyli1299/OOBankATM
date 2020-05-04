@@ -132,14 +132,15 @@ public class SignupScreen implements ActionListener {
         /* signupButton -> add user to database */
         if (e.getSource() == signupButton) {
 
-            Customer customer = new Customer(firstNameField.getText(), lastNameField.getText(), SSNField.getText(), usernameField.getText(), new String(passwordField.getPassword()));
-            StaticVariables.getDatabaseManager().addCustomer(customer);
             //TODO show that passwords do not match
             //TODO make passwords save as hashes and not PLAIN TEXT!!
 
+            // Customer customer = new Customer(firstNameField.getText(), lastNameField.getText(), SSNField.getText(), usernameField.getText(), new String(passwordField.getPassword()));
+            // StaticVariables.getDatabaseManager().addCustomer(customer);
+            Customer customer = Customer.signupCustomer(firstNameField.getText(), lastNameField.getText(), SSNField.getText(), usernameField.getText(), new String(passwordField.getPassword()));
 
             
-            /* navigate back to login screen */
+            /* navigate back to login screen OR go straight to Customer screen */
             LoginScreen loginScreen = new LoginScreen();
             frame.dispose();
             loginScreen.frame.setVisible(true);
