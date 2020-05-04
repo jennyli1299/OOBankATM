@@ -1,8 +1,8 @@
 package src;
 
 public class CheckingAccount extends Account {
-    private static float transferFee;
-    private static float withdrawalFee;
+    private static Float transferFee;
+    private static Float withdrawalFee;
 
     public CheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
                            Float closingCharge, Float openingCharge, Float transfer, Float withdrawal) {
@@ -22,7 +22,7 @@ public class CheckingAccount extends Account {
     }
 
 
-    public float getTransferFee() {
+    public static Float getTransferFee() {
         return transferFee;
     }
 
@@ -30,7 +30,7 @@ public class CheckingAccount extends Account {
         transferFee = manager_set_transferFee;
     }
 
-    public float getWithdrawalFee() {
+    public static Float getWithdrawalFee() {
         return withdrawalFee;
     }
 

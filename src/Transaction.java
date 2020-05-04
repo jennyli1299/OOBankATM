@@ -3,7 +3,7 @@ package src;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public abstract class Transaction {
+public abstract class Transaction implements Comparable<Transaction> {
 
     private Account account;
     private float amount;
@@ -25,6 +25,10 @@ public abstract class Transaction {
 
     public LocalDateTime getDate() {
         return this.date;
+    }
+
+    public int compareTo(Transaction t) {
+        return this.getDate().compareTo(t.getDate());
     }
 
 }

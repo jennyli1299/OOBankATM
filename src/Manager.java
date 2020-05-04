@@ -1,5 +1,6 @@
 package src;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -26,7 +27,6 @@ Pay Interest (Savings accounts w high balance ← Variable) (>$5000)
 
 Able to query all tables (customers/transactions)
 Get a daily report on transactions for that day
-Set fees for loans/account openings done
 Add/delete stock options
 maintaining the list of stocks
 updating the current price of each stock.
@@ -58,30 +58,6 @@ updating the current price of each stock.
         else return "Action not successful.";
     }
 
-    public ArrayList<Loan> getPendingLoans() {
-        ArrayList<Loan> allLoans = getAllLoans();
-        ArrayList<Loan> allPending = new ArrayList<Loan>();
-        for (Loan l : allLoans) {
-            if (l.getStatus() == Loan.Status.Pending) {
-                allPending.add(l);
-            }
-        }
-        /* Sorted by date Applied */
-        Collections.sort(allPending, Loan.LoanAppliedDateComparator);
-        return allPending;
-    }
-    public ArrayList<Loan> getApprovedLoans() {
-        ArrayList<Loan> allLoans = getAllLoans();
-        ArrayList<Loan> allApproved = new ArrayList<Loan>();
-        for (Loan l : allLoans) {
-            if (l.getStatus() == Loan.Status.Approved) {
-                allApproved.add(l);
-            }
-        }
-        /* Sorted by date Issued/Approved */
-        Collections.sort(allApproved, Loan.LoanIssuedDateComparator);
-        return allApproved;
-    }
     public ArrayList<Loan> getAllLoans() {
         ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
         ArrayList<Loan> allLoans = new ArrayList<Loan>();
@@ -94,6 +70,32 @@ updating the current price of each stock.
         return allLoans;
     }
 
+    public ArrayList<Loan> getPendingLoans() {
+        ArrayList<Loan> allLoans = getAllLoans();
+        ArrayList<Loan> allPending = new ArrayList<Loan>();
+        for (Loan l : allLoans) {
+            if (l.getStatus() == Loan.Status.Pending) {
+                allPending.add(l);
+            }
+        }
+        /* Sorted by date Applied */
+        Collections.sort(allPending, Loan.LoanAppliedDateComparator);
+        return allPending;
+    }
+
+    public ArrayList<Loan> getApprovedLoans() {
+        ArrayList<Loan> allLoans = getAllLoans();
+        ArrayList<Loan> allApproved = new ArrayList<Loan>();
+        for (Loan l : allLoans) {
+            if (l.getStatus() == Loan.Status.Approved) {
+                allApproved.add(l);
+            }
+        }
+        /* Sorted by date Issued/Approved */
+        Collections.sort(allApproved, Loan.LoanIssuedDateComparator);
+        return allApproved;
+    }
+
     public void approveLoan(Loan loan) {
         loan.approveLoan();
     }
@@ -104,11 +106,53 @@ updating the current price of each stock.
 
     /* TRANSACTIONS */
     public ArrayList<Transaction> getAllTransactions() {
+        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        ArrayList<Transaction> allTransactions = new ArrayList<Transaction>();
+        for (Customer c : allCustomers) {
+            ArrayList<Transaction> cTransactions = StaticVariables.getDatabaseManager().getTransactions(c);
+            allTransactions.addAll(cTransactions);
+        }
+        Collections.sort(allTransactions);
+        return allTransactions;
+    }
 
+    public ArrayList<Transaction> getDailyTransactions() {
+        ArrayList<Transaction> dailyTransactions = StaticVariables.getDatabaseManager().getDailyTransactions();
+        Collections.sort(dailyTransactions);
+        return dailyTransactions;
+    }
+
+    public ArrayList<Transaction> getTransactionsfromDate(LocalDateTime date) {
+        // TODO Is this possible? Is date stored?
+        return null;
     }
 
 
     /* STOCKS */
+    /* TODO: Add/delete stock options
+     * TODO: maintaining the list of stocks
+     */
+    public void addStock(Stock stock) {
+        //TODO
+    }
+
+    public void updateAvailableStockShares(Stock stock, int n) {
+        int avaiableShares = stock.getCurrentlyAvailableShares() + n;
+        stock.setCurrentlyAvailableShares(avaiableShares);
+        int totalShares = stock.getTotalShares() + n;
+        stock.setTotalShares(totalShares);
+    }
+
+    public void setTotalStockShares(Stock stock, int n) {
+        int avaiableShares = n - stock.getTotalShares() + stock.getCurrentlyAvailableShares();
+        stock.setCurrentlyAvailableShares(avaiableShares);
+        stock.setTotalShares(n);
+    }
+
+    public void setStockSharePrice(Stock stock, float price) {
+        Float shareprice = Float.valueOf(price);
+        stock.setPrice(shareprice);
+    }
     
     public String toString() {
         return "Manager: " + getfirstName() + " " + getlastName();

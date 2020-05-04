@@ -22,7 +22,7 @@ public class Loan {
     private double interestRate;
     private static double staticinterestRate;
     private int termInMonths;
-    private LocalDateTime dateApplied;
+    private LocalDateTime dateApplied; //TODO: new attribute & are times stored
     private LocalDateTime dateIssued;
     private LocalDateTime dateDue;
     private int numberOfPayments;
@@ -52,14 +52,14 @@ public class Loan {
 
     public static Loan requestALoan(User borrower, double initialPrincipal, String collateral, int termInMonths) {
         Loan loan = new Loan(borrower, initialPrincipal, collateral, termInMonths, 0);
-        StaticVariables.getDatabaseManager().addLoan(loan, borrower);
+        StaticVariables.getDatabaseManager().updateLoan(loan, borrower);
         return loan;
     }
 
     public void requestALoan(User borrower) {
         // Loan loan = new Loan(borrower, this.initialPrincipal, this.collateral, this.termInMonths, 0);
         // StaticVariables.getDatabaseManager().addLoan(loan, borrower);
-        StaticVariables.getDatabaseManager().addLoan(this, borrower);
+        StaticVariables.getDatabaseManager().updateLoan(this, borrower);
     }
 
     public static Comparator<Loan> LoanAppliedDateComparator = new Comparator<Loan>() {
