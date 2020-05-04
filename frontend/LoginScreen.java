@@ -101,12 +101,15 @@ public class LoginScreen implements ActionListener {
                 warningLabel.setText("Your username or password are incorrect. Try again.");
             } else if(StaticVariables.getLoggedInUser() instanceof Customer)
             {
-                    CustomerScreen customerScreen = new CustomerScreen();
-                    frame.dispose();
-                    customerScreen.frame.setVisible(true);
+                CustomerScreen customerScreen = new CustomerScreen();
+                frame.dispose();
+                customerScreen.frame.setVisible(true);
             }else if(StaticVariables.getLoggedInUser() instanceof Manager)
             {
                 //show manager screen
+                ManagerScreen screen = new ManagerScreen();
+                frame.dispose();
+                screen.frame.setVisible(true);
             }
 
         /* signupButton -> navigate to Signup screen */
