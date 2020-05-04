@@ -2,7 +2,7 @@ package src;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+import java.util.Comparator;
 
 
 public class Loan {
@@ -20,7 +20,9 @@ public class Loan {
     private double monthlyPayment;
     private String collateral;
     private double interestRate;
+    private static double staticinterestRate;
     private int termInMonths;
+    private LocalDateTime dateApplied;
     private LocalDateTime dateIssued;
     private LocalDateTime dateDue;
     private int numberOfPayments;
@@ -36,8 +38,9 @@ public class Loan {
         this.initialPrincipal = initialPrincipal;
         this.amountDue = this.initialPrincipal;
         this.collateral = collateral;
-        this.interestRate = 0.05; /* the interest rate is dependent on the manager */
+        this.interestRate = Loan.staticinterestRate; 
         this.termInMonths = termInMonths;
+        this.dateApplied = LocalDateTime.now();
         this.dateIssued = LocalDateTime.now();
         this.dateDue = this.dateIssued.plusMonths(termInMonths);
 
@@ -47,10 +50,35 @@ public class Loan {
         this.monthlyPayment = Math.round((numerator / denominator) * 100.0) / 100.0;
     }
 
-    public void requestALoan(User borrower) {
-        Loan loan = new Loan(borrower, this.initialPrincipal, this.collateral, this.termInMonths, 0);
-        //TODO add loan to database
+    public static Loan requestALoan(User borrower, double initialPrincipal, String collateral, int termInMonths) {
+        Loan loan = new Loan(borrower, initialPrincipal, collateral, termInMonths, 0);
+        StaticVariables.getDatabaseManager().addLoan(loan, borrower);
+        return loan;
     }
+
+    public void requestALoan(User borrower) {
+        // Loan loan = new Loan(borrower, this.initialPrincipal, this.collateral, this.termInMonths, 0);
+        // StaticVariables.getDatabaseManager().addLoan(loan, borrower);
+        StaticVariables.getDatabaseManager().addLoan(this, borrower);
+    }
+
+    public static Comparator<Loan> LoanAppliedDateComparator = new Comparator<Loan>() {
+        
+        public int compare(Loan l1, Loan l2) {
+            LocalDateTime applyDate1 = l1.getDateApplied();
+            LocalDateTime applyDate2 = l2.getDateApplied();
+            return applyDate1.compareTo(applyDate2);
+        }
+    };
+
+    public static Comparator<Loan> LoanIssuedDateComparator = new Comparator<Loan>() {
+        
+        public int compare(Loan l1, Loan l2) {
+            LocalDateTime issueDate1 = l1.getDateIssued();
+            LocalDateTime issueDate2 = l2.getDateIssued();
+            return issueDate1.compareTo(issueDate2);
+        }
+    };
 
     public void payMonthlyInstallment()
     {
@@ -69,6 +97,15 @@ public class Loan {
     public void setStatus(Status status) {
         this.status = status;
     }
+    public void approveLoan() {
+        this.dateIssued = LocalDateTime.now();
+        dateDue = this.dateIssued.plusMonths(termInMonths);
+        this.setStatus(Status.Approved);
+    }
+
+    public void denyLoan() {
+        this.setStatus(Status.Denied);
+    }
 
     public String getCollateral() {
         return this.collateral;
@@ -78,8 +115,21 @@ public class Loan {
         return this.status;
     }
 
+    public static boolean setnewInterestRate(double rate) {
+        staticinterestRate = rate;
+        return true;
+    }
+
+    public double getInterestRate() {
+        return staticinterestRate;
+    }
+
     public double getMonthlyPayment() {
         return this.monthlyPayment;
+    }
+
+    public LocalDateTime getDateApplied() {
+        return this.dateApplied;
     }
 
     public LocalDateTime getDateIssued() {
