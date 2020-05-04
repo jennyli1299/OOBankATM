@@ -44,27 +44,27 @@ updating the current price of each stock.
 
     /* Account Charges */
     public void setAccountOpeningCharge(float oc) {
-        Account.setOpeningCharge(oc);
+        StaticVariables.setOpeningCharge(oc);
     }
     public void setAccountClosingCharge(float cc) {
-        Account.setClosingCharge(cc);
+        StaticVariables.setClosingCharge(cc);
     }
     public void setAccountDepositFree(float df) {
-        Account.setDepositFee(df);
+        StaticVariables.setDepositFee(df);
     }
     public void setCheckingAccWithdrawalFee(float wf) {
-        CheckingAccount.setWithdrawalFee(wf);
+        StaticVariables.setWithdrawalFee(wf);
     }
     public void setCheckingAccTransferFee(float tf) {
-        CheckingAccount.setTransferFee(tf);
+        StaticVariables.setTransferFee(tf);
     }
     public void setSavingsAccInterest(float interest) {
-        SavingsAccount.setSavingsAccountInterest(interest);
+        StaticVariables.setSavingsAccountInterest(interest);
     }
 
     
     /* LOANS */
-    public String setnewLoanInterestRate(double rate) {
+    public String setnewLoanInterestRate(float rate) {
         boolean done = Loan.setnewInterestRate(rate);
         if (done) return "The interest rate for loans has now been set to " + String.valueOf(rate);
         else return "Action not successful.";

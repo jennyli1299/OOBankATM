@@ -1,16 +1,16 @@
 package src;
 
 public class CheckingAccount extends Account {
-    private static Float transferFee;
-    private static Float withdrawalFee;
+    // private static Float transferFee;
+    // private static Float withdrawalFee;
 
     // TODO: ACCOUNT INFO
     public CheckingAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
                            Float closingCharge, Float openingCharge, Float transfer, Float withdrawal) {
         super(IBAN,amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
         this.accountType = "Checking";
-        transferFee = transfer;
-        withdrawalFee = withdrawal;
+        // transferFee = transfer;
+        // withdrawalFee = withdrawal;
         // chargeOpeningCharge();
     }
 

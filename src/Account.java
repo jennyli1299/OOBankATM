@@ -11,11 +11,11 @@ public abstract class Account {
     private String accountStatus;
 
     /* charges and fees */
-    protected static float openingCharge = 10;
-    protected static float closingCharge = 20;
-    protected static float depositFee = 5;
-    protected static float withdrawalFee = 3;
-    protected static float transferFee = 1;
+    // protected static float openingCharge = 10;
+    // protected static float closingCharge = 20;
+    // protected static float depositFee = 5;
+    // protected static float withdrawalFee = 3;
+    // protected static float transferFee = 1;
 
     public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closing, Float opening) { //TODO remove last two
         this.balanceInLocalCurrency = balanceInLocalCurrency;
@@ -23,8 +23,8 @@ public abstract class Account {
         this.accountNumber = accountNumber;
         this.active = active;
         this.currency = currency;
-        closingCharge = closing;
-        openingCharge = opening;
+        // closingCharge = closing;
+        // openingCharge = opening;
         this.IBAN = IBAN;
         this.accountStatus = "Open";
     }
@@ -63,30 +63,30 @@ public abstract class Account {
         return accountType;
     }
 
-    public static Float getOpeningCharge() {
-        return openingCharge;
-    }
+    // public static Float getOpeningCharge() {
+    //     return openingCharge;
+    // }
 
-    public static Float getClosingCharge() {
-        return closingCharge;
-    }
+    // public static Float getClosingCharge() {
+    //     return closingCharge;
+    // }
 
-    // set Opening & Closing charges by manager?
-    public static void setOpeningCharge(float openingcharge) {
-        openingCharge = openingcharge;
-    }
-    public static void setClosingCharge(float closingcharge) {
-        closingCharge = closingcharge;
-    }
-    public static void setTransferFee(Float manager_set_transferFee) {
-        transferFee = manager_set_transferFee;
-    }
-    public static void setWithdrawalFee(Float manager_set_withdrawalFee) {
-        withdrawalFee = manager_set_withdrawalFee;
-    }
-    public static void setDepositFee(float manager_set_depositFee) {
-        depositFee = manager_set_depositFee;
-    }
+    // // set Opening & Closing charges by manager?
+    // public static void setOpeningCharge(float openingcharge) {
+    //     openingCharge = openingcharge;
+    // }
+    // public static void setClosingCharge(float closingcharge) {
+    //     closingCharge = closingcharge;
+    // }
+    // public static void setTransferFee(Float manager_set_transferFee) {
+    //     transferFee = manager_set_transferFee;
+    // }
+    // public static void setWithdrawalFee(Float manager_set_withdrawalFee) {
+    //     withdrawalFee = manager_set_withdrawalFee;
+    // }
+    // public static void setDepositFee(float manager_set_depositFee) {
+    //     depositFee = manager_set_depositFee;
+    // }
 
     public Float getBalanceInLocalCurrency() {
         return balanceInLocalCurrency;
@@ -112,24 +112,24 @@ public abstract class Account {
         return accountNumber;
     }
 
-    public static Float getDepositFee() {
-        return depositFee;
-    }
+    // public static Float getDepositFee() {
+    //     return depositFee;
+    // }
 
-    public static Float getWithdrawalFee() {
-        return withdrawalFee;
-    }
+    // public static Float getWithdrawalFee() {
+    //     return withdrawalFee;
+    // }
 
-    public static Float getTransferFee() {
-        return transferFee;
-    }
+    // public static Float getTransferFee() {
+    //     return transferFee;
+    // }
 
     public void chargeOpeningCharge(){
-        this.balanceInLocalCurrency -= openingCharge;
+        this.balanceInLocalCurrency -= StaticVariables.getOpeningCharge();
     }
 
     public void chargeClosingCharge(){
-        this.balanceInLocalCurrency -= closingCharge;
+        this.balanceInLocalCurrency -= StaticVariables.getClosingCharge();
     }
 
     public void depositAmount(Float amount){
@@ -137,7 +137,7 @@ public abstract class Account {
     }
 
     public boolean close() {
-        if (closingCharge > balanceInLocalCurrency.floatValue()) {
+        if (StaticVariables.getClosingCharge() > balanceInLocalCurrency.floatValue()) {
             return false;
         }
         else {

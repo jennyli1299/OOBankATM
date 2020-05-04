@@ -21,7 +21,7 @@ public class Loan {
     private double monthlyPayment;
     private String collateral;
     private double interestRate;
-    private static double staticinterestRate;
+    // private static double staticinterestRate;
     private int termInMonths;
     private LocalDateTime dateApplied; //TODO: new attribute & are times stored
     private LocalDateTime dateIssued;
@@ -47,7 +47,7 @@ public class Loan {
         this.initialPrincipal = initialPrincipal;
         this.amountDue = this.initialPrincipal;
         this.collateral = collateral;
-        this.interestRate = Loan.staticinterestRate;
+        this.interestRate = (double)StaticVariables.getLoanInterestRate();
         this.termInMonths = termInMonths;
         this.dateApplied = LocalDateTime.now();
         this.dateIssued = LocalDateTime.now();
@@ -134,13 +134,13 @@ public class Loan {
         return this.status;
     }
 
-    public static boolean setnewInterestRate(double rate) {
-        staticinterestRate = rate;
+    public static boolean setnewInterestRate(float rate) {
+        StaticVariables.setLoanInterestRate(rate);;
         return true;
     }
 
     public double getInterestRate() {
-        return staticinterestRate;
+        return StaticVariables.getLoanInterestRate();
     }
 
     public double getMonthlyPayment() {
