@@ -13,6 +13,11 @@ public class Customer extends User {
         super(firstName, lastName, id, username, password);
     }
 
+    public static Customer signupCustomer(String firstNameField, String lastNameField, String SSNField, String usernameField,String passwordField) {
+      Customer customer = new Customer(firstNameField, lastNameField, SSNField, usernameField, passwordField);
+      StaticVariables.getDatabaseManager().addCustomer(customer);
+      return customer;
+    }
 
      /* Open an Account */
      public void openAccount() {

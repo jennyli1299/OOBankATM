@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Manager extends User {
 
@@ -32,6 +33,7 @@ updating the current price of each stock.
 
      */
 
+    /* Account Charges */
     public void setAccountOpeningCharge(float oc) {
         Account.setOpeningCharge(oc);
     }
@@ -48,32 +50,36 @@ updating the current price of each stock.
         SavingsAccount.setSavingsAccountInterest(interest);
     }
 
-    public ArrayList<Loan> getPendingLoans() { //TODO: STATUS
-        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+    
+    /* LOANS */
+    public String setnewLoanInterestRate(double rate) {
+        boolean done = Loan.setnewInterestRate(rate);
+        if (done) return "The interest rate for loans has now been set to " + String.valueOf(rate);
+        else return "Action not successful.";
+    }
+
+    public ArrayList<Loan> getPendingLoans() {
+        ArrayList<Loan> allLoans = getAllLoans();
         ArrayList<Loan> allPending = new ArrayList<Loan>();
-        for (Customer customer : allCustomers) {
-            ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
-            for (Loan l: loans) {
-                if (l.getStatus() == Loan.Status.Pending) {
-                    allPending.add(l);
-                }
+        for (Loan l : allLoans) {
+            if (l.getStatus() == Loan.Status.Pending) {
+                allPending.add(l);
             }
         }
-        // TODO: Sort by order [time]
+        /* Sorted by date Applied */
+        Collections.sort(allPending, Loan.LoanAppliedDateComparator);
         return allPending;
     }
     public ArrayList<Loan> getApprovedLoans() {
-        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        ArrayList<Loan> allLoans = getAllLoans();
         ArrayList<Loan> allApproved = new ArrayList<Loan>();
-        for (Customer customer : allCustomers) {
-            ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
-            for (Loan l: loans) {
-                if (l.getStatus() == Loan.Status.Approved) {
-                    allApproved.add(l);
-                }
+        for (Loan l : allLoans) {
+            if (l.getStatus() == Loan.Status.Approved) {
+                allApproved.add(l);
             }
         }
-        // TODO: Sort by order [time]
+        /* Sorted by date Issued/Approved */
+        Collections.sort(allApproved, Loan.LoanIssuedDateComparator);
         return allApproved;
     }
     public ArrayList<Loan> getAllLoans() {
@@ -83,15 +89,28 @@ updating the current price of each stock.
             ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
             allLoans.addAll(loans);
         }
-        // TODO: Sort by order [time]
+        /* Sorted by date Applied */
+        Collections.sort(allLoans, Loan.LoanAppliedDateComparator);
         return allLoans;
     }
 
     public void approveLoan(Loan loan) {
-        loan.setStatus(Loan.Status.Approved);
+        loan.approveLoan();
     }
     public void denyLoan(Loan loan) {
-        loan.setStatus(Loan.Status.Denied);
+        loan.denyLoan();
     }
+
+
+    /* TRANSACTIONS */
+    public ArrayList<Transaction> getAllTransactions() {
+
+    }
+
+
+    /* STOCKS */
     
+    public String toString() {
+        return "Manager: " + getfirstName() + " " + getlastName();
+    }
 }
