@@ -17,6 +17,10 @@ public class StaticVariables
     private static float SavingsAccountInterest;
     private static float LoanInterestRate;
 
+    /* Bank Lifetime Profit Markers */
+    private static float BanklifetimeLoss = 50000;
+    private static float BanklifetimeGain = 60000;
+
 
     public static User getLoggedInUser()
     {
@@ -115,4 +119,20 @@ public class StaticVariables
         LoanInterestRate = manager_set_loaninterest;
     }
 
+    /* Bank Lifetime Gains/Losses */
+    public static void updateLifetimeLoss(float n) {
+        BanklifetimeLoss += n;
+    }
+    public static void updateLifetimeGain(float n) {
+        BanklifetimeGain += n;
+    }
+    public static float calculateProfit() {
+        return BanklifetimeGain - BanklifetimeLoss;
+    }
+    public static float getLifetimeLoss() {
+        return BanklifetimeLoss;
+    }
+    public static float getLifetimeGain() {
+        return BanklifetimeGain;
+    }
 }

@@ -59,7 +59,7 @@ public class WithdrawalScreen implements ActionListener {
         /* add warning label */
         warningLabel = new JLabel();
         warningLabel.setBounds(50, 300, 600, 50);
-        warningLabel.setText("There is a " + account.getDepositFee() + " fee for withdrawals.");
+        warningLabel.setText("There is a " + StaticVariables.getDepositFee() + " fee for withdrawals.");
         frame.add(warningLabel);
 
         /* add transact button */
@@ -85,7 +85,7 @@ public class WithdrawalScreen implements ActionListener {
                 warningLabel.setText("Enter an amount.");
 
             /* two attempts and enough money to make withdrawal */
-            } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= account.getWithdrawalFee())) {
+            } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= StaticVariables.getWithdrawalFee())) {
 
                 try
                 {
@@ -108,7 +108,7 @@ public class WithdrawalScreen implements ActionListener {
             /* first attempt */
             } else {
                 transact = true;
-                warningLabel.setText("Are you sure you want to make this transaction? Your new account balance will be " + (account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText()) - account.getWithdrawalFee()));
+                warningLabel.setText("Are you sure you want to make this transaction? Your new account balance will be " + (account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText()) - StaticVariables.getWithdrawalFee()));
             }
 
         /* back -> navigate back to account */

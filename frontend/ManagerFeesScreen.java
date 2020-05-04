@@ -51,61 +51,61 @@ public class ManagerFeesScreen implements ActionListener {
         /* depositLabel */
         depositLabel = new JLabel();
         depositLabel.setBounds(50, 100, 200, 50);
-        depositLabel.setText("Deposit Fee: $" + Account.getDepositFee());
+        depositLabel.setText("Deposit Fee: $" + StaticVariables.getDepositFee());
         frame.add(depositLabel);
 
         /* deposit */
         deposit = new JTextField();
         deposit.setBounds(250, 100, 200, 50);
-        deposit.setText(Account.getDepositFee() + "");
+        deposit.setText(StaticVariables.getDepositFee() + "");
         frame.add(deposit);
 
         /* withdrawalLabel */
         withdrawalLabel = new JLabel();
         withdrawalLabel.setBounds(50, 150, 200, 50);
-        withdrawalLabel.setText("Withdrawal Fee: $" + Account.getWithdrawalFee());
+        withdrawalLabel.setText("Withdrawal Fee: $" + StaticVariables.getWithdrawalFee());
         frame.add(withdrawalLabel);
 
         /* withdrawal */
         withdrawal = new JTextField();
         withdrawal.setBounds(250, 150, 200, 50);
-        withdrawal.setText(Account.getWithdrawalFee() + "");
+        withdrawal.setText(StaticVariables.getWithdrawalFee() + "");
         frame.add(withdrawal);
         
         /* transferLabel */
         transferLabel = new JLabel();
         transferLabel.setBounds(50, 200, 200, 50);
-        transferLabel.setText("Transfer Fee: $" + Account.getTransferFee());
+        transferLabel.setText("Transfer Fee: $" + StaticVariables.getTransferFee());
         frame.add(transferLabel);
         
         /* transfer */
         transfer = new JTextField();
         transfer.setBounds(250, 200, 200, 50);
-        transfer.setText(Account.getTransferFee() + "");
+        transfer.setText(StaticVariables.getTransferFee() + "");
         frame.add(transfer);
 
         /* openingLabel */
         openingLabel = new JLabel();
         openingLabel.setBounds(50, 250, 200, 50);
-        openingLabel.setText("Opening Charge: $" + Account.getOpeningCharge());
+        openingLabel.setText("Opening Charge: $" + StaticVariables.getOpeningCharge());
         frame.add(openingLabel);
 
         /* opening */
         opening = new JTextField();
         opening.setBounds(250, 250, 200, 50);
-        opening.setText(Account.getOpeningCharge() + "");
+        opening.setText(StaticVariables.getOpeningCharge() + "");
         frame.add(opening);
 
         /* closingLabel */
         closingLabel = new JLabel();
         closingLabel.setBounds(50, 300, 200, 50);
-        closingLabel.setText("Closing Charge: $" + Account.getClosingCharge());
+        closingLabel.setText("Closing Charge: $" + StaticVariables.getClosingCharge());
         frame.add(closingLabel);
 
         /* closing */
         closing = new JTextField();
         closing.setBounds(250, 300, 200, 50);
-        closing.setText(Account.getClosingCharge() + "");
+        closing.setText(StaticVariables.getClosingCharge() + "");
         frame.add(closing);
 
         /* warningLabel */

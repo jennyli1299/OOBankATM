@@ -114,18 +114,18 @@ public class ManagerScreen implements ActionListener {
         /* add loss label */
         lossLabel = new JLabel();
         lossLabel.setBounds(50, 450, 300, 50);
-        lossLabel.setText("Money Lost: $" + Manager.lifetimeLoss);
+        lossLabel.setText("Money Lost: $" + StaticVariables.getLifetimeLoss());
         frame.add(lossLabel);
 
         /* add gain label */
         gainLabel = new JLabel();
         gainLabel.setBounds(350, 450, 300, 50);
-        gainLabel.setText("Money Gained: $" + Manager.lifetimeGain);
+        gainLabel.setText("Money Gained: $" + StaticVariables.getLifetimeGain());
         frame.add(gainLabel);
 
         /* add statistics label */
         statistics = new JLabel();
-        double profit = Manager.lifetimeGain - Manager.lifetimeLoss;
+        double profit = (double)(StaticVariables.getLifetimeGain() - StaticVariables.getLifetimeLoss());
         String profitMessage = profit >= 0  ? "$" + profit : "-$" + profit;
         statistics.setBounds(50, 500, 600, 50);
         statistics.setText("Your lifetime profits are " + profitMessage);

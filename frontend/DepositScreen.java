@@ -59,7 +59,7 @@ public class DepositScreen implements ActionListener {
         /* add warning label */
         warningLabel = new JLabel();
         warningLabel.setBounds(50, 300, 600, 50);
-        warningLabel.setText("There is a " + account.getDepositFee() + " fee for deposits.");
+        warningLabel.setText("There is a " + StaticVariables.getDepositFee() + " fee for deposits.");
         frame.add(warningLabel);
 
         /* add transact button */
@@ -85,7 +85,7 @@ public class DepositScreen implements ActionListener {
                 warningLabel.setText("Enter an amount.");
 
             /* two attempts and enough money to make deposit */
-            } else if (transact && ((account.getBalanceInLocalCurrency() + Integer.parseInt(amount.getText())) >= account.getDepositFee())) {
+            } else if (transact && ((account.getBalanceInLocalCurrency() + Integer.parseInt(amount.getText())) >= StaticVariables.getDepositFee())) {
 
                 try
                 {
@@ -109,7 +109,7 @@ public class DepositScreen implements ActionListener {
             /* first attempt */
             } else {
                 transact = true;
-                warningLabel.setText("Are you sure you want to make this transaction? Your new account balance will be " + (account.getBalanceInLocalCurrency() + Integer.parseInt(amount.getText()) - account.getDepositFee()));
+                warningLabel.setText("Are you sure you want to make this transaction? Your new account balance will be " + (account.getBalanceInLocalCurrency() + Integer.parseInt(amount.getText()) - StaticVariables.getDepositFee()));
             }
 
         /* back -> navigate back to account */

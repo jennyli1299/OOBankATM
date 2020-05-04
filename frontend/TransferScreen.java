@@ -72,7 +72,7 @@ public class TransferScreen implements ActionListener {
         /* add warning label */
         warningLabel = new JLabel();
         warningLabel.setBounds(50, 300, 600, 50);
-        warningLabel.setText("There is a " + account.getDepositFee() + " fee for withdrawals.");
+        warningLabel.setText("There is a " + StaticVariables.getDepositFee() + " fee for withdrawals.");
         frame.add(warningLabel);
 
         /* add transact button */
@@ -98,11 +98,11 @@ public class TransferScreen implements ActionListener {
                 warningLabel.setText("Enter an amount and a valid IBAN.");
 
             /* two attempts and enough money to make transfer */
-            } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= account.getTransferFee())) {
+            } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= StaticVariables.getTransferFee())) {
 
                 try
                 {
-                    account.makeTransfer(Float.parseFloat(amount.getText()) + account.getTransferFee(), recipient.getText());
+                    account.makeTransfer(Float.parseFloat(amount.getText()) + StaticVariables.getTransferFee(), recipient.getText());
 
                 }catch(Exception exception)
                 {
@@ -123,7 +123,7 @@ public class TransferScreen implements ActionListener {
             /* first attempt */
             } else {
                 transact = true;
-                warningLabel.setText("Are you sure you want to make this transaction? Your new account balance will be " + (account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText()) - account.getTransferFee()));
+                warningLabel.setText("Are you sure you want to make this transaction? Your new account balance will be " + (account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText()) - StaticVariables.getTransferFee()));
             }
 
         /* back -> navigate back to account */

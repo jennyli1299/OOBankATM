@@ -6,10 +6,9 @@ import java.util.Collections;
 
 public class Manager extends User {
 
-    public static double currentYearlyInterestRate = 0.10;
-    public static double lifetimeLoss = 50000;
-    public static double lifetimeGain = 60000;
-    // TODO Have these been added to db
+    // public static double currentYearlyInterestRate = 0.10;
+    // public static double lifetimeLoss = 50000;
+    // public static double lifetimeGain = 60000;
 
     public Manager(String firstName, String lastName, String id, String username, String password)
     {
@@ -18,15 +17,15 @@ public class Manager extends User {
 
 
     // TODO Do these need to be added to database
-    public static void updateLifetimeLoss(double n) {
-        lifetimeLoss += n;
-    }
-    public static void updateLifetimeGain(double n) {
-        lifetimeGain += n;
-    }
-    public static double calculateProfit() {
-        return lifetimeGain - lifetimeLoss;
-    }
+    // public static void updateLifetimeLoss(double n) {
+    //     lifetimeLoss += n;
+    // }
+    // public static void updateLifetimeGain(double n) {
+    //     lifetimeGain += n;
+    // }
+    // public static double calculateProfit() {
+    //     return lifetimeGain - lifetimeLoss;
+    // }
 
     /** TODO
      * Loans (Approve/Deny)
@@ -77,8 +76,10 @@ updating the current price of each stock.
             ArrayList<Loan> loans = StaticVariables.getDatabaseManager().getLoans(customer);
             allLoans.addAll(loans);
         }
-        /* Sorted by date Applied */
-        Collections.sort(allLoans, Loan.LoanAppliedDateComparator);
+        // /* Sorted by date Applied */
+        // Collections.sort(allLoans, Loan.LoanAppliedDateComparator);
+        /* Sorted by date Issued */
+        Collections.sort(allLoans, Loan.LoanIssuedDateComparator);
         return allLoans;
     }
 
@@ -90,8 +91,10 @@ updating the current price of each stock.
                 allPending.add(l);
             }
         }
-        /* Sorted by date Applied */
-        Collections.sort(allPending, Loan.LoanAppliedDateComparator);
+        // /* Sorted by date Applied */
+        // Collections.sort(allPending, Loan.LoanAppliedDateComparator);
+        /* Sorted by date Issued */
+        Collections.sort(allPending, Loan.LoanIssuedDateComparator);
         return allPending;
     }
 

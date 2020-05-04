@@ -81,7 +81,7 @@ public class LoanRequestScreen implements ActionListener {
         /* add warning label */
         warningLabel = new JLabel();
         warningLabel.setBounds(50, 300, 600, 50);
-        warningLabel.setText("The current interest rate is " + Manager.currentYearlyInterestRate + "% per year.");
+        warningLabel.setText("The current interest rate is " + StaticVariables.getLoanInterestRate() + "% per year.");
         frame.add(warningLabel);
 
         /* add transact button */
@@ -114,7 +114,7 @@ public class LoanRequestScreen implements ActionListener {
                     loan.requestALoan(StaticVariables.getLoggedInUser());
                     // User user = StaticVariables.getLoggedInUser();
                     
-                    SuccessfulScreen sucess = new SuccessfulScreen("Loan has been requested.")
+                    SuccessfulScreen sucess = new SuccessfulScreen("Loan has been requested.");
 
                 }catch(Exception excep)
                 {

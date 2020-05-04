@@ -132,25 +132,25 @@ public class AccountDetailsScreen implements ActionListener {
         frame.add(transactionsList);
 
         /* add deposit button */
-        depositButton = new JButton("Make a deposit (FEE: " + account.getDepositFee() + ")");
+        depositButton = new JButton("Make a deposit (FEE: " + StaticVariables.getDepositFee() + ")");
         depositButton.setBounds(350, 275, 350, 50);
         depositButton.addActionListener(this);
         frame.add(depositButton);
 
         /* add withdrawal button */
-        withdrawalButton = new JButton("Make a withdrawal (FEE: " + account.getWithdrawalFee() + ")");
+        withdrawalButton = new JButton("Make a withdrawal (FEE: " + StaticVariables.getWithdrawalFee() + ")");
         withdrawalButton.setBounds(350, 325, 350, 50);
         withdrawalButton.addActionListener(this);
         frame.add(withdrawalButton);
 
         /* add transfer button */
-        transferButton = new JButton("Make a transfer (FEE: " + account.getTransferFee() + ")");
+        transferButton = new JButton("Make a transfer (FEE: " + StaticVariables.getTransferFee() + ")");
         transferButton.setBounds(350, 375, 350, 50);
         transferButton.addActionListener(this);
         frame.add(transferButton);
 
         /* add close button */
-        closeButton = new JButton("Close account (FEE: " + account.getClosingCharge() + ")");
+        closeButton = new JButton("Close account (FEE: " + StaticVariables.getClosingCharge() + ")");
         closeButton.setBounds(350, 425, 350, 50);
         closeButton.addActionListener(this);
         frame.add(closeButton);
@@ -192,10 +192,10 @@ public class AccountDetailsScreen implements ActionListener {
         } else if (e.getSource() == closeButton) {
 
             /* two attempts and enough money to close the account */
-            if (close && account.getBalanceInLocalCurrency() >= account.getClosingCharge()) {
+            if (close && account.getBalanceInLocalCurrency() >= StaticVariables.getClosingCharge()) {
 
                 StaticVariables.getDatabaseManager().closeAccount(account);
-                Manager.updateLifetimeGain(Double.parseDouble(String.valueOf(Account.getClosingCharge())));
+                StaticVariables.updateLifetimeGain(Float.parseFloat(String.valueOf(StaticVariables.getClosingCharge())));
 
                 /* navigate back to customer accounts */
                 CustomerAccountsScreen screen = new CustomerAccountsScreen();
