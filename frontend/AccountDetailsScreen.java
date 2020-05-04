@@ -195,7 +195,7 @@ public class AccountDetailsScreen implements ActionListener {
             if (close && account.getBalanceInLocalCurrency() >= account.getClosingCharge()) {
 
                 StaticVariables.getDatabaseManager().closeAccount(account);
-                // TODO transfer fee to bank manager account
+                Manager.updateLifetimeGain(Double.parseDouble(String.valueOf(Account.getClosingCharge())));
 
                 /* navigate back to customer accounts */
                 CustomerAccountsScreen screen = new CustomerAccountsScreen();

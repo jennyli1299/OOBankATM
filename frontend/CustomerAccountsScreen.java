@@ -99,7 +99,7 @@ public class CustomerAccountsScreen implements ActionListener {
         frame.add(selectButton);
 
         /* add create button */
-        createButton = new JButton("Open account");
+        createButton = new JButton("Open account"); // TODO OPEN ACCOUNT
         createButton.setBounds(450, 150, 200, 50);
         createButton.addActionListener(this);
         frame.add(createButton);

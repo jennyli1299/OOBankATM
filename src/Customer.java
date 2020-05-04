@@ -28,15 +28,16 @@ public class Customer extends User {
 
      public void openCheckingAccount(float amount, Currency c) {
         // Create Checking Account
-        //CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge, transfer, withdrawal, this);
+        // TODO: Open acccount
+        CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, transfer, withdrawal, user);
         // Add to Database [Handled when Account is openned]
-      //   StaticVariables.getDatabaseManager().addCheckingAccount(newCheckingAccount, this);
+        StaticVariables.getDatabaseManager().addCheckingAccount(newCheckingAccount, this);
      }
      public void openSavingsAccount(float amount, Currency currency) {
         // Create Savings Account
-        //SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(IBAN, amount, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest, this);
+        SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(IBAN, amount, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest, this);
         // Add to Database [Handled when Account is opened]
-      //   StaticVariables.getDatabaseManager().addSavingsAccount(newSavingsAccount, this);
+        StaticVariables.getDatabaseManager().addSavingsAccount(newSavingsAccount, this);
      }
      public boolean enoughToOpenSECAcc() {
         // Check if Customers are rich enough >$5000.00 in their Savings
@@ -56,16 +57,16 @@ public class Customer extends User {
         }
         else return false;
      }
-     public void openSecuritiesAccount(Account account, float amount, Currency c) {
+     public boolean openSecuritiesAccount(Account account, Float amount, Currency c) {
         // Create Securities Account & transfer >$1000.00 into securities account from specified Account(s) but MUST keep at least $2500.00 in other accounts
         //SecurityAccount securitiesAccount = new SecurityAccount(IBAN, amount, routingNumber, accountNumber, active, c, closingCharge, openingCharge);
-        //SecurityAccount newSecurityAccount = SecurityAccount.openSecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge)
-        //account.withdrawAmount(amount);
+        SecurityAccount newSecurityAccount = SecurityAccount.openSecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, c, closingCharge, openingCharge)
+        account.makeWithdrawal(amount);
         //newSecurityAccount.depositAmount(amount);
         // Add to Database
-         //StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, this);
-        // Should we keep max 1?
-     }
+         StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, this);
+         return true; // TODO
+      }
      // Close Accounts?
 
      public String closeAccount(Account account)
@@ -113,10 +114,8 @@ public class Customer extends User {
      }
 
      /* Transfer Money from one Account to another */
-     public void transferFunds() {
-         // which account -> account
-         // how much money
-         // does this incur fees?
+     public void transferFunds(Account from, Account to) {
+         //TODO: 
      }
 
      // PAY INTEREST?
@@ -136,5 +135,16 @@ public class Customer extends User {
 
      /* Within Securities Accounts (Stocks) */
     // BUY/SELL Stocks
+    public boolean buyStock(Stock stock, SecurityAccount secAcc) {
+      //TODO
+      return true;
+    }
+    public boolean sellStock(Stock stock) {
+       //TODO
+       return true;
+    }
     // View Owned stocks
+    public ArrayList<Stock> viewOwnedStocks() {
+      return StaticVariables.getDatabaseManager().getStocks(this);
+    }
 }

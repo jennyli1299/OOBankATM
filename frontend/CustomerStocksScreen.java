@@ -14,7 +14,7 @@ public class CustomerStocksScreen implements ActionListener {
     DefaultListModel<String> allStocksListModel;
     ArrayList<Stock> myStocks; // keep database query here
     DefaultListModel<String> myStocksListModel;
-    ArrayList<Account> securities; // keep database query here
+    ArrayList<SecurityAccount> securities; // keep database query here
     DefaultListModel<String> securitiesListModel;
 
     /* UI components */
@@ -50,7 +50,7 @@ public class CustomerStocksScreen implements ActionListener {
         frame.setLayout(null);
     }
 
-    private void initDummyState() {
+    private void initDummyState() { //TODO: What is dummy state?
         
         /* mock data - Float price, int totalShares, int currentlyAvailableShares, String name) */
         allStocks = new ArrayList<Stock>();
@@ -72,7 +72,7 @@ public class CustomerStocksScreen implements ActionListener {
         }
 
         /* mockup for securities */
-        securities = new ArrayList<Account>();
+        securities = new ArrayList<SecurityAccount>();
         for (Account account : securities) {
             securitiesListModel.addElement(account.toString());
         }
@@ -177,6 +177,22 @@ public class CustomerStocksScreen implements ActionListener {
             } else {
                 // TODO: check if the user has enough money/there's enough stock/etc
                 // if it's okay, make the purchase and set success message in warningLabel
+                Stock stock = allStocks.get(stockIndex);
+                SecurityAccount secAcc = securities.get(accountIndex);
+                if (secAcc.getBalanceInLocalCurrency() > stock.getCurrentPrice()) {
+                    if (stock.getCurrentlyAvailableShares() > 0) {
+                        boolean bought = customer.buyStock(stock, secAcc);
+                        if (!bought) {
+                            warningLabel.setText("Purchase of this stock was unsuccessful.");
+                        }
+                    }
+                    else {
+                        warningLabel.setText("This stock has no available shares to be purchased.");
+                    }
+                }
+                else {
+                    warningLabel.setText("You don't have enough money in this Security Account to purchase this stock.");
+                }
             }
         /* pay -> pay the amount on the selected due loan */
         } else if (e.getSource() == sellButton) {
@@ -191,6 +207,9 @@ public class CustomerStocksScreen implements ActionListener {
             } else {
                 // TODO: try to sell the quantity of stock and put money in chosen account
                 // if it's okay, make the purchase and set success message in warningLabel
+                Stock stock = allStocks.get(stockIndex);
+                SecurityAccount secAcc = securities.get(accountIndex);
+                // REALIZED/UNREALIZED PROFIT
             }
         } 
     }

@@ -139,10 +139,15 @@ public class ManagerFeesScreen implements ActionListener {
             } else {
                 // TODO: update all the charges (they are set to current by default so redundant updates are fine)
                 Float depositFee = Float.parseFloat(deposit.getText());
+                // manager.set
                 Float withdrawalFee = Float.parseFloat(withdrawal.getText());
+                manager.setCheckingAccWithdrawalFee(withdrawalFee);
                 Float transferFee = Float.parseFloat(transfer.getText());
+                manager.setCheckingAccTransferFee(transferFee);
                 Float openingCharge = Float.parseFloat(opening.getText());
+                manager.setAccountOpeningCharge(openingCharge);
                 Float closingCharge = Float.parseFloat(closing.getText());
+                manager.setAccountClosingCharge(closingCharge);
             }
         /* back -> navigate back to main menu */
         } else if (e.getSource() == backButton) {

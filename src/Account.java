@@ -71,14 +71,21 @@ public abstract class Account {
         return closingCharge;
     }
 
-
-
     // set Opening & Closing charges by manager?
     public static void setOpeningCharge(float openingcharge) {
         openingCharge = openingcharge;
     }
     public static void setClosingCharge(float closingcharge) {
         closingCharge = closingcharge;
+    }
+    public static void setTransferFee(Float manager_set_transferFee) {
+        transferFee = manager_set_transferFee;
+    }
+    public static void setWithdrawalFee(Float manager_set_withdrawalFee) {
+        withdrawalFee = manager_set_withdrawalFee;
+    }
+    public static void setDepositFee(float manager_set_depositFee) {
+        depositFee = manager_set_depositFee;
     }
 
     public Float getBalanceInLocalCurrency() {
