@@ -27,17 +27,10 @@ public class Customer extends User {
      }
 
      public void openCheckingAccount(float amount, Currency c) {
-        // Create Checking Account
-        // TODO: Open acccount
-        CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, transfer, withdrawal, user);
-        // Add to Database [Handled when Account is openned]
-        StaticVariables.getDatabaseManager().addCheckingAccount(newCheckingAccount, this);
+        CheckingAccount newCheckingAccount = CheckingAccount.openCheckingAccount(Account.uniqueIBAN(), amount, Account.uniqueRoutingNumber(), Account.uniqueAccountNumber(), true, c, StaticVariables.getClosingCharge(), StaticVariables.getOpeningCharge(), StaticVariables.getTransferFee(), StaticVariables.getWithdrawalFee(), this);
      }
      public void openSavingsAccount(float amount, Currency currency) {
-        // Create Savings Account
-        SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(IBAN, amount, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest, this);
-        // Add to Database [Handled when Account is opened]
-        StaticVariables.getDatabaseManager().addSavingsAccount(newSavingsAccount, this);
+        SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(Account.uniqueIBAN(), amount, Account.uniqueRoutingNumber(), Account.uniqueAccountNumber(), true, currency, StaticVariables.getClosingCharge(), StaticVariables.getOpeningCharge(), StaticVariables.getSavingsAccountInterest(), this);
      }
      public boolean enoughToOpenSECAcc() {
         // Check if Customers are rich enough >$5000.00 in their Savings

@@ -1,5 +1,8 @@
 package src;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public abstract class Account {
     protected Float balanceInLocalCurrency;
     protected int routingNumber;
@@ -8,7 +11,7 @@ public abstract class Account {
     private boolean active;
     private Currency currency;
     protected String accountType;
-    private String accountStatus;
+    // private String accountStatus;
 
     /* charges and fees */ // TODO: TAKE OUT
     protected static float openingCharge;
@@ -26,7 +29,7 @@ public abstract class Account {
         closingCharge = StaticVariables.getClosingCharge();
         openingCharge = StaticVariables.getOpeningCharge();
         this.IBAN = IBAN;
-        this.accountStatus = "Open";
+        // this.accountStatus = "Open";
     }
 
     public void makeTransfer(float amount, String recIBAN)
@@ -53,14 +56,93 @@ public abstract class Account {
     {
         return IBAN;
     }
+    public int getRoutingNumber() {
+        return routingNumber;
+    }
 
+    public int getAccountNumber() {
+        return accountNumber;
+    }
     public void setIBAN(String IBAN)
     {
         this.IBAN = IBAN;
     }
-
     public String getAccountType() {
         return accountType;
+    }
+
+
+    /* Generate Unique Account IDs (String IBAN, int routingNumber, int accountNumber) */
+    public static String uniqueIBAN() {
+        ArrayList<String> takenIBAN = new ArrayList<String>();
+        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        for (Customer c: allCustomers) {
+            ArrayList<Account> customerAccounts = DatabaseManager.getAllAccounts(c);
+            for (Account a: customerAccounts) {
+                takenIBAN.add(a.getIBAN());
+            }
+        }
+        String potentialIBAN = Account.generateIBAN();
+        do {
+            potentialIBAN = Account.generateIBAN();
+        }
+        while (takenIBAN.contains(potentialIBAN));
+        return potentialIBAN;
+    }
+    public static String generateIBAN() {
+        String IBAN = "";
+        Random r = new Random();
+        for (int i = 0; i < 3; i++) {
+            int next = r.nextInt(10);
+            IBAN = IBAN + Integer.toString(next);
+        }
+        for (int i = 0; i < 3; i++) {
+            char c = (char) (r.nextInt('Z' - 'A' + 1) + 'A');
+            IBAN = IBAN + c;
+        }
+        return IBAN;
+    }
+
+    public static int uniqueRoutingNumber() {
+        ArrayList<Integer> takenRN = new ArrayList<Integer>();
+        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        for (Customer c: allCustomers) {
+            ArrayList<Account> customerAccounts = DatabaseManager.getAllAccounts(c);
+            for (Account a: customerAccounts) {
+                takenRN.add(a.getRoutingNumber());
+            }
+        }
+        int routingNumber = Account.generateNumber(9);
+        do {
+            routingNumber = Account.generateNumber(9);
+        }
+        while (takenRN.contains(routingNumber));
+        return routingNumber;
+    }
+    public static int uniqueAccountNumber() {
+        ArrayList<Integer> takenAN = new ArrayList<Integer>();
+        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        for (Customer c: allCustomers) {
+            ArrayList<Account> customerAccounts = DatabaseManager.getAllAccounts(c);
+            for (Account a: customerAccounts) {
+                takenAN.add(a.getRoutingNumber());
+            }
+        }
+        int accountNumber = Account.generateNumber(8);
+        do {
+            accountNumber = Account.generateNumber(8);
+        }
+        while (takenAN.contains(accountNumber));
+        return accountNumber;
+    }
+    public static int generateNumber(int n) {
+        int number = 0;
+        Random r = new Random();
+        for (int i = 0; i < n; i++) {
+            int next = r.nextInt(10);
+            number += next*Math.pow(10, i);
+        }
+        return number;
     }
 
     // public static Float getOpeningCharge() {
@@ -104,14 +186,6 @@ public abstract class Account {
         this.active = active;
     }
 
-    public int getRoutingNumber() {
-        return routingNumber;
-    }
-
-    public int getAccountNumber() {
-        return accountNumber;
-    }
-
     // public static Float getDepositFee() {
     //     return depositFee;
     // }
@@ -144,7 +218,8 @@ public abstract class Account {
         }
         else {
             chargeClosingCharge();
-            accountStatus = "Closed";
+            // accountStatus = "Closed";
+            setActive(false);
             return true;
         }
     }

@@ -1,5 +1,8 @@
 package src;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class StaticVariables
 {
     private static User loggedInUser = null;
@@ -20,6 +23,9 @@ public class StaticVariables
     /* Bank Lifetime Profit Markers */
     private static float BanklifetimeLoss = 50000;
     private static float BanklifetimeGain = 60000;
+
+    /* Static Account # */
+    private static int accumulator;
 
 
     public static User getLoggedInUser()
@@ -71,6 +77,7 @@ public class StaticVariables
     {
         StaticVariables.selectedDueLoan = selectedDueLoan;
     }
+
 
 
     public static float getOpeningCharge() {
