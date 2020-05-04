@@ -29,7 +29,7 @@ public class Loan {
     public Loan(User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments) {
         this.borrower = borrower;
         // the manager is null until a manager decides on a loan status */
-        this.status = Status.Pending; // TODO: DB
+        this.status = Status.Pending;
 
         /* terms of the loan */
         this.numberOfPayments = numberOfPayments;

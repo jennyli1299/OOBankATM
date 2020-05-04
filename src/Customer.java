@@ -11,7 +11,6 @@ public class Customer extends User {
     /* constructor */
     public Customer(String firstName, String lastName, String id, String username, String password) {
         super(firstName, lastName, id, username, password);
-        StaticVariables.getDatabaseManager().addCustomer(this);
     }
 
 

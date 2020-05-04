@@ -87,7 +87,6 @@ public class WithdrawalScreen implements ActionListener {
             /* two attempts and enough money to make withdrawal */
             } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= account.getWithdrawalFee())) {
 
-                // TODO make transaction
                 try
                 {
                     account.makeWithdrawal(Float.parseFloat(amount.getText()));

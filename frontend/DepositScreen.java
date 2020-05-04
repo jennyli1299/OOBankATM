@@ -87,7 +87,6 @@ public class DepositScreen implements ActionListener {
             /* two attempts and enough money to make deposit */
             } else if (transact && ((account.getBalanceInLocalCurrency() + Integer.parseInt(amount.getText())) >= account.getDepositFee())) {
 
-                // TODO make transaction
                 try
                 {
                     account.makeDeposit(Integer.parseInt(amount.getText()));
