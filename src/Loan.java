@@ -17,6 +17,7 @@ public class Loan {
     private Status status;
     private double initialPrincipal;
     private double amountDue;
+    private int id;
     private double monthlyPayment;
     private String collateral;
     private double interestRate;
@@ -28,17 +29,25 @@ public class Loan {
     private int numberOfPayments;
 
     /* constructor */
-    public Loan(User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments) {
+    public Loan(int id, Status status, User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments)
+    {
+        this(borrower, initialPrincipal, collateral , termInMonths, numberOfPayments);
+        this.id = id;
+        this.status = status;
+
+    }
+
+    public Loan(User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments)
+    {
         this.borrower = borrower;
         // the manager is null until a manager decides on a loan status */
         this.status = Status.Pending;
-
         /* terms of the loan */
         this.numberOfPayments = numberOfPayments;
         this.initialPrincipal = initialPrincipal;
         this.amountDue = this.initialPrincipal;
         this.collateral = collateral;
-        this.interestRate = Loan.staticinterestRate; 
+        this.interestRate = Loan.staticinterestRate;
         this.termInMonths = termInMonths;
         this.dateApplied = LocalDateTime.now();
         this.dateIssued = LocalDateTime.now();
@@ -80,10 +89,20 @@ public class Loan {
         }
     };
 
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
     public void payMonthlyInstallment()
     {
         numberOfPayments++;
-        //todo update loan in database
+        StaticVariables.getDatabaseManager().payMontlhyInstallment(this.getId());
     }
 
     public double getAmountDue()

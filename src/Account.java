@@ -17,7 +17,7 @@ public abstract class Account {
     protected static float withdrawalFee = 3;
     protected static float transferFee = 1;
 
-    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closing, Float opening) {
+    public Account(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closing, Float opening) { //TODO remove last two
         this.balanceInLocalCurrency = balanceInLocalCurrency;
         this.routingNumber = routingNumber;
         this.accountNumber = accountNumber;
@@ -29,38 +29,25 @@ public abstract class Account {
         this.accountStatus = "Open";
     }
 
-    public void noFeeAddMoney(float amount) {
-        balanceInLocalCurrency += amount;
-    }
-    public void noFeeTakeOutMonet(float amount) {
-        balanceInLocalCurrency -= amount;
-    }
-
-    public void makeTransfer(float amount, String recIBAN) //TODO: IBAN SEARCH
+    public void makeTransfer(float amount, String recIBAN)
     {
         this.makeWithdrawal(amount);
-        //todo update the database
-        Account receivingAcc = recIBAN; //some search with recIBAN
-        receivingAcc.noFeeAddMoney(amount);
-        // update database
+        StaticVariables.getDatabaseManager().increaseBalanceBy(amount, recIBAN);
     }
 
     public void makeDeposit(int amount)
     {
         balanceInLocalCurrency += amount;
-        Manager.updateLifetimeGain(Account.getDepositFee());
-        //TODO update the database
+        StaticVariables.getDatabaseManager().increaseBalanceBy(amount, this.getIBAN());
     }
 
-    public boolean makeWithdrawal(Float amount){
+    public void makeWithdrawal(Float amount){
         if (amount > balanceInLocalCurrency){
-            return false;
+            //TODO show error message that the account does not have enough money
         }
-        else {
-            balanceInLocalCurrency -= amount;
-            Manager.updateLifetimeGain(Account.getWithdrawalFee());
-            return true;
-        }
+        balanceInLocalCurrency -= amount;
+        StaticVariables.getDatabaseManager().increaseBalanceBy(-amount, this.getIBAN());
+
     }
     public String getIBAN()
     {
@@ -83,20 +70,6 @@ public abstract class Account {
     public static Float getClosingCharge() {
         return closingCharge;
     }
-
-    public static Float getDepositFee() {
-        return depositFee;
-    }
-
-    public static Float getWithdrawalFee() {
-        return withdrawalFee;
-    }
-
-    public static Float getTransferFee() {
-        return transferFee;
-    }
-
-
 
     // set Opening & Closing charges by manager?
     public static void setOpeningCharge(float openingcharge) {
@@ -137,6 +110,18 @@ public abstract class Account {
 
     public int getAccountNumber() {
         return accountNumber;
+    }
+
+    public static Float getDepositFee() {
+        return depositFee;
+    }
+
+    public static Float getWithdrawalFee() {
+        return withdrawalFee;
+    }
+
+    public static Float getTransferFee() {
+        return transferFee;
     }
 
     public void chargeOpeningCharge(){

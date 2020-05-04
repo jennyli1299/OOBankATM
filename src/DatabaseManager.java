@@ -179,12 +179,47 @@ public class DatabaseManager{
 
             Loan temp;
             while(rs.next()) {
-                temp = new Loan(borrower, rs.getDouble("initial_principal"), rs.getString("collateral"), rs.getInt("termInMonths"), rs.getInt("number_of_payments"));
+
+                temp = new Loan(rs.getInt("id"), getStatus(rs), borrower, rs.getDouble("initial_principal"), rs.getString("collateral"), rs.getInt("termInMonths"), rs.getInt("number_of_payments"));
                 list.add(temp);
             }
         }
         catch(Exception e){ System.out.println(e);}
         return list;
+    }
+
+    private Loan.Status getStatus(ResultSet rs)
+    {
+        try
+        {
+            switch (rs.getString("status"))
+            {
+                case "Approved":
+                    return Loan.Status.Approved;
+                case "Pending":
+                    return Loan.Status.Pending;
+                case "Denied":
+                    return Loan.Status.Denied;
+            }
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return Loan.Status.Pending;
+    }
+
+    public void payMontlhyInstallment(int id)
+    {
+        try
+        {
+            Statement stmt = con.createStatement();
+            String sql = "UPDATE BankATM.Loans SET number_of_payments = (number_of_payments + " + 1 + ") WHERE id = '" + id + "'";
+            stmt.executeUpdate(sql);
+        }catch (Exception ex)
+        {
+            System.out.println("Could not store Loan payment");
+        }
     }
 
 
@@ -251,6 +286,54 @@ public class DatabaseManager{
         list.addAll(getSecurityAccounts(user));
         return list;
     }
+
+    public int getAvailableShares(String StockName)
+    {
+        return 0; //todo
+    }
+
+    public int modifyStockPrice(double amount)
+    {
+        return 0; //todo
+    }
+
+    public void increaseBalanceBy(float amount, String IBAN)
+    {
+        try
+        {
+            //1 will work, other will throw excpetion
+            Statement stmt = con.createStatement();
+            String sql1 = "UPDATE BankATM.savings_accounts SET balance_in_local_currency = (balance_in_local_currency + " + amount + ") WHERE iban = '" + IBAN + "'";
+            stmt.executeUpdate(sql1);
+        }catch (Exception ex)
+        {
+            System.out.println("The account is not savings");
+        }
+
+        try
+        {
+            Statement stmt = con.createStatement();
+            String sql2 = "UPDATE BankATM.checkings_accounts SET balance_in_local_currency = (balance_in_local_currency + " + amount + ") WHERE iban = '" + IBAN + "'";
+            stmt.executeUpdate(sql2);
+        }catch (Exception e)
+        {
+            System.out.println("The account is not checkings");
+        }
+
+        try
+        {
+            Statement stmt = con.createStatement();
+            String sql3 = "UPDATE BankATM.security_accounts SET balance_in_local_currency = (balance_in_local_currency + " + amount + ") WHERE iban = '" + IBAN + "'";
+            System.out.println(sql3);
+            stmt.executeUpdate(sql3);
+        }catch (Exception e)
+        {
+            System.out.println("The account is not security");
+        }
+
+
+    }
+
 
 
     public ArrayList<Stock> getStocks(User user){

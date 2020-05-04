@@ -61,9 +61,13 @@ public class AccountDetailsScreen implements ActionListener {
         transactions = StaticVariables.getDatabaseManager().getTransactions(account);
 
         transactionsListModel = new DefaultListModel<>();
-        for (Transaction transaction : transactions) {
-            transactionsListModel.addElement(transaction.toString());
+        if(transactions != null)
+        {
+            for (Transaction transaction : transactions) {
+                transactionsListModel.addElement(transaction.toString());
+            }
         }
+
     }
 
     private void createUI() {
@@ -77,7 +81,7 @@ public class AccountDetailsScreen implements ActionListener {
         /* add iban */
         iban = new JLabel();
         iban.setBounds(175, 25, 650, 50);
-        iban.setText(account.getAccountType() + " - " +account.getIBAN());
+        iban.setText(account.getAccountType() + " - " + account.getIBAN());
         frame.add(iban);
 
         /* add balance label */
@@ -89,7 +93,7 @@ public class AccountDetailsScreen implements ActionListener {
         /* add balance */
         balance = new JLabel();
         balance.setBounds(175, 75, 650, 50);
-        balance.setText(account.getCurrency().toString() + account.getBalanceInLocalCurrency());
+        balance.setText(account.getCurrency().toString() + " "+ account.getBalanceInLocalCurrency());
         frame.add(balance);
 
         /* add routingNumberLabel */
