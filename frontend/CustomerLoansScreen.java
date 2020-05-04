@@ -110,7 +110,6 @@ public class CustomerLoansScreen implements ActionListener {
 //        accounts.add(new SavingsAccount("CH88888888", (float) 8888, 99887766, 55443322, true, new Currency("CDY"), (float)10, (float)20, (float)0.03));
 //        accountsListModel = new DefaultListModel<>();
 //        for (Account account : accounts) {
-//            // TODO: need a way on the backend to convert currencies
 //            accountsListModel.addElement(account.toString() + " - " + account.getBalanceInLocalCurrency());
 //        }
     }
@@ -170,7 +169,7 @@ public class CustomerLoansScreen implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
 
-        //StaticVariables.setSelectedLoan(loans.get(allLoansList.getSelectedIndex())); TODO fix DIMITRIS 
+
         /* back -> go back to customer screen */
         if (e.getSource() == backButton) {
             CustomerScreen screen = new CustomerScreen();
@@ -194,13 +193,15 @@ public class CustomerLoansScreen implements ActionListener {
             /* okay, navigate to selected account */
             } else {
                 Loan selectedLoan = loans.get(index);
+                StaticVariables.setSelectedLoan(selectedLoan);
                 LoanDetailsScreen screen = new LoanDetailsScreen();
                 frame.dispose();
-                // screen.frame.setVisible(true);
+                screen.frame.setVisible(true);
             }
         /* pay -> pay the amount on the selected due loan */
         } else if (e.getSource() == payButton) {
-            StaticVariables.getSelectedLoan().payMonthlyInstallment();
+            StaticVariables.setSelectedDueLoan(loans.get(dueLoansList.getSelectedIndex()));
+            StaticVariables.getSelectedDueLoan().payMonthlyInstallment();
 
 
         } else if (e.getSource() == selectPayButton) {

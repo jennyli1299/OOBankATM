@@ -48,8 +48,8 @@ public class LoanDetailsScreen implements ActionListener {
 
     private void initState() {
         /* mock data */
-        //todo load loans from db
-        loan = new Loan(customer, 30000, "second house mortgage", 12, 0);
+        //loan = new Loan(customer, 30000, "second house mortgage", 12, 0);
+        loan = StaticVariables.getSelectedLoan();
     }
 
     private void createUI() {

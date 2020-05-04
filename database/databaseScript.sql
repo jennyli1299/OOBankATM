@@ -1,3 +1,9 @@
+DROP DATABASE BankATM;
+
+CREATE DATABASE IF NOT EXISTS BankATM;
+
+USE BankATM;
+
 CREATE TABLE IF NOT EXISTS Users (
     id VARCHAR(200) PRIMARY KEY,
     firstname VARCHAR(255) NOT NULL,
@@ -8,6 +14,10 @@ CREATE TABLE IF NOT EXISTS Users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO Users (id, firstname, lastname, username, status, password) VALUES ("0", "dimitris", "staratzis", "dstara", "Customer", "pass");
+INSERT INTO Users (id, firstname, lastname, username, status, password) VALUES ("1", "dimi", "stara", "stara", "Customer", "password");
+INSERT INTO Users (id, firstname, lastname, username, status, password) VALUES ("2", "Michael", "Jackson", "mjack", "Manager", "pass");
+
 CREATE TABLE IF NOT EXISTS Loans (
     id INT NOT NULL AUTO_INCREMENT,
     user_id VARCHAR(200) NOT NULL,
@@ -17,9 +27,11 @@ CREATE TABLE IF NOT EXISTS Loans (
     initial_principal DOUBLE NOT NULL,
     number_of_payments INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id)
-        REFERENCES  BankATM.Users (id)
+    FOREIGN KEY (user_id) REFERENCES  BankATM.Users (id)
 );
+
+INSERT INTO Loans (user_id, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("0", "house", "17 November", 5, 1.5, 0);
+INSERT INTO Loans (user_id, collateral, date_issued, termInMonths, initial_principal, number_of_payments) VALUES ("1", "car", "18 November", 6, 1.2, 0);
 
 
 CREATE TABLE IF NOT EXISTS security_accounts (
@@ -37,6 +49,9 @@ CREATE TABLE IF NOT EXISTS security_accounts (
         REFERENCES  BankATM.Users (id)
 );
 
+INSERT INTO security_accounts VALUES ("0", "123BB", 2.5, 123, 456, "TRUE", "USD", 1.5, 1);
+INSERT INTO security_accounts VALUES ("1", "123CC", 1.5, 423, 356, "TRUE", "EUR", 4.5, 2);
+
 CREATE TABLE IF NOT EXISTS savings_accounts (
 	user_id VARCHAR(200) NOT NULL,
     iban VARCHAR(100) NOT NULL,
@@ -52,6 +67,9 @@ CREATE TABLE IF NOT EXISTS savings_accounts (
     FOREIGN KEY (user_id)
         REFERENCES  BankATM.Users (id)
 );
+
+INSERT INTO savings_accounts VALUES ("0", "123BBB", 5.5, 1233, 4566, "TRUE", "USD", 1.5, 1, 0.5);
+INSERT INTO savings_accounts VALUES ("1", "123CCC", 6.5, 12334, 45667, "TRUE", "USD", 2.5, 2, 1.5);
 
 CREATE TABLE IF NOT EXISTS checkings_accounts (
 	user_id VARCHAR(200) NOT NULL,
@@ -70,6 +88,9 @@ CREATE TABLE IF NOT EXISTS checkings_accounts (
         REFERENCES  BankATM.Users (id)
 );
 
+INSERT INTO checkings_accounts VALUES ("0", "123BBBB", 7.5, 12333, 45666, "TRUE", "USD", 1.5, 1, 0.5, 1.5);
+INSERT INTO checkings_accounts VALUES ("1", "123BBBBC", 8.5, 123334, 456667, "TRUE", "USD", 3.5, 2, 1.5, 6.5);
+
 CREATE TABLE IF NOT EXISTS Stocks (
 	name VARCHAR(20) NOT NULL,
     available_shares INT NOT NULL,
@@ -77,6 +98,9 @@ CREATE TABLE IF NOT EXISTS Stocks (
     current_price FLOAT NOT NULL,
     PRIMARY KEY (name)
 );
+
+INSERT INTO Stocks VALUES ("Apple", "2", "4", 7.2);
+INSERT INTO Stocks VALUES ("Samsung", "4", "4", 10.2);
 
 CREATE TABLE IF NOT EXISTS users_stocks (
     user_id VARCHAR(200) NOT NULL,
@@ -86,6 +110,8 @@ CREATE TABLE IF NOT EXISTS users_stocks (
     PRIMARY KEY (user_id, stock_id)
 );
 
+INSERT INTO users_stocks VALUES ("0", "Apple");
+INSERT INTO users_stocks VALUES ("1", "Apple");
 
 CREATE TABLE IF NOT EXISTS single_checking_account_transactions (
     account_id VARCHAR(100) NOT NULL,
@@ -96,6 +122,9 @@ CREATE TABLE IF NOT EXISTS single_checking_account_transactions (
     FOREIGN KEY (account_id) REFERENCES BankATM.checkings_accounts (iban)
 );
 
+INSERT INTO single_checking_account_transactions (account_id, amount, type) VALUES ("123BBBB", 10.5, "Deposit");
+INSERT INTO single_checking_account_transactions (account_id, amount, type) VALUES ("123BBBB", 11.5, "Withdraw");
+
 CREATE TABLE IF NOT EXISTS single_security_account_transactions (
     account_id VARCHAR(100) NOT NULL,
     transaction_id INT NOT NULL AUTO_INCREMENT,
@@ -104,6 +133,9 @@ CREATE TABLE IF NOT EXISTS single_security_account_transactions (
     PRIMARY KEY (transaction_id),
     FOREIGN KEY (account_id) REFERENCES BankATM.security_accounts (iban)
 );
+
+INSERT INTO single_security_account_transactions (account_id, amount, type) VALUES ("123BB", 15.5, "Deposit");
+INSERT INTO single_security_account_transactions (account_id, amount, type) VALUES ("123BB", 14.5, "Deposit");
 
 CREATE TABLE IF NOT EXISTS single_saving_account_transactions (
     account_id VARCHAR(100) NOT NULL,
@@ -114,4 +146,5 @@ CREATE TABLE IF NOT EXISTS single_saving_account_transactions (
     FOREIGN KEY (account_id) REFERENCES BankATM.savings_accounts (iban)
 );
 
-
+INSERT INTO single_saving_account_transactions (account_id, amount, type) VALUES ("123BBB", 16.5, "Transfer");
+INSERT INTO single_saving_account_transactions (account_id, amount, type) VALUES ("123BBB", 18.5, "Deposit");

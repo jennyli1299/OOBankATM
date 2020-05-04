@@ -19,7 +19,6 @@ public class Customer extends User {
       return customer;
     }
 
-
      /* Open an Account */
      public void openAccount() {
         // Currency

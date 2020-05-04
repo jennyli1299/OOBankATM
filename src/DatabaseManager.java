@@ -104,16 +104,16 @@ public class DatabaseManager{
         //TODO
     }
 
-    public void addLoan(Loan loan, User user){
+    public void updateLoan(Loan loan, User user){
         //TODO
     }
 
-    public void addStock(Stock stock){
+    public void updateStock(Stock stock){
 
        //TODO
     }
 
-    public void addStock(Stock stock, User user){
+    public void updateUser(Stock stock, User user){
 
         //TODO
     }
@@ -162,13 +162,16 @@ public class DatabaseManager{
         ArrayList<Loan> list = new ArrayList<>();
 
         try {
-            Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM BankATM.Loans WHERE user_id = \""+ user.getId() + "\"";
-            String sql2 = "SELECT * FROM BankATM.Users WHERE user_id = \""+ user.getId() + "\"";
-            ResultSet rs=stmt.executeQuery(sql);
+            Statement stmt= con.createStatement();
+            String sql2 = "SELECT * FROM BankATM.Users WHERE id = \""+ user.getId() + "\"";
             ResultSet rsCustomer = stmt.executeQuery(sql2);
-
+            rsCustomer.next();
             Customer borrower = new Customer(rsCustomer.getString("firstname"), rsCustomer.getString("lastname"), rsCustomer.getString("id"), rsCustomer.getString("username"), rsCustomer.getString("password" ));
+
+
+            stmt = con.createStatement();
+            String sql = "SELECT * FROM BankATM.Loans WHERE user_id = \""+ user.getId() + "\"";
+            ResultSet rs=stmt.executeQuery(sql);
 
             Loan temp;
             while(rs.next()) {
@@ -187,7 +190,7 @@ public class DatabaseManager{
 
         try {
             Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM BankATM.checkings_accounts WHERE is_active = TRUE AND user_id = \""+ user.getId() + "\"";
+            String sql = "SELECT * FROM BankATM.checkings_accounts WHERE is_active = \"TRUE\" AND user_id = \""+ user.getId() + "\"";
             ResultSet rs=stmt.executeQuery(sql);
             CheckingAccount temp = null;
             while(rs.next())
@@ -205,7 +208,7 @@ public class DatabaseManager{
 
         try {
             Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM BankATM.savings_accounts WHERE is_active = TRUE AND user_id = \""+ user.getId() + "\"";
+            String sql = "SELECT * FROM BankATM.savings_accounts WHERE is_active = \"TRUE\" AND user_id = \""+ user.getId() + "\"";
             ResultSet rs=stmt.executeQuery(sql);
             SavingsAccount temp = null;
             while(rs.next())
@@ -223,7 +226,8 @@ public class DatabaseManager{
 
         try {
             Statement stmt=con.createStatement();
-            String sql = "SELECT * FROM BankATM.security_accounts WHERE is_active = TRUE AND user_id = \""+ user.getId() + "\"";
+            String sql = "SELECT * FROM BankATM.security_accounts WHERE is_active = \"TRUE\" AND user_id = \""+ user.getId() + "\"";
+            System.out.println(sql + " : here");
             ResultSet rs=stmt.executeQuery(sql);
             SecurityAccount temp = null;
             while(rs.next())
