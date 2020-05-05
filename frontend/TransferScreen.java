@@ -123,6 +123,7 @@ public class TransferScreen implements ActionListener {
             /* first attempt */
             } else {
                 transact = true;
+                //TODO: Currency conversion
                 warningLabel.setText("Are you sure you want to make this transaction? Your new account balance will be " + (account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText()) - StaticVariables.getTransferFee()));
             }
 
