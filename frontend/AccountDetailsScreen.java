@@ -31,6 +31,7 @@ public class AccountDetailsScreen implements ActionListener {
     JButton depositButton;
     JButton withdrawalButton;
     JButton transferButton;
+    JComboBox currencyDropdown;
     JButton closeButton;
     JButton backButton;
     JLabel warningLabel;
@@ -67,7 +68,6 @@ public class AccountDetailsScreen implements ActionListener {
                 transactionsListModel.addElement(transaction.toString());
             }
         }
-
     }
 
     private void createUI() {
@@ -149,9 +149,14 @@ public class AccountDetailsScreen implements ActionListener {
         transferButton.addActionListener(this);
         frame.add(transferButton);
 
+        /* add currency button */
+        currencyDropdown = new JComboBox<>(Currency.supportedCurrencies);
+        currencyDropdown.setBounds(350, 425, 350, 50);
+        frame.add(currencyDropdown);
+
         /* add close button */
         closeButton = new JButton("Close account (FEE: " + StaticVariables.getClosingCharge() + ")");
-        closeButton.setBounds(350, 425, 350, 50);
+        closeButton.setBounds(350, 475, 350, 50);
         closeButton.addActionListener(this);
         frame.add(closeButton);
 

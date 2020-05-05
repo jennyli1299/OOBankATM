@@ -2,6 +2,9 @@ package frontend;
 
 import src.*;
 import javax.swing.*;
+
+import javafx.util.Pair;
+
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -18,7 +21,7 @@ public class AddAccountScreen implements ActionListener {
     JLabel amountLabel;
     JTextField amount;
     JLabel currencyLabel;
-    JTextField currency;
+    JComboBox currency;
     JLabel warningLabel;
     JButton addButton;
     JButton backButton;
@@ -75,7 +78,7 @@ public class AddAccountScreen implements ActionListener {
         frame.add(currencyLabel);
         
         /* currency */
-        currency = new JTextField();
+        currency = new JComboBox<>(Currency.supportedCurrencies);
         currency.setBounds(250, 200, 300, 50);
         frame.add(currency);
 
@@ -128,6 +131,7 @@ public class AddAccountScreen implements ActionListener {
     public static void main(String[] args) {
         AddAccountScreen screen = new AddAccountScreen();
         screen.frame.setVisible(true);
+
     }
 
 }

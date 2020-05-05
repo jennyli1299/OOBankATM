@@ -6,7 +6,7 @@ import java.util.Map;
 public class Currency {
     private String abbreviation;
     private static Map<String, Float> abbreviationToRate = new HashMap<>();
-
+    public static String[] supportedCurrencies = new String[]{"EUR", "USD", "CHF"};
     public Currency(String abbreviation) {
         this.abbreviation = abbreviation;
         abbreviationToRate.put("USD", 1.0f);
