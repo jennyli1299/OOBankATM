@@ -5,17 +5,17 @@ import java.util.ArrayList;
 public class SecurityAccount extends Account {
     private ArrayList<BoughtStock> boughtStocks;
 
-    public SecurityAccount(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
+    public SecurityAccount(String IBAN, float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, float closingCharge, float openingCharge) {
         super(IBAN,0f, routingNumber, accountNumber, active, new Currency("USD"), 0f, 0f);
         this.accountType = "Security";
         this.boughtStocks = new ArrayList<BoughtStock>();
-        chargeOpeningCharge();
+        // chargeOpeningCharge();
     }
 
-    public static SecurityAccount openSecurityAccount(String IBAN, Float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, Float closingCharge, Float openingCharge) {
+    public static SecurityAccount openSecurityAccount(String IBAN, float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, float closingCharge, float openingCharge, User user) {
         SecurityAccount newSecurityAccount = new SecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
         newSecurityAccount.chargeOpeningCharge();
-        // DatabaseManager.addSecurityAccount(securitiesAccount, user);
+        StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, user);
         return newSecurityAccount;
     }
 

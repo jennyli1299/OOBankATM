@@ -3,16 +3,16 @@ package src;
 public class SavingsAccount extends Account {
     private static float interest;
 
-    public SavingsAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
-                          Float closingCharge, Float openingCharge, Float interest) {
+    public SavingsAccount(String IBAN, float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
+                          float closingCharge, float openingCharge, float interest) {
         super(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
         this.accountType = "Savings";
         interest = StaticVariables.getSavingsAccountInterest();
         // chargeOpeningCharge();
     }
 
-    public static SavingsAccount openSavingsAccount (String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
-    Float closingCharge, Float openingCharge, Float interest, User user) {
+    public static SavingsAccount openSavingsAccount (String IBAN, float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
+    float closingCharge, float openingCharge, float interest, User user) {
         SavingsAccount newSavingsAccount = new SavingsAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, interest);
         newSavingsAccount.chargeOpeningCharge();
         StaticVariables.getDatabaseManager().addSavingsAccount(newSavingsAccount, user);
