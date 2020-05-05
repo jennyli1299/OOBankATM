@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Account {
-    protected Float balanceInLocalCurrency;
+    protected float balanceInLocalCurrency;
     protected int routingNumber;
     protected int accountNumber;
     protected String IBAN;
@@ -31,44 +31,145 @@ public abstract class Account {
         this.IBAN = IBAN;
         // this.accountStatus = "Open";
     }
-
-    public void makeTransfer(float amount, String recIBAN)
-    {
-        this.makeWithdrawal(amount);
-        StaticVariables.getDatabaseManager().increaseBalanceBy(amount, recIBAN);
+    public Account(float balanceInLocalCurrency, boolean active, Currency currency) {
+        this.balanceInLocalCurrency = balanceInLocalCurrency;
+        this.IBAN = Account.uniqueIBAN();
+        this.routingNumber = Account.uniqueRoutingNumber();
+        this.accountNumber = Account.uniqueAccountNumber();
+        this.active = active;
+        this.currency = currency;
+        closingCharge = StaticVariables.getClosingCharge();
+        openingCharge = StaticVariables.getOpeningCharge();
+        // this.accountStatus = "Open";
+    }
+    public Account(float balanceInLocalCurrency, Currency currency) {
+        this.balanceInLocalCurrency = balanceInLocalCurrency;
+        this.IBAN = Account.uniqueIBAN();
+        this.routingNumber = Account.uniqueRoutingNumber();
+        this.accountNumber = Account.uniqueAccountNumber();
+        this.active = true;
+        this.currency = currency;
+        closingCharge = StaticVariables.getClosingCharge();
+        openingCharge = StaticVariables.getOpeningCharge();
+        // this.accountStatus = "Open";
+    }
+    public Account() { // USED ONLY FOR NULL ACCOUNT
+        this.balanceInLocalCurrency = -1;
+        this.IBAN = "null";
+        // this.routingNumber = Account.uniqueRoutingNumber();
+        // this.accountNumber = Account.uniqueAccountNumber();
+        this.active = false;
+        this.currency = new Currency("USD");
+        closingCharge = StaticVariables.getClosingCharge();
+        openingCharge = StaticVariables.getOpeningCharge();
+        // this.accountStatus = "Open";
+        // this.setIBAN("null");
     }
 
-    public void makeDeposit(int amount)
-    {
-        balanceInLocalCurrency += amount;
-        StaticVariables.getDatabaseManager().increaseBalanceBy(amount, this.getIBAN());
+    /* Opening & Closing Accounts */
+    public static boolean canOpenAccount(float amount, Currency c) {
+        return (Currency.convertCurrencies(amount, c, "USD") - StaticVariables.getOpeningCharge() > 0);
     }
-
-    public void makeWithdrawal(Float amount){
-        if (amount > balanceInLocalCurrency){
-            //TODO show error message that the account does not have enough money
+    public void chargeOpeningCharge(){
+        float OCinLocalCurrency = Currency.convertCurrencies(StaticVariables.getOpeningCharge(), this.getCurrency(), "USD");
+        this.balanceInLocalCurrency -= OCinLocalCurrency;
+        StaticVariables.updateLifetimeGain(StaticVariables.getOpeningCharge()); // TODO: Update this in DB
+    }
+    public void chargeClosingCharge(){
+        float OCinLocalCurrency = Currency.convertCurrencies(StaticVariables.getOpeningCharge(), this.getCurrency(), "USD");
+        this.balanceInLocalCurrency -= OCinLocalCurrency;
+        StaticVariables.updateLifetimeGain(StaticVariables.getClosingCharge());
+    }
+    public boolean close() {
+        if (StaticVariables.getClosingCharge() > balanceInLocalCurrency) {
+            return false;
         }
-        balanceInLocalCurrency -= amount;
-        StaticVariables.getDatabaseManager().increaseBalanceBy(-amount, this.getIBAN());
-
-    }
-    public String getIBAN()
-    {
-        return IBAN;
-    }
-    public int getRoutingNumber() {
-        return routingNumber;
+        else {
+            chargeClosingCharge();
+            // accountStatus = "Closed";
+            setActive(false);
+            return true;
+        }
     }
 
-    public int getAccountNumber() {
-        return accountNumber;
-    }
-    public void setIBAN(String IBAN)
+    /* TRANSACTIONS */ //TODO: add Transactions to DB
+    public String makeTransfer(float amount, String recIBAN)
     {
-        this.IBAN = IBAN;
+        float transferFee = StaticVariables.getTransferFee();
+        float localTransferFee = Currency.convertCurrencies(transferFee, "USD", this.getCurrency().getAbbrev());
+        if (balanceInLocalCurrency < amount + localTransferFee){
+            return "There is not enough balance in your account to make this transfer.";
+        }
+        else {
+            Account transferTo = Account.getAccountFromIBAN(recIBAN);
+            if (transferTo.equals("null")) {
+                return "There is no account corresponding to this receiving IBAN.";
+            }
+            else {
+                float amtAfterFees = amount - localTransferFee;
+                this.nofeeUpdateBalance(-amtAfterFees);
+                // StaticVariables.getDatabaseManager().increaseBalanceBy(-amtAfterFees, this.getIBAN());
+                float otherlocalTransferAmt = Currency.convertCurrencies(amtAfterFees, this.getCurrency(), transferTo.getCurrency());
+                transferTo.nofeeUpdateBalance(otherlocalTransferAmt);
+                // StaticVariables.getDatabaseManager().increaseBalanceBy(otherlocalTransferAmt, recIBAN);
+                StaticVariables.updateLifetimeGain(transferFee);
+                return "Transfer complete.";
+            }
+        }
     }
-    public String getAccountType() {
-        return accountType;
+    public String makeTransfer(float amount, Account transferTo)
+    {
+        float transferFee = StaticVariables.getTransferFee();
+        float localTransferFee = Currency.convertCurrencies(transferFee, "USD", this.getCurrency().getAbbrev());
+        if (balanceInLocalCurrency < amount + localTransferFee){
+            return "There is not enough balance in your account to make this transfer.";
+        }
+        else {
+            float amtAfterFees = amount - localTransferFee;
+            this.nofeeUpdateBalance(-amtAfterFees);
+            // StaticVariables.getDatabaseManager().increaseBalanceBy(-amtAfterFees, this.getIBAN());
+            float otherlocalTransferAmt = Currency.convertCurrencies(amtAfterFees, this.getCurrency(), transferTo.getCurrency());
+            transferTo.nofeeUpdateBalance(otherlocalTransferAmt);
+            // StaticVariables.getDatabaseManager().increaseBalanceBy(otherlocalTransferAmt, transferTo.getIBAN());
+            StaticVariables.updateLifetimeGain(transferFee);
+            return "Transfer complete.";
+        }
+    }
+
+    public String makeDeposit(float amount)
+    {
+        float depositFee = StaticVariables.getDepositFee();
+        float localDepositFee = Currency.convertCurrencies(depositFee, "USD", this.getCurrency().getAbbrev());
+        if (balanceInLocalCurrency + amount < localDepositFee){
+            return "There is not enough balance to cover the deposit fee.";
+        }
+        else {
+            float amtAfterFees = amount - localDepositFee;
+            this.nofeeUpdateBalance(amtAfterFees);
+            // StaticVariables.getDatabaseManager().increaseBalanceBy(amtAfterFees, this.getIBAN());
+            StaticVariables.updateLifetimeGain(depositFee);
+            return "Deposit successful.";
+        }
+    }
+
+    public String makeWithdrawal(float amount) {
+        float withdrawalFee = StaticVariables.getWithdrawalFee();
+        float localWithdrawalFee = Currency.convertCurrencies(withdrawalFee, "USD", this.getCurrency().getAbbrev());
+        if (amount + localWithdrawalFee > balanceInLocalCurrency){
+            return "You cannot withdraw this amount. It overwhelms the balance in this account.";
+        }
+        else {
+            float amtAfterFees = amount + localWithdrawalFee;
+            this.nofeeUpdateBalance(-amtAfterFees);
+            // StaticVariables.getDatabaseManager().increaseBalanceBy(-amtAfterFees, this.getIBAN());
+            StaticVariables.updateLifetimeGain(withdrawalFee);
+            return "Withdrawal accepted. Please retrieve your money.";
+        }   
+    }
+
+    public void nofeeUpdateBalance(float amount) {
+        this.balanceInLocalCurrency += amount;
+        StaticVariables.getDatabaseManager().increaseBalanceBy(amount, this.getIBAN());
     }
 
 
@@ -170,10 +271,36 @@ public abstract class Account {
     //     depositFee = manager_set_depositFee;
     // }
 
+
+    /* getters & setters */
+    public String getIBAN()
+    {
+        return IBAN;
+    }
+    public int getRoutingNumber() {
+        return routingNumber;
+    }
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+    public void setIBAN(String IBAN)
+    {
+        this.IBAN = IBAN;
+    }
+    public void setRouingNumber(int n) {
+        this.routingNumber = n;
+    }
+    public void setAccountNumber(int n) {
+        this.accountNumber = n;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
     public Float getBalanceInLocalCurrency() {
         return balanceInLocalCurrency;
     }
-
     public void setBalanceInLocalCurrency(Float balanceInLocalCurrency) {
         this.balanceInLocalCurrency = balanceInLocalCurrency;
     }
@@ -181,48 +308,39 @@ public abstract class Account {
     public boolean isActive() {
         return active;
     }
-
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public static ArrayList<Account> getALLAccounts() {
+        ArrayList<Account> allAccounts = new ArrayList<Account>();
+        ArrayList<Customer> allCustomers = StaticVariables.getDatabaseManager().getCustomers();
+        for (Customer c: allCustomers) {
+            ArrayList<Account> customerAccounts = DatabaseManager.getAllAccounts(c);
+            allAccounts.addAll(customerAccounts);
+        }
+        return allAccounts;
+    }
+
+    public static Account getAccountFromIBAN(String IBAN) {
+        ArrayList<Account> allAccounts = Account.getALLAccounts();
+        for (Account a: allAccounts) {
+            if (a.equals(IBAN)) {
+                return a;
+            }
+        }
+        return new NullAccount();
     }
 
     // public static Float getDepositFee() {
     //     return depositFee;
     // }
-
     // public static Float getWithdrawalFee() {
     //     return withdrawalFee;
     // }
-
     // public static Float getTransferFee() {
     //     return transferFee;
     // }
-
-    public void chargeOpeningCharge(){
-        this.balanceInLocalCurrency -= StaticVariables.getOpeningCharge();
-        StaticVariables.updateLifetimeGain(StaticVariables.getOpeningCharge());
-    }
-
-    public void chargeClosingCharge(){
-        this.balanceInLocalCurrency -= StaticVariables.getClosingCharge();
-        StaticVariables.updateLifetimeGain(StaticVariables.getClosingCharge());
-    }
-
-    public void depositAmount(Float amount){
-        balanceInLocalCurrency += amount;
-    }
-
-    public boolean close() {
-        if (StaticVariables.getClosingCharge() > balanceInLocalCurrency.floatValue()) {
-            return false;
-        }
-        else {
-            chargeClosingCharge();
-            // accountStatus = "Closed";
-            setActive(false);
-            return true;
-        }
-    }
 
     @Override
     public String toString() {
@@ -236,6 +354,14 @@ public abstract class Account {
             repr += "Security";
         }
         return repr;
+    }
+
+    public boolean equals(Account other) {
+        return this.getIBAN().equals(other.getIBAN());
+    }
+
+    public boolean equals(String IBAN) {
+        return this.getIBAN().equals(IBAN);
     }
 
     public Currency getCurrency() {
