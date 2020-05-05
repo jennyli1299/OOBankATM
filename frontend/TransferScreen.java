@@ -102,7 +102,7 @@ public class TransferScreen implements ActionListener {
 
                 try
                 {
-                    account.makeTransfer(Float.parseFloat(amount.getText()) + StaticVariables.getTransferFee(), recipient.getText());
+                    account.makeTransfer(Float.parseFloat(amount.getText()), recipient.getText());
 
                 }catch(Exception exception)
                 {
