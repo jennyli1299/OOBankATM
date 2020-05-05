@@ -32,6 +32,7 @@ public class AccountDetailsScreen implements ActionListener {
     JButton withdrawalButton;
     JButton transferButton;
     JComboBox currencyDropdown;
+    JButton currencyButton;
     JButton closeButton;
     JButton backButton;
     JLabel warningLabel;
@@ -55,11 +56,11 @@ public class AccountDetailsScreen implements ActionListener {
 
     private void initState() {
         /* below implementation is only for testing purposes */
-        //account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
+        account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
 
-        account = StaticVariables.getSelectedAccount();
+        //account = StaticVariables.getSelectedAccount();
         transactions = new ArrayList<Transaction>();
-        transactions = StaticVariables.getDatabaseManager().getTransactions(account);
+        //transactions = StaticVariables.getDatabaseManager().getTransactions(account);
 
         transactionsListModel = new DefaultListModel<>();
         if(transactions != null)
@@ -149,10 +150,16 @@ public class AccountDetailsScreen implements ActionListener {
         transferButton.addActionListener(this);
         frame.add(transferButton);
 
-        /* add currency button */
+        /* add currency dropdown */
         currencyDropdown = new JComboBox<>(Currency.supportedCurrencies);
-        currencyDropdown.setBounds(350, 425, 350, 50);
+        currencyDropdown.setBounds(350, 425, 150, 50);
         frame.add(currencyDropdown);
+
+        /* add currency button */
+        currencyButton = new JButton("Change currency");
+        currencyButton.setBounds(500, 425, 200, 50);
+        currencyButton.addActionListener(this);
+        frame.add(currencyButton);
 
         /* add close button */
         closeButton = new JButton("Close account (FEE: " + StaticVariables.getClosingCharge() + ")");
@@ -222,6 +229,11 @@ public class AccountDetailsScreen implements ActionListener {
             CustomerAccountsScreen screen = new CustomerAccountsScreen();
             frame.dispose();
             screen.frame.setVisible(true);
+
+        /* change currency */
+        } else if (e.getSource() == currencyButton) {
+            String currencyToChange = Currency.supportedCurrencies[currencyDropdown.getSelectedIndex()];
+            // TODO convert account balance to currencyToChange currency
         }
     }
 
