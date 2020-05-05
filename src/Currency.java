@@ -43,6 +43,22 @@ public class Currency {
         converted = converted*rateofUSDto;
         return converted;
     }
+    public static float convertCurrencies(float amount, Currency from, String toAbbrev) {
+        float converted = amount;
+        Float rateofUSDfrom = Currency.getRate(from.getAbbrev());
+        Float rateofUSDto = Currency.getRate(toAbbrev);
+        converted = converted/rateofUSDfrom;
+        converted = converted*rateofUSDto;
+        return converted;
+    }
+    public static float convertCurrencies(float amount, String fromAbbrev, Currency to) {
+        float converted = amount;
+        Float rateofUSDfrom = Currency.getRate(fromAbbrev);
+        Float rateofUSDto = Currency.getRate(to.getAbbrev());
+        converted = converted/rateofUSDfrom;
+        converted = converted*rateofUSDto;
+        return converted;
+    }
 
     @Override
     public String toString() {
