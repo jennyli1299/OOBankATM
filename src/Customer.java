@@ -87,8 +87,9 @@ public class Customer extends User {
 
    public String[] closeAccount(Account account) {
       String[] ret = new String[2];
-      boolean closed = account.close();
-      if (closed) {
+      boolean canClose = account.canClose();
+      if (canClose) {
+         account.close();
          ret[1] = "Your account [" + account.getAccountNumber() + "] has been successfully closed.";
       } else {
          ret[0] = "Error";

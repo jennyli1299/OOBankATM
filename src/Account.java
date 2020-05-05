@@ -80,16 +80,14 @@ public abstract class Account {
         this.balanceInLocalCurrency -= OCinLocalCurrency;
         StaticVariables.updateLifetimeGain(StaticVariables.getClosingCharge());
     }
-    public boolean close() { //When closing an account, do not call this. Call customer.closeAccount(Acount account)
-        if (StaticVariables.getClosingCharge() > balanceInLocalCurrency) {
-            return false;
-        }
-        else {
-            chargeClosingCharge();
-            // accountStatus = "Closed";
-            setActive(false);
-            return true;
-        }
+    public boolean canClose() {
+        return (this.getBalanceInLocalCurrency() - Currency.convertCurrencies(StaticVariables.getClosingCharge(), "USD", this.getCurrency()) > 0);
+    }
+    public void close() { //When closing an account, do not call this. Call customer.closeAccount(Acount account)
+        chargeClosingCharge();
+        // accountStatus = "Closed";
+        setActive(false);
+        // return true;
     }
 
     /* TRANSACTIONS */ //TODO: create and add Transactions to DB
