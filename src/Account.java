@@ -80,19 +80,16 @@ public abstract class Account {
         this.balanceInLocalCurrency -= OCinLocalCurrency;
         StaticVariables.updateLifetimeGain(StaticVariables.getClosingCharge());
     }
-    public String[] close() {
-        String[] ret = new String[2];
+    public boolean close() { //When closing an account, do not call this. Call customer.closeAccount(Acount account)
         if (StaticVariables.getClosingCharge() > balanceInLocalCurrency) {
-            ret[0] = "Error";
-            ret[1] = "There is not enough balance to cover closing charge.";
+            return false;
         }
         else {
             chargeClosingCharge();
             // accountStatus = "Closed";
             setActive(false);
-            ret[1] = "Account closed.";
+            return true;
         }
-        return ret;
     }
 
     /* TRANSACTIONS */ //TODO: create and add Transactions to DB
