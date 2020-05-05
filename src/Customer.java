@@ -66,27 +66,35 @@ public class Customer extends User {
          return false;
    }
 
-   public String openSecuritiesAccount(Account account, float amount, Currency c) {
+   public String[] openSecuritiesAccount(Account account, float amount, Currency c) {
       // Create Securities Account & transfer >$1000.00 into securities account from
       // specified Account(s) but MUST keep at least $2500.00 in other accounts
+      String[] ret = new String[2];
       if (enoughToOpenSECAcc()) {
          SecurityAccount newSecurityAccount = SecurityAccount.openSecurityAccount(Account.uniqueIBAN(), 0,
                Account.uniqueRoutingNumber(), Account.uniqueAccountNumber(), true, c,
                StaticVariables.getClosingCharge(), StaticVariables.getOpeningCharge(), this);
          account.makeTransfer(amount, newSecurityAccount.getIBAN());
          // StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, this);
-         return "Successfully opened Securities Account! Happy stock shopping!";
-      } else
-         return "You do not reach the criteria to open a Securities Account.";
+         ret[0] = "";
+         ret[1] = "Successfully opened Securities Account! Happy stock shopping!";
+      } else {
+         ret[0] = "Error";
+         ret[1] = "You do not reach the criteria to open a Securities Account.";
+      }
+      return ret;
    }
 
-   public String closeAccount(Account account) {
+   public String[] closeAccount(Account account) {
+      String[] ret = new String[2];
       boolean closed = account.close();
       if (closed) {
-         return "Your account [" + account.getAccountNumber() + "] has been successfully closed.";
+         ret[1] = "Your account [" + account.getAccountNumber() + "] has been successfully closed.";
       } else {
-         return "You do not have enough balance in this account to cover the closing charge. Closure denied.";
+         ret[0] = "Error";
+         ret[1] = "You do not have enough balance in this account to cover the closing charge. Closure denied.";
       }
+      return ret;
    }
 
    /* View Current Balances (database query) */
