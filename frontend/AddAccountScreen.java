@@ -2,139 +2,136 @@ package frontend;
 
 import src.*;
 import javax.swing.*;
+
+import javafx.util.Pair;
+
 import java.awt.event.*;
 import java.util.ArrayList;
 
 public class AddAccountScreen implements ActionListener {
-// public SavingsAccount(String IBAN, Float amountInLocalCurrency, int routingNumber, int accountNumber, Currency currency)
 
     /* state */
-    Manager manager;
+    Customer customer;
 
     /* UI components */
     JFrame frame;
     JLabel titleLabel;
-    JLabel nameLabel;
-    JTextField name;
-    JLabel priceLabel;
-    JTextField price;
-    JLabel totalSharesLabel;
-    JTextField totalShares;
-    JLabel availableLabel;
-    JTextField available;
+    JLabel typeLabel;
+    JComboBox type;
+    JLabel amountLabel;
+    JTextField amount;
+    JLabel currencyLabel;
+    JComboBox currency;
     JLabel warningLabel;
-    JButton createButton;
+    JButton addButton;
     JButton backButton;
 
-    public AddStockScreen() {
-        // this.manager = manager;
+    public AddAccountScreen() {
+        // attach customer
         createWindow();
         createUI();
     }
 
     private void createWindow() {
+
         /* initialize the frame */
-        frame = new JFrame("Manager - View High Balance Accounts");
+        frame = new JFrame("Customer - Add New Account");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(null);
     }
 
     private void createUI() {
-        /* titleLabel */
+        /* titlelabel */
         titleLabel = new JLabel();
         titleLabel.setBounds(50, 50, 600, 50);
-        titleLabel.setText("Enter the following fields to add a new stock.");
+        titleLabel.setText("Enter the following fields to create a new account.");
         frame.add(titleLabel);
 
-        /* nameLabel */
-        nameLabel = new JLabel();
-        nameLabel.setBounds(50, 100, 200, 50);
-        nameLabel.setText("Stock Abbreviation:");
-        frame.add(nameLabel);
+        /* typeLabel */
+        typeLabel = new JLabel();
+        typeLabel.setBounds(50, 100, 200, 50);
+        typeLabel.setText("Account Type:");
+        frame.add(typeLabel);
 
-        /* name field */
-        name = new JTextField();
-        name.setBounds(250, 100, 200, 50);
-        frame.add(name);
+        /* type */
+        String[] accountTypes = new String[]{"Checkings", "Savings", "Securities"};
+        type = new JComboBox<>(accountTypes);
+        type.setBounds(250, 100, 300, 50);
+        frame.add(type);
 
-        /* priceLabel */
-        priceLabel = new JLabel();
-        priceLabel.setBounds(50, 150, 200, 50);
-        priceLabel.setText("Price per share:");
-        frame.add(priceLabel);
+        /* amountLabel */
+        amountLabel = new JLabel();
+        amountLabel.setBounds(50, 150, 200, 50);
+        amountLabel.setText("Starting amount:");
+        frame.add(amountLabel);
 
-        /* price field */
-        price = new JTextField();
-        price.setBounds(250, 150, 200, 50);
-        frame.add(price);
+        /* amount */
+        amount = new JTextField();
+        amount.setBounds(250, 150, 300, 50);
+        frame.add(amount);
 
-        /* totalSharesLabel */
-        totalSharesLabel = new JLabel();
-        totalSharesLabel.setBounds(50, 200, 200, 50);
-        totalSharesLabel.setText("Total shares:");
-        frame.add(totalSharesLabel);
-
-        /* totalShares field */
-        totalShares = new JTextField();
-        totalShares.setBounds(250, 200, 200, 50);
-        frame.add(totalShares);
-
-        /* availableLabel */
-        availableLabel = new JLabel();
-        availableLabel.setBounds(50, 250, 200, 50);
-        availableLabel.setText("Shares available:");
-        frame.add(availableLabel);
-
-        /* available */
-        available = new JTextField();
-        available.setBounds(250, 250, 200, 50);
-        frame.add(available);
+        /* currencyLabel */
+        currencyLabel = new JLabel();
+        currencyLabel.setBounds(50, 200, 200, 50);
+        currencyLabel.setText("Currency:");
+        frame.add(currencyLabel);
+        
+        /* currency */
+        currency = new JComboBox<>(Currency.supportedCurrencies);
+        currency.setBounds(250, 200, 300, 50);
+        frame.add(currency);
 
         /* warningLabel */
         warningLabel = new JLabel();
-        warningLabel.setBounds(50, 300, 600, 50);
+        warningLabel.setBounds(50, 250, 600, 50);
         frame.add(warningLabel);
 
-        /* createButton */
-        createButton = new JButton("Create new stock");
-        createButton.setBounds(50, 350, 200, 50);
-        createButton.addActionListener(this);
-        frame.add(createButton);
+        /* addButton */
+        addButton = new JButton("Add new account");
+        addButton.setBounds(50, 300, 200, 50);
+        addButton.addActionListener(this);
+        frame.add(addButton);
 
         /* backButton */
-        backButton = new JButton("Go back to main menu");
-        backButton.setBounds(50, 400, 200, 50);
+        backButton = new JButton("Back to accounts");
+        backButton.setBounds(50, 350, 200, 50);
         backButton.addActionListener(this);
         frame.add(backButton);
     }
 
     public void actionPerformed(ActionEvent e) {
 
-        /* add -> try to add stock */
-        if (e.getSource() == createButton) {
+        /* add button */
+        if (e.getSource() == addButton) {
 
-            /* if any of the fields are null, display error */
-            if (name.getText().equals("") || price.getText().equals("") || totalShares.getText().equals("") || available.getText().equals("")) {
-                warningLabel.setText("One or more fields is missing. Enter all the fields to continue.");
-
-            /* okay, try to add the stock */
+            /* if any of the fields are empty, display warning */
+            if (type.getSelectedIndex() == -1 || amount.getText().equals("") || currency.getText().equals("")) {
+                warningLabel.setText("Enter all of the fields to add a new account.");
+            
+            /* else, if amount is not int */
             } else {
-                // TODO add stock DATABASE
-                Stock newStock = new Stock(Float.parseFloat(price.getText()), Integer.parseInt(totalShares.getText()), Integer.parseInt(available.getText()), name.getText());
-
+                try {
+                    Float startingAmount = Float.parseFloat(amount.getText());
+                    // TODO attach backend call to create account
+                    warningLabel.setText("Great! An account has been created."); 
+                } catch (Exception err) {
+                    warningLabel.setText("The amount can only be a number.");
+                }
             }
-
-        /* back -> navigate back to stocks */
+        /* back button */
         } else if (e.getSource() == backButton) {
-            ManagerStocksScreen screen = new ManagerStocksScreen();
+
+            CustomerAccountsScreen screen = new CustomerAccountsScreen();
             frame.dispose();
             screen.frame.setVisible(true);
         }
     }
 
     public static void main(String[] args) {
-        AddStockScreen screen = new AddStockScreen();
+        AddAccountScreen screen = new AddAccountScreen();
         screen.frame.setVisible(true);
+
     }
+
 }
