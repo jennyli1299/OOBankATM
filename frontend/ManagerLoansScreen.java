@@ -38,13 +38,13 @@ public class ManagerLoansScreen implements ActionListener {
 
     private void initState() {
         loans = new ArrayList<Loan>();
-        // loans = TODO: get pending loans from database
+        loans = manager.getPendingLoans();
 
         loansListModel = new DefaultListModel<String>();
         for (Loan loan : loans) {
             loansListModel.addElement(loan.toString());
         }
-        /* mock data - TODO a similar format on the toString()? */
+        /* mock data - a similar format on the toString()? */
         loansListModel.addElement("5/06/20: $300000 (a car) - 12 months");
         loansListModel.addElement("5/06/20: $500 (vacation house) - 24 months");
         loansListModel.addElement("5/09/20: $2000 - 6 months");
@@ -100,7 +100,7 @@ public class ManagerLoansScreen implements ActionListener {
             /* okay, try to approve the loan and remove from list */
             } else {
             Loan loan = loans.get(index);
-            // TODO set loan to approved
+            manager.approveLoan(loan);
             loans.remove(index);
             loansListModel.remove(index);
             }
@@ -115,7 +115,7 @@ public class ManagerLoansScreen implements ActionListener {
             /* okay, try to deny the loan and remove from list */
             } else {
             Loan loan = loans.get(index);
-            // TODO set loan to denied
+            manager.denyLoan(loan);
             loans.remove(index);
             loansListModel.remove(index);
             }

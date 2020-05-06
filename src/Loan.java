@@ -169,7 +169,7 @@ public class Loan {
     }
 
     public String toString() {
-        String repr = "<" + dateIssued.format(DateTimeFormatter.ofPattern("MM/dd/YYYY")) + "> - $" + initialPrincipal;
+        String repr = "<" + dateIssued.format(DateTimeFormatter.ofPattern("MM/dd/YYYY")) + "> - $" + initialPrincipal + " (" + collateral + ") - " + termInMonths + " months";
         return repr;
     }
 }

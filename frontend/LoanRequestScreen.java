@@ -27,7 +27,7 @@ public class LoanRequestScreen implements ActionListener {
 
     public LoanRequestScreen() {
         // this.customer = customer;
-        //this.customer = (Customer)StaticVariables.getLoggedInUser();
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         
         createWindow();
         createUI();
