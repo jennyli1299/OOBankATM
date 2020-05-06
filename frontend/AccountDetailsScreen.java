@@ -8,7 +8,7 @@ import src.*;
 
 public class AccountDetailsScreen implements ActionListener {
 
-    /* state */ //TODO: initialize state
+    /* state */
     Customer customer; 
     Account account;
     ArrayList<Transaction> transactions;
@@ -236,8 +236,14 @@ public class AccountDetailsScreen implements ActionListener {
 
         /* change currency */
         } else if (e.getSource() == currencyButton) {
-            String currencyToChange = Currency.supportedCurrencies[currencyDropdown.getSelectedIndex()];
-            // TODO convert account balance to currencyToChange currency
+            if (currencyDropdown.getSelectedIndex() == -1) {
+                warningLabel.setText("Please select the Currency you would like to switch to from the dropdown.");
+            }
+            else {
+                String currencyToChange = Currency.supportedCurrencies[currencyDropdown.getSelectedIndex()];
+                Currency c = new Currency(currencyToChange);
+                account.changeCurrency(c);
+            }
         }
     }
 

@@ -87,6 +87,7 @@ public abstract class Account {
         chargeClosingCharge();
         // accountStatus = "Closed";
         setActive(false);
+        // StaticVariables.getDatabaseManager().updateAccount(this);
         StaticVariables.getDatabaseManager().closeAccount(this);
         // return true;
     }
@@ -378,6 +379,15 @@ public abstract class Account {
 
     public Currency getCurrency() {
         return currency;
+    }
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+    public void changeCurrency(Currency c) {
+        float newLocalBal = Currency.convertCurrencies(this.getBalanceInLocalCurrency(), this.getCurrency(), c);
+        this.setBalanceInLocalCurrency(newLocalBal);
+        this.setCurrency(c);
+        StaticVariables.getDatabaseManager().updateAccount(this);
     }
 
 }
