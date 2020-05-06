@@ -27,6 +27,7 @@ public class Loan {
     private LocalDateTime dateIssued;
     private LocalDateTime dateDue;
     private int numberOfPayments;
+    private String currency = "USD";
 
     /* constructor */
     public Loan(int id, Status status, User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments)
@@ -108,6 +109,10 @@ public class Loan {
     public double getAmountDue()
     {
         return initialPrincipal - numberOfPayments * monthlyPayment;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 
 
