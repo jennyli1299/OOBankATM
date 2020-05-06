@@ -25,6 +25,7 @@ public class LoanRequestScreen implements ActionListener {
 
     public LoanRequestScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         
         createWindow();
         createUI();
@@ -114,7 +115,7 @@ public class LoanRequestScreen implements ActionListener {
                     loan.requestALoan(StaticVariables.getLoggedInUser());
                     // User user = StaticVariables.getLoggedInUser();
                     
-                    SuccessfulScreen sucess = new SuccessfulScreen("Loan has been requested.");
+                    SuccessfulScreen success = new SuccessfulScreen("Loan has been requested.");
 
                 }catch(Exception excep)
                 {

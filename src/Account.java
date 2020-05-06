@@ -87,6 +87,7 @@ public abstract class Account {
         chargeClosingCharge();
         // accountStatus = "Closed";
         setActive(false);
+        StaticVariables.getDatabaseManager().closeAccount(this);
         // return true;
     }
 

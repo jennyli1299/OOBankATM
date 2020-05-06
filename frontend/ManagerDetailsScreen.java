@@ -27,6 +27,7 @@ public class ManagerDetailsScreen implements ActionListener {
 
     public ManagerDetailsScreen() {
         // this.manager = manager;
+        this.manager = (Manager)StaticVariables.getLoggedInUser();
         createWindow();
         initState();
         createUI();

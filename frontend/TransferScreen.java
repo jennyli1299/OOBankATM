@@ -24,6 +24,7 @@ public class TransferScreen implements ActionListener {
 
     public TransferScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         // this.account = account;
 
         //account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
@@ -92,13 +93,16 @@ public class TransferScreen implements ActionListener {
 
         /* transact -> complete transaction */
         if (e.getSource() == transactButton) {
+
+            float transferFee = StaticVariables.getTransferFee();
+            float localTransferFee = Currency.convertCurrencies(transferFee, "USD", account.getCurrency().getAbbrev());
             
             /* no input amount or iban*/
             if (amount.getText().equals("") || recipient.getText().equals("")) {
                 warningLabel.setText("Enter an amount and a valid IBAN.");
 
             /* two attempts and enough money to make transfer */
-            } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= StaticVariables.getTransferFee())) {
+            } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= localTransferFee)) {
 
                 try
                 {
@@ -123,7 +127,6 @@ public class TransferScreen implements ActionListener {
             /* first attempt */
             } else {
                 transact = true;
-                //TODO: Currency conversion
                 warningLabel.setText("Are you sure you want to make this transaction? Your new account balance will be " + (account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText()) - StaticVariables.getTransferFee()));
             }
 

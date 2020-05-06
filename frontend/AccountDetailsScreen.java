@@ -8,8 +8,8 @@ import src.*;
 
 public class AccountDetailsScreen implements ActionListener {
 
-    /* state */
-    Customer customer;
+    /* state */ //TODO: initialize state
+    Customer customer; 
     Account account;
     ArrayList<Transaction> transactions;
     DefaultListModel<String> transactionsListModel;
@@ -39,7 +39,10 @@ public class AccountDetailsScreen implements ActionListener {
 
     public AccountDetailsScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         // this.account = account;
+        this.account = StaticVariables.getSelectedAccount();
+        
         createWindow();
         initState();
         createUI();
@@ -204,10 +207,11 @@ public class AccountDetailsScreen implements ActionListener {
         } else if (e.getSource() == closeButton) {
 
             /* two attempts and enough money to close the account */
-            if (close && account.getBalanceInLocalCurrency() >= StaticVariables.getClosingCharge()) {
+            if (close && account.canClose()) { //account.getBalanceInLocalCurrency() >= StaticVariables.getClosingCharge()
 
-                StaticVariables.getDatabaseManager().closeAccount(account);
-                StaticVariables.updateLifetimeGain(Float.parseFloat(String.valueOf(StaticVariables.getClosingCharge())));
+                // StaticVariables.getDatabaseManager().closeAccount(account);
+                // StaticVariables.updateLifetimeGain(Float.parseFloat(String.valueOf(StaticVariables.getClosingCharge())));
+                String[] result = customer.closeAccount(account); // result[0] = "" or "Error", result[1] = msg
 
                 /* navigate back to customer accounts */
                 CustomerAccountsScreen screen = new CustomerAccountsScreen();

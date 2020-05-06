@@ -3,7 +3,7 @@ package frontend;
 import src.*;
 import javax.swing.*;
 
-import javafx.util.Pair;
+// import javafx.util.Pair;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ public class AddAccountScreen implements ActionListener {
 
     /* state */
     Customer customer;
+    // Customer customer = (Customer)StaticVariables.getLoggedInUser();
 
     /* UI components */
     JFrame frame;
@@ -27,7 +28,7 @@ public class AddAccountScreen implements ActionListener {
     JButton backButton;
 
     public AddAccountScreen() {
-        // attach customer
+        customer = (Customer)StaticVariables.getLoggedInUser();
         createWindow();
         createUI();
     }
@@ -106,7 +107,7 @@ public class AddAccountScreen implements ActionListener {
         if (e.getSource() == addButton) {
 
             /* if any of the fields are empty, display warning */
-            if (type.getSelectedIndex() == -1 || amount.getText().equals("") || currency.getText().equals("")) {
+            if (type.getSelectedIndex() == -1 || amount.getText().equals("") || currency.getSelectedIndex() == -1) {
                 warningLabel.setText("Enter all of the fields to add a new account.");
             
             /* else, if amount is not int */
@@ -114,7 +115,20 @@ public class AddAccountScreen implements ActionListener {
                 try {
                     Float startingAmount = Float.parseFloat(amount.getText());
                     // TODO attach backend call to create account
-                    warningLabel.setText("Great! An account has been created."); 
+                    int index = type.getSelectedIndex();
+                    if (index == 1) {
+                        customer.openCheckingAccount(startingAmount, (Currency)currency.getSelectedItem());
+                        warningLabel.setText("Great! An account has been created."); 
+                    }
+                    else if (index == 2) {
+                        customer.openSavingsAccount(startingAmount, (Currency)currency.getSelectedItem());
+                        warningLabel.setText("Great! An account has been created."); 
+                    }
+                    else if (index == 3) { //TODO: NEED TO TRANSFER MONEY FROM SOME ACCOUNT & SANTIZE STARTINGAMT > 1000
+                        String[] result = customer.openSecuritiesAccount(startingAmount, (Currency)currency.getSelectedItem());
+                        warningLabel.setText(result[1]);
+                    }
+                    // warningLabel.setText("Great! An account has been created."); 
                 } catch (Exception err) {
                     warningLabel.setText("The amount can only be a number.");
                 }

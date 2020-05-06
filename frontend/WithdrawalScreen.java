@@ -22,6 +22,7 @@ public class WithdrawalScreen implements ActionListener {
 
     public WithdrawalScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         // this.account = account;
 
         //account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
@@ -79,13 +80,16 @@ public class WithdrawalScreen implements ActionListener {
 
         /* transact -> complete transaction */
         if (e.getSource() == transactButton) {
+
+            float withdrawalFee = StaticVariables.getWithdrawalFee();
+            float localWithdrawalFee = Currency.convertCurrencies(withdrawalFee, "USD", account.getCurrency().getAbbrev());    
             
             /* no input amount */
             if (amount.getText().equals("")) {
                 warningLabel.setText("Enter an amount.");
 
             /* two attempts and enough money to make withdrawal */
-            } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= StaticVariables.getWithdrawalFee())) {
+            } else if (transact && ((account.getBalanceInLocalCurrency() - Integer.parseInt(amount.getText())) >= localWithdrawalFee)) {
 
                 try
                 {

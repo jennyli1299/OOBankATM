@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 import src.Customer;
+import src.StaticVariables;
 
 public class CustomerScreen implements ActionListener {
     
@@ -22,6 +23,7 @@ public class CustomerScreen implements ActionListener {
     /* pass in customer as parameter */
     public CustomerScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         createWindow();
         createUI();
     }

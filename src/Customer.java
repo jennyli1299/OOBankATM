@@ -84,6 +84,23 @@ public class Customer extends User {
       }
       return ret;
    }
+   public String[] openSecuritiesAccount(float amount, Currency c) {
+      // Create Securities Account & transfer >$1000.00 into securities account from
+      // specified Account(s) but MUST keep at least $2500.00 in other accounts
+      String[] ret = new String[2];
+      if (enoughToOpenSECAcc()) {
+         SecurityAccount newSecurityAccount = SecurityAccount.openSecurityAccount(Account.uniqueIBAN(), amount,
+               Account.uniqueRoutingNumber(), Account.uniqueAccountNumber(), true, c,
+               StaticVariables.getClosingCharge(), StaticVariables.getOpeningCharge(), this);
+         // StaticVariables.getDatabaseManager().addSecurityAccount(newSecurityAccount, this);
+         ret[0] = "";
+         ret[1] = "Successfully opened Securities Account! Happy stock shopping!";
+      } else {
+         ret[0] = "Error";
+         ret[1] = "You do not reach the criteria to open a Securities Account.";
+      }
+      return ret;
+   }
 
    public String[] closeAccount(Account account) {
       String[] ret = new String[2];

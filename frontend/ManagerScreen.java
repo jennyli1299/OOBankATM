@@ -30,6 +30,7 @@ public class ManagerScreen implements ActionListener {
 
     public ManagerScreen() {
         // this.manager = manager;
+        this.manager = (Manager)StaticVariables.getLoggedInUser();
         createWindow();
         initState();
         createUI();

@@ -29,6 +29,7 @@ public class ManagerFeesScreen implements ActionListener {
 
     public ManagerFeesScreen() {
         // this.manager = manager;
+        this.manager = (Manager)StaticVariables.getLoggedInUser();
         createWindow();
         createUI();
     }
@@ -139,7 +140,7 @@ public class ManagerFeesScreen implements ActionListener {
             } else {
                 // TODO: update all the charges (they are set to current by default so redundant updates are fine)
                 Float depositFee = Float.parseFloat(deposit.getText());
-                // manager.set
+                manager.setAccountDepositFree(depositFee);
                 Float withdrawalFee = Float.parseFloat(withdrawal.getText());
                 manager.setCheckingAccWithdrawalFee(withdrawalFee);
                 Float transferFee = Float.parseFloat(transfer.getText());
