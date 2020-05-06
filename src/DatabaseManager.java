@@ -134,9 +134,6 @@ public class DatabaseManager{
         //TODO
     }
 
-    public void addLoan(Loan loan, User user) {
-        //TODO
-    }
 
     public void updateLoan(Loan loan, User user){
         //TODO
@@ -897,6 +894,41 @@ public class DatabaseManager{
         }catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    public void updateCurrencyOnAccount(Account account, String ab)
+    {
+        try
+        {
+            //1 will work, other will throw excpetion
+            Statement stmt = con.createStatement();
+            String sql1 = "UPDATE BankATM.savings_accounts SET currency = \"" + ab + "\" WHERE iban = '" + account.getIBAN() + "'";
+            stmt.executeUpdate(sql1);
+        }catch (Exception ex)
+        {
+            System.out.println("The account is not savings");
+        }
+
+        try
+        {
+            Statement stmt = con.createStatement();
+            String sql2 = "UPDATE BankATM.checkings_accounts SET currency = \"" + ab + "\" WHERE iban = '" + account.getIBAN() + "'";
+            stmt.executeUpdate(sql2);
+        }catch (Exception e)
+        {
+            System.out.println("The account is not checkings");
+        }
+
+        try
+        {
+            Statement stmt = con.createStatement();
+            String sql3 = "UPDATE BankATM.security_accounts SET currency = \"" + ab + "\" WHERE iban = '" + account.getIBAN() + "'";
+            System.out.println(sql3);
+            stmt.executeUpdate(sql3);
+        }catch (Exception e)
+        {
+            System.out.println("The account is not security");
         }
     }
 }

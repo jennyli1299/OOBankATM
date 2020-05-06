@@ -142,11 +142,6 @@ public class Customer extends User {
       // CHARGE WITHDRAWAL FEE
    }
 
-   /* Transfer Money from one Account to another */
-   public void transferFunds(float amount, Account from, Account to) {
-      from.makeTransfer(amount, to);
-   }
-
    // PAY INTEREST?
 
    /* Request a Loan */
