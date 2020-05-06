@@ -12,7 +12,7 @@ public abstract class Transaction implements Comparable<Transaction> {
     public Transaction(Account account, float amount) {
         this.account = account;
         this.amount = amount;
-        this.date = LocalDateTime.now();
+        this.date = Time.getCurrentTime();
     }
 
     public Account getAccount() {
@@ -29,6 +29,11 @@ public abstract class Transaction implements Comparable<Transaction> {
 
     public int compareTo(Transaction t) {
         return this.getDate().compareTo(t.getDate());
+    }
+
+    public String toString() {
+        String ret = this.getAccount().toString() + " := " + this.getAmount();
+        return ret;
     }
 
 }
