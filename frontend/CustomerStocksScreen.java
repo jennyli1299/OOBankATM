@@ -170,6 +170,12 @@ public class CustomerStocksScreen implements ActionListener {
             
             /* if selcted stock is invalid, display warning */
             int stockIndex = allStocksList.getSelectedIndex();
+
+            myStocksListModel.add(allStocksList.getSelectedIndex(), allStocks.get(stockIndex).toString());
+            allStocksListModel.remove(allStocksList.getSelectedIndex());
+            myStocks.add(allStocks.get(stockIndex));
+            allStocks.remove(allStocks.get(stockIndex));
+
             int accountIndex = securitiesBuyDropdown.getSelectedIndex();
             if (stockIndex == -1 || accountIndex == -1 || quantityBuy.getText().equals("")) {
                 warningLabel.setText("Select a stock, a quantity, and an account to buy.");
@@ -179,27 +185,32 @@ public class CustomerStocksScreen implements ActionListener {
                 // TODO: check if the user has enough money/there's enough stock/etc
                 // if it's okay, make the purchase and set success message in warningLabel
                 Stock stock = allStocks.get(stockIndex);
-                SecurityAccount secAcc = securities.get(accountIndex);
-                if (secAcc.getBalanceInLocalCurrency() > stock.getCurrentPrice()) {
-                    if (stock.getCurrentlyAvailableShares() > 0) {
-                        boolean bought = customer.buyStock(stock, secAcc);
-                        if (!bought) {
-                            warningLabel.setText("Purchase of this stock was unsuccessful.");
-                        }
-                    }
-                    else {
-                        warningLabel.setText("This stock has no available shares to be purchased.");
-                    }
-                }
-                else {
-                    warningLabel.setText("You don't have enough money in this Security Account to purchase this stock.");
-                }
+//                //SecurityAccount secAcc = securities.get(accountIndex);
+//                if (secAcc.getBalanceInLocalCurrency() > stock.getCurrentPrice()) {
+//                    if (stock.getCurrentlyAvailableShares() > 0) {
+//                        boolean bought = customer.buyStock(stock, secAcc);
+//                        if (!bought) {
+//                            warningLabel.setText("Purchase of this stock was unsuccessful.");
+//                        }
+//                    }
+//                    else {
+//                        warningLabel.setText("This stock has no available shares to be purchased.");
+//                    }
+//                }
+//                else {
+//                    warningLabel.setText("You don't have enough money in this Security Account to purchase this stock.");
+//                }
             }
         /* pay -> pay the amount on the selected due loan */
         } else if (e.getSource() == sellButton) {
 
             /* if selcted stock is invalid, display warning */
             int stockIndex = myStocksList.getSelectedIndex();
+            allStocksListModel.add(myStocksList.getSelectedIndex(), myStocks.get(stockIndex).toString());
+            myStocksListModel.remove(myStocksList.getSelectedIndex());
+            allStocks.add(myStocks.get(stockIndex));
+            myStocks.remove(myStocks.get(stockIndex));
+
             int accountIndex = securitiesSellDropdown.getSelectedIndex();
             if (stockIndex == -1 || accountIndex == -1 || quantitySell.getText().equals("")) {
                 warningLabel.setText("Select a stock, a quantity, and an account to sell.");

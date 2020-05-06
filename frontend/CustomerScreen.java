@@ -93,7 +93,9 @@ public class CustomerScreen implements ActionListener {
 
         /* logout button -> close app */
         } else if (e.getSource() == logoutButton) {
+            LoginScreen screen = new LoginScreen();
             frame.dispose();
+            screen.frame.setVisible(true);
         }
     }
 
