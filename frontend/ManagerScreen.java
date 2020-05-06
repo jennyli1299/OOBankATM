@@ -159,6 +159,7 @@ public class ManagerScreen implements ActionListener {
             Loan loan = loans.get(loansList.getSelectedIndex());
             loan.approveLoan();
             //TODO REMOVE element from list
+            loanListModel.removeElement(loan);
 
         /* logout -> logout */
         } else if (e.getSource() == logoutButton) {
