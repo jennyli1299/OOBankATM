@@ -2,8 +2,6 @@ package src;
 
 import java.util.ArrayList;
 
-import javax.xml.crypto.Data;
-
 public class Customer extends User {
 
    // Where does DatabaseManager come into play?
@@ -39,7 +37,7 @@ public class Customer extends User {
       SavingsAccount newSavingsAccount = SavingsAccount.openSavingsAccount(Account.uniqueIBAN(), amount,
             Account.uniqueRoutingNumber(), Account.uniqueAccountNumber(), true, currency,
             StaticVariables.getClosingCharge(), StaticVariables.getOpeningCharge(),
-            StaticVariables.getSavingsAccountInterest(), this);
+            StaticVariables.getAccountInterest(), this);
       return newSavingsAccount;
    }
 
@@ -144,11 +142,6 @@ public class Customer extends User {
       // CHARGE WITHDRAWAL FEE
    }
 
-   /* Transfer Money from one Account to another */
-   public void transferFunds(float amount, Account from, Account to) {
-      from.makeTransfer(amount, to);
-   }
-
    // PAY INTEREST?
 
    /* Request a Loan */
@@ -175,6 +168,12 @@ public class Customer extends User {
    public boolean sellStock(Stock stock) {
       // TODO
       return true;
+   }
+
+   @Override
+   public String toString()
+   {
+      return this.getUsername() + " / " + this.getfirstName() + " " + this.getlastName();
    }
 
    // View Owned stocks

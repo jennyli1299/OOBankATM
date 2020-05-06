@@ -13,6 +13,11 @@ public class CheckingAccount extends Account {
         // chargeOpeningCharge();
     }
 
+    public CheckingAccount(float amountInLocalCurrency, Currency currency) {
+        super(amountInLocalCurrency,  currency);
+        this.accountType = "Checking";
+    }
+
     public static CheckingAccount openCheckingAccount(String IBAN, float amountInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency,
     Float closingCharge, float openingCharge, float transfer, float withdrawal, User user) {
         CheckingAccount checkingAccount = new CheckingAccount(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge, transfer, withdrawal);

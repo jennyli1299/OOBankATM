@@ -9,7 +9,7 @@ import src.*;
 public class AccountDetailsScreen implements ActionListener {
 
     /* state */
-    Customer customer; 
+    Customer customer;
     Account account;
     ArrayList<Transaction> transactions;
     DefaultListModel<String> transactionsListModel;
@@ -42,7 +42,7 @@ public class AccountDetailsScreen implements ActionListener {
         this.customer = (Customer)StaticVariables.getLoggedInUser();
         // this.account = account;
         this.account = StaticVariables.getSelectedAccount();
-        
+
         createWindow();
         initState();
         createUI();
@@ -59,11 +59,11 @@ public class AccountDetailsScreen implements ActionListener {
 
     private void initState() {
         /* below implementation is only for testing purposes */
-        account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
-
+        //account = new CheckingAccount("GB12345678", (float) 5000, 12345678, 87654321, true, new Currency("USD"), (float)10, (float)20, (float)30, (float)40);
+        account = StaticVariables.getSelectedAccount();
         //account = StaticVariables.getSelectedAccount();
         transactions = new ArrayList<Transaction>();
-        //transactions = StaticVariables.getDatabaseManager().getTransactions(account);
+        transactions = StaticVariables.getDatabaseManager().getTransactions(account);
 
         transactionsListModel = new DefaultListModel<>();
         if(transactions != null)
@@ -191,6 +191,7 @@ public class AccountDetailsScreen implements ActionListener {
             frame.dispose();
             screen.frame.setVisible(true);
 
+
         /* withdrawal -> withdrawal screen */
         } else if (e.getSource() == withdrawalButton) {
             WithdrawalScreen screen = new WithdrawalScreen();
@@ -207,11 +208,10 @@ public class AccountDetailsScreen implements ActionListener {
         } else if (e.getSource() == closeButton) {
 
             /* two attempts and enough money to close the account */
-            if (close && account.canClose()) { //account.getBalanceInLocalCurrency() >= StaticVariables.getClosingCharge()
+            if (account.getBalanceInLocalCurrency() >= StaticVariables.getClosingCharge()) {
 
-                // StaticVariables.getDatabaseManager().closeAccount(account);
-                // StaticVariables.updateLifetimeGain(Float.parseFloat(String.valueOf(StaticVariables.getClosingCharge())));
-                String[] result = customer.closeAccount(account); // result[0] = "" or "Error", result[1] = msg
+                StaticVariables.getDatabaseManager().closeAccount(account);
+                StaticVariables.updateLifetimeGain(Float.parseFloat(String.valueOf(StaticVariables.getClosingCharge())));
 
                 /* navigate back to customer accounts */
                 CustomerAccountsScreen screen = new CustomerAccountsScreen();
@@ -219,13 +219,9 @@ public class AccountDetailsScreen implements ActionListener {
                 screen.frame.setVisible(true);
             
             /* two attempts and not enough money to close the account */
-            } else if (close) {
+            } else
+            {
                 warningLabel.setText("Not enough money to close the account.");
-
-            /* one attempt */
-            } else {
-                close = true;
-                warningLabel.setText("Are you sure you want to close the account? Click again to confirm.");
             }
         
         /* back -> navigate back to accounts */

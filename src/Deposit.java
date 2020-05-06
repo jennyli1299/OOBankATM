@@ -9,7 +9,13 @@ public class Deposit extends Transaction {
         super(account, amount);
     }
 
+    public Deposit(float amount)
+    {
+        super(amount);
+    }
+
     public String toString() {
-        return this.getDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + ": +" + this.getAmount() + " (Deposit)";
+        //return this.getDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + ": +" + this.getAmount() + " (Deposit)";
+        return "Deposit: +" + this.getAmount();
     }
 }

@@ -42,11 +42,7 @@ public class ManagerCustomerScreen implements ActionListener {
         for (Customer customer : customers) {
             customersListModel.addElement(customer.toString());
         }
-        
-        // mock data
-        customersListModel.addElement("<12345678> - johndoe");
-        customersListModel.addElement("<12345678> - elton");
-        customersListModel.addElement("<12345678> - helloworld");
+
 
     }
 
@@ -90,6 +86,7 @@ public class ManagerCustomerScreen implements ActionListener {
                 warningLabel.setText("Select a customer first.");
             } else {
                 Customer customer = customers.get(index);
+                StaticVariables.setSelectedCustomer(customer);
                 ManagerDetailsScreen screen = new ManagerDetailsScreen();
                 frame.dispose();
                 screen.frame.setVisible(true);

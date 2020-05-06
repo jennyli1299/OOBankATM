@@ -12,6 +12,12 @@ public class SecurityAccount extends Account {
         // chargeOpeningCharge();
     }
 
+    public SecurityAccount(float amountInLocalCurrency, Currency currency) {
+        super(amountInLocalCurrency,  currency);
+        this.accountType = "Savings";
+        // chargeOpeningCharge();
+    }
+
     public static SecurityAccount openSecurityAccount(String IBAN, float balanceInLocalCurrency, int routingNumber, int accountNumber, boolean active, Currency currency, float closingCharge, float openingCharge, User user) {
         SecurityAccount newSecurityAccount = new SecurityAccount(IBAN, balanceInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
         newSecurityAccount.chargeOpeningCharge();

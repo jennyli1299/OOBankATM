@@ -32,32 +32,30 @@ public class ManagerAccountsScreen implements ActionListener {
 
     private void createWindow() {
         /* initialize the frame */
-        frame = new JFrame("Manager - View High Balance Accounts");
+        frame = new JFrame("Manager - View Accounts");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(null);
     }
 
     private void initState() {
-        ArrayList<Account> highBalAccounts = Account.filterAccountsByBal(5000);
-        // accounts = new ArrayList<Account>();
-        accounts = highBalAccounts;
+        // ArrayList<Account> highBalAccounts = Account.filterAccountsByBal(5000);
+        // accounts = highBalAccounts;
+        // TODO get all high balance accounts
+        accounts = new ArrayList<Account>();
+        accounts = StaticVariables.getDatabaseManager().getAllAccounts();
         accountsListModel = new DefaultListModel<String>();
         for (Account account : accounts) {
             // TODO backend needs to know if account has paid interest this month/how much interest to pay (add it to toString)
             accountsListModel.addElement(account.toString());
         }
-        
-        /* mock data */
-        accountsListModel.addElement("<CH12345678> - Interest due: $1000.65");
-        accountsListModel.addElement("<US55556666> - Interest due: $25.22");
     }
 
     private void createUI() {
         /* add accounts label */
         accountsLabel = new JLabel();
         accountsLabel.setBounds(50, 25, 600, 50);
-        accountsLabel.setText("Below, you can see all the high balance accounts.");
+        accountsLabel.setText("Below, you can see all accounts.");
         frame.add(accountsLabel);
 
         /* add accounts list */
@@ -93,15 +91,22 @@ public class ManagerAccountsScreen implements ActionListener {
 
         /* payAll -> pay interest on all accounts */
         if (e.getSource() == payAllButton) {
-            float accumulatedInterestPay = 0;
-            for (Account a : accounts) {
-                if (a instanceof SavingsAccount) {
-                    accumulatedInterestPay += manager.payInterest((SavingsAccount)a);
-                }
+            // float accumulatedInterestPay = 0;
+            // for (Account a : accounts) {
+            //     if (a instanceof SavingsAccount) {
+            //         accumulatedInterestPay += manager.payInterest((SavingsAccount)a);
+            //     }
+            // }
+            // accounts = new ArrayList<Account>();
+            // accountsListModel.clear();
+            // warningLabel.setText("All interest has been paid, totalling " + accumulatedInterestPay + "USD");
+
+            for(Account account : accounts)
+            {
+                account.payInterest();
             }
-            accounts = new ArrayList<Account>();
             accountsListModel.clear();
-            warningLabel.setText("All interest has been paid, totalling " + accumulatedInterestPay + "USD");
+            warningLabel.setText("Paid interest for all accounts.");
 
         /* paySelected -> pay interest on selected account */
         } else if (e.getSource() == paySelectedButton) {
@@ -114,13 +119,17 @@ public class ManagerAccountsScreen implements ActionListener {
             /* okay, pay interest on acount */
             } else {
                 Account account = accounts.get(index);
-                    if (account instanceof SavingsAccount) {
-                        float paid = manager.payInterest(account);
-                        accounts.remove(index);
-                        accountsListModel.remove(index);  
-                        warningLabel.setText("Interest on account " + account + " has been paid, totalling " + paid +"USD");        
-                    }
-                warningLabel.setText("");
+                //     if (account instanceof SavingsAccount) {
+                //         float paid = manager.payInterest((SavingsAccount)account);
+                //         accounts.remove(index);
+                //         accountsListModel.remove(index);  
+                //         warningLabel.setText("Interest on account " + account + " has been paid, totalling " + paid +"USD");        
+                //     }
+                // warningLabel.setText("");
+
+                account.payInterest();
+                accountsListModel.remove(index);  
+                warningLabel.setText("Paid interest " + StaticVariables.getAccountInterest() * account.getBalanceInLocalCurrency() + " " + account.getCurrency().getAbbrev());
             }
 
         /* back -> go back to main menu */

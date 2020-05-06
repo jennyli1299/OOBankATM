@@ -50,7 +50,7 @@ public class Manager extends User {
 
     /* Pay Interest */
     public float payInterest(SavingsAccount sa) {
-        float interest = sa.getBalanceInLocalCurrency() * (StaticVariables.getSavingsAccountInterest());
+        float interest = sa.getBalanceInLocalCurrency() * (StaticVariables.getAccountInterest());
         sa.nofeeUpdateBalance(interest);
         interest = Currency.convertCurrencies(interest, sa.getCurrency(), "USD");
         return interest;
@@ -128,7 +128,7 @@ public class Manager extends User {
 
     public ArrayList<Transaction> getDailyTransactions() {
         ArrayList<Transaction> dailyTransactions = StaticVariables.getDatabaseManager().getDailyTransactions();
-        Collections.sort(dailyTransactions);
+        //Collections.sort(dailyTransactions);
         return dailyTransactions;
     }
 

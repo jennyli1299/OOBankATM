@@ -9,21 +9,20 @@ import java.util.ArrayList;
 public class ManagerScreen implements ActionListener {
 
     /* state */
-    Manager manager;
-    ArrayList<Transaction> transactions; // database query needed
-    DefaultListModel<String> transactionsListModel;
+    User manager;
+    ArrayList<Loan> loans; // database query needed
+    DefaultListModel<String> loanListModel;
 
     /* UI components */
     JFrame frame;
     JLabel managerLabel;
     JLabel transactionsLabel;
-    JList transactionsList;
+    JList loansList;
     JButton customersButton;
     JButton accountsButton;
     JButton stocksButton;
     JButton feesButton;
-    JButton timeButton;
-    JButton loansButton;
+    JButton approveLoan;
     JButton logoutButton;
     JLabel lossLabel;
     JLabel gainLabel;
@@ -31,7 +30,6 @@ public class ManagerScreen implements ActionListener {
 
     public ManagerScreen() {
         // this.manager = manager;
-        this.manager = (Manager)StaticVariables.getLoggedInUser();
         createWindow();
         initState();
         createUI();
@@ -46,17 +44,13 @@ public class ManagerScreen implements ActionListener {
     }
 
     private void initState() {
-        /* mock data */
-        manager = new Manager("Elton", "Cheung", "12345678", "eltonc", "pass");
-        
-        transactions = manager.getDailyTransactions();
-        transactionsListModel = new DefaultListModel<String>();
-        for (Transaction transaction : transactions) {
-            transactionsListModel.addElement(transaction.getAccount().toString() + " - " + transaction.toString());
+        manager = StaticVariables.getLoggedInUser();
+        loans = StaticVariables.getDatabaseManager().getAllLoans();
+        loanListModel = new DefaultListModel<String>();
+        for (Loan loan : loans) {
+            if(loan.getStat().equals("Pending"))
+            loanListModel.addElement(loan.toString());
         }
-        // transactionsListModel.addElement("<CH12345678> - Checking - 5/3/2020: $500");
-        // transactionsListModel.addElement("<GB87654321> - Savings - 5/3/2020: $12345678");
-        // transactionsListModel.addElement("<US44442222> - Securities - 5/3/2020: $2000");
     }
 
     private void createUI() {
@@ -69,13 +63,13 @@ public class ManagerScreen implements ActionListener {
         /* add transactions label */
         transactionsLabel = new JLabel();
         transactionsLabel.setBounds(50, 75, 200, 50);
-        transactionsLabel.setText("Daily transactions: " + Time.getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        transactionsLabel.setText("Pending Loans: " + Time.getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
         frame.add(transactionsLabel);
 
         /* add transactions list */
-        transactionsList = new JList<>(transactionsListModel);
-        transactionsList.setBounds(50, 125, 400, 325);
-        frame.add(transactionsList);
+        loansList = new JList<>(loanListModel);
+        loansList.setBounds(50, 125, 400, 325);
+        frame.add(loansList);
 
         /* add customers button */
         customersButton = new JButton("View all customers");
@@ -102,16 +96,10 @@ public class ManagerScreen implements ActionListener {
         frame.add(feesButton);
 
         /* add time button */
-        timeButton = new JButton("Change time");
-        timeButton.setBounds(450, 325, 200, 50);
-        timeButton.addActionListener(this);
-        frame.add(timeButton);
-
-        /* add loans button */
-        loansButton = new JButton("Approve loans");
-        loansButton.setBounds(450, 375, 200, 50);
-        loansButton.addActionListener(this);
-        frame.add(loansButton);
+        approveLoan = new JButton("Approve loan");
+        approveLoan.setBounds(450, 325, 200, 50);
+        approveLoan.addActionListener(this);
+        frame.add(approveLoan);
 
         /* add logout button */
         logoutButton = new JButton("Logout");
@@ -164,19 +152,13 @@ public class ManagerScreen implements ActionListener {
         } else if (e.getSource() == feesButton) {
             ManagerFeesScreen screen = new ManagerFeesScreen();
             frame.dispose();
-            screen.frame.dispose();
+            screen.frame.setVisible(true);
         
         /* time -> navigate to time screen */
-        } else if (e.getSource() == timeButton) {
-            ManagerTimeScreen screen = new ManagerTimeScreen();
-            frame.dispose();
-            screen.frame.dispose();
-
-        /* loans -> approve/deny loans screen */
-        } else if (e.getSource() == loansButton) {
-            ManagerLoansScreen screen = new ManagerLoansScreen();
-            frame.dispose();
-            screen.frame.dispose();
+        } else if (e.getSource() == approveLoan) {
+            Loan loan = loans.get(loansList.getSelectedIndex());
+            loan.approveLoan();
+            //TODO REMOVE element from list
 
         /* logout -> logout */
         } else if (e.getSource() == logoutButton) {

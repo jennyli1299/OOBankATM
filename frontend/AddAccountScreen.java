@@ -56,7 +56,7 @@ public class AddAccountScreen implements ActionListener {
         frame.add(typeLabel);
 
         /* type */
-        String[] accountTypes = new String[]{"Checkings", "Savings", "Securities"};
+        String[] accountTypes = new String[]{"Checkings", "Savings", "Security"};
         type = new JComboBox<>(accountTypes);
         type.setBounds(250, 100, 300, 50);
         frame.add(type);
@@ -113,21 +113,34 @@ public class AddAccountScreen implements ActionListener {
             /* else, if amount is not int */
             } else {
                 try {
+                    String typeOfAccount = type.getSelectedItem().toString();
+                    String currencyOfAccount = currency.getSelectedItem().toString();
                     Float startingAmount = Float.parseFloat(amount.getText());
-                    int index = type.getSelectedIndex();
-                    if (index == 1) {
-                        customer.openCheckingAccount(startingAmount, new Currency((String)currency.getSelectedItem()));
-                        warningLabel.setText("Great! An account has been created."); 
+                    if(typeOfAccount.equals("Savings"))
+                    {
+                        SavingsAccount savingsAccount = new SavingsAccount(startingAmount, new Currency(currencyOfAccount));
+                        StaticVariables.getDatabaseManager().addSavingsAccount(savingsAccount, StaticVariables.getLoggedInUser());
+                        warningLabel.setText("Great! An account has been created.");
+                    }else if(typeOfAccount.equals("Checkings"))
+                    {
+                        CheckingAccount checkingAccount = new CheckingAccount(startingAmount, new Currency(currencyOfAccount));
+                        StaticVariables.getDatabaseManager().addCheckingAccount(checkingAccount, StaticVariables.getLoggedInUser());
+                        warningLabel.setText("Great! An account has been created.");
                     }
-                    else if (index == 2) {
-                        customer.openSavingsAccount(startingAmount, new Currency((String)currency.getSelectedItem()));
-                        warningLabel.setText("Great! An account has been created."); 
+                    else if(typeOfAccount.equals("Security"))
+                    {
+                        if(startingAmount > 1000)
+                        {
+                            SecurityAccount securityAccount = new SecurityAccount(startingAmount, new Currency(currencyOfAccount));
+                            StaticVariables.getDatabaseManager().addSecurityAccount(securityAccount, StaticVariables.getLoggedInUser());
+                            warningLabel.setText("Great! An account has been created.");
+                        }else
+                        {
+                            warningLabel.setText("To create a Security account you need to deposit more than 1000 " + currencyOfAccount);
+                        }
+
                     }
-                    else if (index == 3) { //TODO: NEED TO TRANSFER MONEY FROM SOME ACCOUNT & SANTIZE STARTINGAMT > 1000
-                        String[] result = customer.openSecuritiesAccount(startingAmount, new Currency((String)currency.getSelectedItem()));
-                        warningLabel.setText(result[1]);
-                    }
-                    // warningLabel.setText("Great! An account has been created."); 
+
                 } catch (Exception err) {
                     warningLabel.setText("The amount can only be a number.");
                 }

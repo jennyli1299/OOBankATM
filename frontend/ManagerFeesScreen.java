@@ -28,8 +28,7 @@ public class ManagerFeesScreen implements ActionListener {
     JButton backButton;
 
     public ManagerFeesScreen() {
-        // this.manager = manager;
-        this.manager = (Manager)StaticVariables.getLoggedInUser();
+        manager = (Manager)StaticVariables.getLoggedInUser();
         createWindow();
         createUI();
     }
