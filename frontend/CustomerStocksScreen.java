@@ -35,6 +35,7 @@ public class CustomerStocksScreen implements ActionListener {
 
     /* pass in customer as parameter */
     public CustomerStocksScreen() {
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         // this.customer = customer;
         createWindow();
         initDummyState();
@@ -50,7 +51,7 @@ public class CustomerStocksScreen implements ActionListener {
         frame.setLayout(null);
     }
 
-    private void initDummyState() { //TODO: What is dummy state?
+    private void initDummyState() {
         
         /* mock data - Float price, int totalShares, int currentlyAvailableShares, String name) */
         allStocks = new ArrayList<Stock>();

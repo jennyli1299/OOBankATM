@@ -26,6 +26,7 @@ public class CustomerAccountsScreen implements ActionListener {
     /* pass in customer as parameter */
     public CustomerAccountsScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         createWindow();
         //initDummyState();
         loadAccountsFromDatabase();
@@ -45,7 +46,8 @@ public class CustomerAccountsScreen implements ActionListener {
 
         /* mock data */
         accounts = new ArrayList<Account>();
-        accounts = StaticVariables.getDatabaseManager().getAllAccounts(StaticVariables.getLoggedInUser());
+        // accounts = StaticVariables.getDatabaseManager().getAllAccounts(StaticVariables.getLoggedInUser());
+        accounts = DatabaseManager.getAllAccounts(customer);
 
         /* add string representation to list */
         listModel = new DefaultListModel<>();
@@ -99,7 +101,7 @@ public class CustomerAccountsScreen implements ActionListener {
         frame.add(selectButton);
 
         /* add create button */
-        createButton = new JButton("Open account"); // TODO OPEN ACCOUNT
+        createButton = new JButton("Open account");
         createButton.setBounds(450, 150, 200, 50);
         createButton.addActionListener(this);
         frame.add(createButton);

@@ -21,7 +21,7 @@ public class StaticVariables
     private static float AccountInterest = 0.015f;
     private static float LoanInterestRate = 0.015f;
 
-    /* Bank Lifetime Profit Markers */
+    /* Bank Lifetime Profit Markers */ //TODO Store this in DB
     private static float BanklifetimeLoss = 50000;
 
     private static float BanklifetimeGain = 60000;

@@ -28,6 +28,7 @@ public class Loan {
     private LocalDateTime dateDue;
     private int numberOfPayments;
     private String stat;
+    private String currency = "USD";
 
     /* constructor */
     public Loan(int id, Status status, User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments)
@@ -51,8 +52,8 @@ public class Loan {
         this.collateral = collateral;
         this.interestRate = (double)StaticVariables.getLoanInterestRate();
         this.termInMonths = termInMonths;
-        this.dateApplied = LocalDateTime.now();
-        this.dateIssued = LocalDateTime.now();
+        this.dateApplied = Time.getCurrentTime();
+        this.dateIssued = Time.getCurrentTime();
         this.dateDue = this.dateIssued.plusMonths(termInMonths);
 
         /* calculate monthly payment */
@@ -117,6 +118,10 @@ public class Loan {
         return initialPrincipal - numberOfPayments * monthlyPayment;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
 
 
     /* getters and setters */
@@ -124,7 +129,7 @@ public class Loan {
         this.status = status;
     }
     public void approveLoan() {
-        this.dateIssued = LocalDateTime.now();
+        this.dateIssued = Time.getCurrentTime();
         dateDue = this.dateIssued.plusMonths(termInMonths);
         this.setStatus(Status.Approved);
         StaticVariables.getDatabaseManager().approveLoan(this);

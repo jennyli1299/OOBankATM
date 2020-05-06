@@ -15,6 +15,8 @@ public class LoanRequestScreen implements ActionListener {
     JLabel requestLabel;
     JLabel amountLabel;
     JTextField amount;
+    JLabel currencyLabel;
+    JComboBox currency;
     JLabel termLabel;
     JTextField term;
     JLabel collateralLabel;
@@ -25,7 +27,8 @@ public class LoanRequestScreen implements ActionListener {
 
     public LoanRequestScreen() {
         // this.customer = customer;
-        
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
+
         createWindow();
         createUI();
     }
@@ -48,7 +51,7 @@ public class LoanRequestScreen implements ActionListener {
         /* add amountLabel */
         amountLabel = new JLabel();
         amountLabel.setBounds(50, 100, 200, 50);
-        amountLabel.setText("Amount borrowed:");
+        amountLabel.setText("Amount borrowed (USD):");
         frame.add(amountLabel);
 
         /* add amount */

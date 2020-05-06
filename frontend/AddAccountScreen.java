@@ -3,7 +3,7 @@ package frontend;
 import src.*;
 import javax.swing.*;
 
-import javafx.util.Pair;
+// import javafx.util.Pair;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ public class AddAccountScreen implements ActionListener {
 
     /* state */
     Customer customer;
+    // Customer customer = (Customer)StaticVariables.getLoggedInUser();
 
     /* UI components */
     JFrame frame;
@@ -27,7 +28,7 @@ public class AddAccountScreen implements ActionListener {
     JButton backButton;
 
     public AddAccountScreen() {
-        // attach customer
+        customer = (Customer)StaticVariables.getLoggedInUser();
         createWindow();
         createUI();
     }
@@ -106,7 +107,7 @@ public class AddAccountScreen implements ActionListener {
         if (e.getSource() == addButton) {
 
             /* if any of the fields are empty, display warning */
-            if (type.getSelectedIndex() == -1 || amount.getText().equals("")) {
+            if (type.getSelectedIndex() == -1 || amount.getText().equals("") || currency.getSelectedIndex() == -1) {
                 warningLabel.setText("Enter all of the fields to add a new account.");
             
             /* else, if amount is not int */

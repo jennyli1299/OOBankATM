@@ -134,6 +134,10 @@ public class DatabaseManager{
         //TODO
     }
 
+    public void addLoan(Loan loan, User user) {
+        //TODO
+    }
+
     public void updateLoan(Loan loan, User user){
         //TODO
     }

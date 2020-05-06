@@ -23,6 +23,7 @@ public class ManagerTimeScreen implements ActionListener {
 
     public ManagerTimeScreen() {
         // this.manager = manager;
+        this.manager = (Manager)StaticVariables.getLoggedInUser();
         createWindow();
         createUI();
     }

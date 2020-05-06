@@ -39,7 +39,10 @@ public class AccountDetailsScreen implements ActionListener {
 
     public AccountDetailsScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         // this.account = account;
+        this.account = StaticVariables.getSelectedAccount();
+
         createWindow();
         initState();
         createUI();
@@ -229,8 +232,14 @@ public class AccountDetailsScreen implements ActionListener {
 
         /* change currency */
         } else if (e.getSource() == currencyButton) {
-            String currencyToChange = Currency.supportedCurrencies[currencyDropdown.getSelectedIndex()];
-            // TODO convert account balance to currencyToChange currency
+            if (currencyDropdown.getSelectedIndex() == -1) {
+                warningLabel.setText("Please select the Currency you would like to switch to from the dropdown.");
+            }
+            else {
+                String currencyToChange = Currency.supportedCurrencies[currencyDropdown.getSelectedIndex()];
+                Currency c = new Currency(currencyToChange);
+                account.changeCurrency(c);
+            }
         }
     }
 

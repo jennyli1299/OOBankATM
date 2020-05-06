@@ -137,9 +137,9 @@ public class ManagerFeesScreen implements ActionListener {
             
             /* okay, try to update charges and fees */
             } else {
-                // TODO: doesent work
+                // TODO: update all the charges (they are set to current by default so redundant updates are fine)
                 Float depositFee = Float.parseFloat(deposit.getText());
-                // manager.set
+                manager.setAccountDepositFree(depositFee);
                 Float withdrawalFee = Float.parseFloat(withdrawal.getText());
                 manager.setCheckingAccWithdrawalFee(withdrawalFee);
                 Float transferFee = Float.parseFloat(transfer.getText());

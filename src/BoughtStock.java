@@ -12,7 +12,7 @@ public class BoughtStock {
         this.stock = stock;
         this.numberOfShares = numberOfShares;
         this.totalAmountSpentOnBuying = stock.getCurrentPrice() * numberOfShares;
-        this.firstTimeStockWasBought = LocalDateTime.now();
+        this.firstTimeStockWasBought = Time.getCurrentTime();
     }
 
     public int getNumberOfShares() {

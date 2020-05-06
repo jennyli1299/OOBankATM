@@ -28,6 +28,7 @@ public class AddStockScreen implements ActionListener {
 
     public AddStockScreen() {
         // this.manager = manager;
+        manager = (Manager)StaticVariables.getLoggedInUser();
         createWindow();
         createUI();
     }

@@ -34,6 +34,7 @@ public class CustomerLoansScreen implements ActionListener {
     /* pass in customer as parameter */
     public CustomerLoansScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         createWindow();
         //initDummyState();
         loadAccountsFromDatabase();
@@ -84,7 +85,8 @@ public class CustomerLoansScreen implements ActionListener {
 
         accountsListModel = new DefaultListModel<>();
         for (Account account : accounts) {
-            // TODO: need a way on the backend to convert currencies [DONE] Currency.convertCurrencies(amount, fromthisCurrency, tothisCurrency);
+            // TODO: need a way on the backend to convert currencies [DONE] 
+            // Currency.convertCurrencies(amount, fromthisCurrency, tothisCurrency); <-- Works with String abbreviations of the currencies as well as the currencies themselves
             accountsListModel.addElement(account.toString() + " - " + account.getBalanceInLocalCurrency());
         }
     }
