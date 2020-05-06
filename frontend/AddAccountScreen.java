@@ -114,18 +114,17 @@ public class AddAccountScreen implements ActionListener {
             } else {
                 try {
                     Float startingAmount = Float.parseFloat(amount.getText());
-                    // TODO attach backend call to create account
                     int index = type.getSelectedIndex();
                     if (index == 1) {
-                        customer.openCheckingAccount(startingAmount, (Currency)currency.getSelectedItem());
+                        customer.openCheckingAccount(startingAmount, new Currency((String)currency.getSelectedItem()));
                         warningLabel.setText("Great! An account has been created."); 
                     }
                     else if (index == 2) {
-                        customer.openSavingsAccount(startingAmount, (Currency)currency.getSelectedItem());
+                        customer.openSavingsAccount(startingAmount, new Currency((String)currency.getSelectedItem()));
                         warningLabel.setText("Great! An account has been created."); 
                     }
                     else if (index == 3) { //TODO: NEED TO TRANSFER MONEY FROM SOME ACCOUNT & SANTIZE STARTINGAMT > 1000
-                        String[] result = customer.openSecuritiesAccount(startingAmount, (Currency)currency.getSelectedItem());
+                        String[] result = customer.openSecuritiesAccount(startingAmount, new Currency((String)currency.getSelectedItem()));
                         warningLabel.setText(result[1]);
                     }
                     // warningLabel.setText("Great! An account has been created."); 
