@@ -137,6 +137,7 @@ public class Loan {
 
     public void denyLoan() {
         this.setStatus(Status.Denied);
+        StaticVariables.getDatabaseManager().updateLoan(this, borrower);
     }
 
     public String getCollateral() {

@@ -39,6 +39,8 @@ public class ManagerAccountsScreen implements ActionListener {
     }
 
     private void initState() {
+        // ArrayList<Account> highBalAccounts = Account.filterAccountsByBal(5000);
+        // accounts = highBalAccounts;
         // TODO get all high balance accounts
         accounts = new ArrayList<Account>();
         accounts = StaticVariables.getDatabaseManager().getAllAccounts();
@@ -89,6 +91,16 @@ public class ManagerAccountsScreen implements ActionListener {
 
         /* payAll -> pay interest on all accounts */
         if (e.getSource() == payAllButton) {
+            // float accumulatedInterestPay = 0;
+            // for (Account a : accounts) {
+            //     if (a instanceof SavingsAccount) {
+            //         accumulatedInterestPay += manager.payInterest((SavingsAccount)a);
+            //     }
+            // }
+            // accounts = new ArrayList<Account>();
+            // accountsListModel.clear();
+            // warningLabel.setText("All interest has been paid, totalling " + accumulatedInterestPay + "USD");
+
             for(Account account : accounts)
             {
                 account.payInterest();
@@ -107,6 +119,14 @@ public class ManagerAccountsScreen implements ActionListener {
             /* okay, pay interest on acount */
             } else {
                 Account account = accounts.get(index);
+                //     if (account instanceof SavingsAccount) {
+                //         float paid = manager.payInterest((SavingsAccount)account);
+                //         accounts.remove(index);
+                //         accountsListModel.remove(index);  
+                //         warningLabel.setText("Interest on account " + account + " has been paid, totalling " + paid +"USD");        
+                //     }
+                // warningLabel.setText("");
+
                 account.payInterest();
                 accountsListModel.remove(index);  
                 warningLabel.setText("Paid interest " + StaticVariables.getAccountInterest() * account.getBalanceInLocalCurrency() + " " + account.getCurrency().getAbbrev());
