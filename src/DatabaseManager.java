@@ -108,7 +108,7 @@ public class DatabaseManager{
         //TODO
     }
 
-    public void addLoan(Loan loan) {
+    public void addLoan(Loan loan, User user) {
         //TODO
     }
 
