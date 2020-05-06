@@ -31,7 +31,7 @@ public class ManagerAccountsScreen implements ActionListener {
 
     private void createWindow() {
         /* initialize the frame */
-        frame = new JFrame("Manager - View High Balance Accounts");
+        frame = new JFrame("Manager - View Accounts");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(null);
@@ -40,22 +40,19 @@ public class ManagerAccountsScreen implements ActionListener {
     private void initState() {
         // TODO get all high balance accounts
         accounts = new ArrayList<Account>();
+        accounts = StaticVariables.getDatabaseManager().getAllAccounts();
         accountsListModel = new DefaultListModel<String>();
         for (Account account : accounts) {
             // TODO backend needs to know if account has paid interest this month/how much interest to pay (add it to toString)
             accountsListModel.addElement(account.toString());
         }
-        
-        /* mock data */
-        accountsListModel.addElement("<CH12345678> - Interest due: $1000.65");
-        accountsListModel.addElement("<US55556666> - Interest due: $25.22");
     }
 
     private void createUI() {
         /* add accounts label */
         accountsLabel = new JLabel();
         accountsLabel.setBounds(50, 25, 600, 50);
-        accountsLabel.setText("Below, you can see all the high balance accounts.");
+        accountsLabel.setText("Below, you can see all accounts.");
         frame.add(accountsLabel);
 
         /* add accounts list */
@@ -91,11 +88,12 @@ public class ManagerAccountsScreen implements ActionListener {
 
         /* payAll -> pay interest on all accounts */
         if (e.getSource() == payAllButton) {
-            // TODO pay interest on all accounts, remember to increment manager's total payments made (needed to calculate lifetime profits)
-            accounts = new ArrayList<Account>();
+            for(Account account : accounts)
+            {
+                account.payInterest();
+            }
             accountsListModel.clear();
-            // TODO display total paid in warning label
-            warningLabel.setText("");
+            warningLabel.setText("Paid interest for all accounts.");
 
         /* paySelected -> pay interest on selected account */
         } else if (e.getSource() == paySelectedButton) {
@@ -107,11 +105,10 @@ public class ManagerAccountsScreen implements ActionListener {
 
             /* okay, pay interest on acount */
             } else {
-                // TODO pay interest on selected account, display total paid in warning label
-                // Account account = accounts.get(index);
-                // accounts.remove(index);
+                Account account = accounts.get(index);
+                account.payInterest();
                 accountsListModel.remove(index);  
-                warningLabel.setText("");
+                warningLabel.setText("Paid interest " + StaticVariables.getAccountInterest() * account.getBalanceInLocalCurrency() + " " + account.getCurrency().getAbbrev());
             }
 
         /* back -> go back to main menu */

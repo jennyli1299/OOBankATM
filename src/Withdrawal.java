@@ -9,7 +9,13 @@ public class Withdrawal extends Transaction {
         super(account, amount);
     }
 
+    public Withdrawal(float amount)
+    {
+        super(amount);
+    }
     public String toString() {
-        return this.getDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + ": -" + this.getAmount() + " (Withdrawal)";
+        //return this.getDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + ": -" + this.getAmount() + " (Withdrawal)";
+        return "Withdrawal: -" + this.getAmount();
+
     }
 }

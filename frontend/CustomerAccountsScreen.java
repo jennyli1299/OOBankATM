@@ -138,9 +138,9 @@ public class CustomerAccountsScreen implements ActionListener {
 
         /* create button -> add account screen */
         } else if (e.getSource() == createButton) {
-            //AddAccountScreen screen = new AddAccountScreen();
+            AddAccountScreen screen = new AddAccountScreen();
             frame.dispose();
-            //screen.frame.setVisible(true);
+            screen.frame.setVisible(true);
         }
        
        

@@ -7,7 +7,14 @@ public class SavingsAccount extends Account {
                           float closingCharge, float openingCharge, float interest) {
         super(IBAN, amountInLocalCurrency, routingNumber, accountNumber, active, currency, closingCharge, openingCharge);
         this.accountType = "Savings";
-        interest = StaticVariables.getSavingsAccountInterest();
+        interest = StaticVariables.getAccountInterest();
+        // chargeOpeningCharge();
+    }
+
+    public SavingsAccount(float amountInLocalCurrency, Currency currency) {
+        super(amountInLocalCurrency,  currency);
+        this.accountType = "Savings";
+        interest = StaticVariables.getAccountInterest();
         // chargeOpeningCharge();
     }
 
@@ -20,7 +27,7 @@ public class SavingsAccount extends Account {
     }
 
     public void payInterest(){
-        setBalanceInLocalCurrency(balanceInLocalCurrency + balanceInLocalCurrency * (StaticVariables.getSavingsAccountInterest())/100);
+        setBalanceInLocalCurrency(balanceInLocalCurrency + balanceInLocalCurrency * (StaticVariables.getAccountInterest())/100);
     }
 
     // public Float getInterest() {

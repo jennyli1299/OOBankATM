@@ -10,6 +10,7 @@ public class StaticVariables
     private static Account selectedAccount = null;
     private static Loan selectedDueLoan = null;
     private static Loan selectedLoan = null;
+    private static Customer selectedCustomer = null;
 
     /* Static Bank Variables */
     private static float openingCharge = 10;
@@ -17,11 +18,12 @@ public class StaticVariables
     private static float depositFee = 5;
     private static float withdrawalFee = 3;
     private static float transferFee = 1;
-    private static float SavingsAccountInterest;
-    private static float LoanInterestRate;
+    private static float AccountInterest = 0.015f;
+    private static float LoanInterestRate = 0.015f;
 
     /* Bank Lifetime Profit Markers */
     private static float BanklifetimeLoss = 50000;
+
     private static float BanklifetimeGain = 60000;
 
     /* Static Account # */
@@ -46,6 +48,16 @@ public class StaticVariables
     public static void setDatabaseManager(DatabaseManager databaseManager)
     {
         StaticVariables.databaseManager = databaseManager;
+    }
+
+    public static Customer getSelectedCustomer()
+    {
+        return selectedCustomer;
+    }
+
+    public static void setSelectedCustomer(Customer selectedCustomer)
+    {
+        StaticVariables.selectedCustomer = selectedCustomer;
     }
 
     public static Account getSelectedAccount()
@@ -95,8 +107,8 @@ public class StaticVariables
     public static float getTransferFee() {
         return transferFee;
     }
-    public static float getSavingsAccountInterest() {
-        return SavingsAccountInterest;
+    public static float getAccountInterest() {
+        return AccountInterest;
     }
     public static float getLoanInterestRate() {
         return LoanInterestRate;
@@ -120,7 +132,7 @@ public class StaticVariables
         depositFee = manager_set_depositFee;
     }
     public static void setSavingsAccountInterest(float manager_set_interest) {
-        SavingsAccountInterest = manager_set_interest;
+        AccountInterest = manager_set_interest;
     }
     public static void setLoanInterestRate(float manager_set_loaninterest) {
         LoanInterestRate = manager_set_loaninterest;

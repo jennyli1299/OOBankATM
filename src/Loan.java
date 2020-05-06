@@ -27,18 +27,20 @@ public class Loan {
     private LocalDateTime dateIssued;
     private LocalDateTime dateDue;
     private int numberOfPayments;
+    private String stat;
 
     /* constructor */
     public Loan(int id, Status status, User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments)
     {
-        this(borrower, initialPrincipal, collateral , termInMonths, numberOfPayments);
+        this(borrower, initialPrincipal, collateral , termInMonths, numberOfPayments, "Pending");
         this.id = id;
         this.status = status;
 
     }
 
-    public Loan(User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments)
+    public Loan(User borrower, double initialPrincipal, String collateral, int termInMonths, int numberOfPayments, String stat)
     {
+        this.stat = stat;
         this.borrower = borrower;
         // the manager is null until a manager decides on a loan status */
         this.status = Status.Pending;
@@ -59,16 +61,21 @@ public class Loan {
         this.monthlyPayment = Math.round((numerator / denominator) * 100.0) / 100.0;
     }
 
+    public String getStat()
+    {
+        return stat;
+    }
+
     public static Loan requestALoan(User borrower, double initialPrincipal, String collateral, int termInMonths) {
-        Loan loan = new Loan(borrower, initialPrincipal, collateral, termInMonths, 0);
+        Loan loan = new Loan(borrower, initialPrincipal, collateral, termInMonths, 0, "Pending");
         StaticVariables.getDatabaseManager().updateLoan(loan, borrower);
         return loan;
     }
 
     public void requestALoan(User borrower) {
         // Loan loan = new Loan(borrower, this.initialPrincipal, this.collateral, this.termInMonths, 0);
-        // StaticVariables.getDatabaseManager().addLoan(loan, borrower);
-        StaticVariables.getDatabaseManager().updateLoan(this, borrower);
+        StaticVariables.getDatabaseManager().addLoan(this, borrower);
+        //StaticVariables.getDatabaseManager().updateLoan(this, borrower);
     }
 
     public static Comparator<Loan> LoanAppliedDateComparator = new Comparator<Loan>() {
@@ -120,6 +127,7 @@ public class Loan {
         this.dateIssued = LocalDateTime.now();
         dateDue = this.dateIssued.plusMonths(termInMonths);
         this.setStatus(Status.Approved);
+        StaticVariables.getDatabaseManager().approveLoan(this);
     }
 
     public void denyLoan() {
@@ -164,7 +172,8 @@ public class Loan {
     }
 
     public String toString() {
-        String repr = "<" + dateIssued.format(DateTimeFormatter.ofPattern("MM/dd/YYYY")) + "> - $" + initialPrincipal;
-        return repr;
+        //String repr = "<" + dateIssued.format(DateTimeFormatter.ofPattern("MM/dd/YYYY")) + "> - $" + initialPrincipal;
+        //return repr;
+        return "Loan: " + initialPrincipal + numberOfPayments + " by: " + borrower.getUsername();
     }
 }

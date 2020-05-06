@@ -133,7 +133,7 @@ updating the current price of each stock.
 
     public ArrayList<Transaction> getDailyTransactions() {
         ArrayList<Transaction> dailyTransactions = StaticVariables.getDatabaseManager().getDailyTransactions();
-        Collections.sort(dailyTransactions);
+        //Collections.sort(dailyTransactions);
         return dailyTransactions;
     }
 

@@ -41,27 +41,19 @@ public class ManagerDetailsScreen implements ActionListener {
     }
 
     private void initState() {
-        // TODO get chosen customer's accounts/transactions from database
         accounts = new ArrayList<Account>();
+        accounts = StaticVariables.getDatabaseManager().getAllAccounts(StaticVariables.getSelectedCustomer());
         accountsListModel = new DefaultListModel<String>();
         for (Account account : accounts) {
             accountsListModel.addElement(account.toString());
         }
 
-        /* mock data */
-        accountsListModel.addElement("<CH12345678> - Checking - $2345");
-        accountsListModel.addElement("<US87654321> - Savings - $12345678");
-        accountsListModel.addElement("<GB88884444> - Security - $100100");
-
         transactions = new ArrayList<Transaction>();
         transactionsListModel = new DefaultListModel<String>();
+        transactions = StaticVariables.getDatabaseManager().getTransactions(StaticVariables.getSelectedCustomer());
         for (Transaction transaction : transactions) {
             transactionsListModel.addElement(transaction.toString());
         }
-
-        /* mock data */
-        transactionsListModel.addElement("<CH12345678> - 5/03/2020: +$500 (Deposit)");
-        transactionsListModel.addElement("<US87654321> - 5/02/2020: -$300 (Withdrawal)");
     }
 
     private void createUI() {
@@ -69,8 +61,7 @@ public class ManagerDetailsScreen implements ActionListener {
         /* add details label */
         detailsLabel = new JLabel();
         detailsLabel.setBounds(50, 25, 600, 25);
-        detailsLabel.setText("Customer: <12345678> - eltonc");
-        // TODO when db works -> detailsLabel.setText("Customer: <" + customer.getId() + "> - " + customer.getUsername());
+        detailsLabel.setText("Showing information for customer with username: "+ StaticVariables.getSelectedCustomer().getUsername());
         frame.add(detailsLabel);
 
         /* add accounts label */

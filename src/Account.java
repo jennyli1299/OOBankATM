@@ -114,7 +114,10 @@ public abstract class Account {
                 transferTo.nofeeUpdateBalance(otherlocalTransferAmt);
                 // StaticVariables.getDatabaseManager().increaseBalanceBy(otherlocalTransferAmt, recIBAN);
                 StaticVariables.updateLifetimeGain(transferFee);
+                Transfer transfer = new Transfer(this, recIBAN, amount);
+
                 ret[1] = "Transfer complete.";
+                StaticVariables.getDatabaseManager().addTransfer(this, transfer);
             }
         }
         return ret;
@@ -137,8 +140,26 @@ public abstract class Account {
             // StaticVariables.getDatabaseManager().increaseBalanceBy(otherlocalTransferAmt, transferTo.getIBAN());
             StaticVariables.updateLifetimeGain(transferFee);
             ret[1] = "Transfer complete.";
+            //StaticVariables.getDatabaseManager().addTransfer(transfer, this, recIBAN);todo dimitris
+
         }
         return ret;
+    }
+
+    public void payInterest()
+    {
+        makeNoFeeDeposit(getBalanceInLocalCurrency()*StaticVariables.getLoanInterestRate());
+    }
+
+    public void makeNoFeeDeposit(float amount)
+    {
+        float amtAfterFees = amount;
+        this.nofeeUpdateBalance(amtAfterFees);
+        // StaticVariables.getDatabaseManager().increaseBalanceBy(amtAfterFees, this.getIBAN());
+        StaticVariables.updateLifetimeGain(depositFee);
+        Deposit deposit = new Deposit(StaticVariables.getSelectedAccount(), amount);
+        StaticVariables.getDatabaseManager().addDeposit(this, deposit);
+
     }
 
     public String[] makeDeposit(float amount)
@@ -156,6 +177,9 @@ public abstract class Account {
             // StaticVariables.getDatabaseManager().increaseBalanceBy(amtAfterFees, this.getIBAN());
             StaticVariables.updateLifetimeGain(depositFee);
             ret[1] = "Deposit successful.";
+            Deposit deposit = new Deposit(StaticVariables.getSelectedAccount(), amount);
+            StaticVariables.getDatabaseManager().addDeposit(this, deposit);
+
         }
         return ret;
     }
@@ -174,6 +198,8 @@ public abstract class Account {
             // StaticVariables.getDatabaseManager().increaseBalanceBy(-amtAfterFees, this.getIBAN());
             StaticVariables.updateLifetimeGain(withdrawalFee);
             ret[1] = "Withdrawal accepted. Please retrieve your money.";
+            Withdrawal withdrawal = new Withdrawal(StaticVariables.getSelectedAccount(), amount);
+            StaticVariables.getDatabaseManager().addWithdrawal(this, withdrawal);
         }
         return ret;
     }
