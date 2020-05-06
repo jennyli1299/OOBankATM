@@ -23,6 +23,7 @@ public class ManagerScreen implements ActionListener {
     JButton stocksButton;
     JButton feesButton;
     JButton timeButton;
+    JButton loansButton;
     JButton logoutButton;
     JLabel lossLabel;
     JLabel gainLabel;
@@ -53,9 +54,9 @@ public class ManagerScreen implements ActionListener {
         for (Transaction transaction : transactions) {
             transactionsListModel.addElement(transaction.getAccount().toString() + " - " + transaction.toString());
         }
-        transactionsListModel.addElement("<CH12345678> - Checking - 5/3/2020: $500");
-        transactionsListModel.addElement("<GB87654321> - Savings - 5/3/2020: $12345678");
-        transactionsListModel.addElement("<US44442222> - Securities - 5/3/2020: $2000");
+        // transactionsListModel.addElement("<CH12345678> - Checking - 5/3/2020: $500");
+        // transactionsListModel.addElement("<GB87654321> - Savings - 5/3/2020: $12345678");
+        // transactionsListModel.addElement("<US44442222> - Securities - 5/3/2020: $2000");
     }
 
     private void createUI() {
@@ -105,6 +106,12 @@ public class ManagerScreen implements ActionListener {
         timeButton.setBounds(450, 325, 200, 50);
         timeButton.addActionListener(this);
         frame.add(timeButton);
+
+        /* add loans button */
+        loansButton = new JButton("Approve loans");
+        loansButton.setBounds(450, 375, 200, 50);
+        loansButton.addActionListener(this);
+        frame.add(loansButton);
 
         /* add logout button */
         logoutButton = new JButton("Logout");
@@ -162,6 +169,12 @@ public class ManagerScreen implements ActionListener {
         /* time -> navigate to time screen */
         } else if (e.getSource() == timeButton) {
             ManagerTimeScreen screen = new ManagerTimeScreen();
+            frame.dispose();
+            screen.frame.dispose();
+
+        /* loans -> approve/deny loans screen */
+        } else if (e.getSource() == loansButton) {
+            ManagerLoansScreen screen = new ManagerLoansScreen();
             frame.dispose();
             screen.frame.dispose();
 
