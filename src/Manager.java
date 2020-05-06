@@ -27,19 +27,6 @@ public class Manager extends User {
     //     return lifetimeGain - lifetimeLoss;
     // }
 
-    /** TODO
-     * Loans (Approve/Deny)
-     *      Loan -> setStatus(Status status)
-     *      Approve will make customer need to pay loan accordingly
-     *      Charge Interest
-Loan -> setInterestRate(float interestRate)
-Pay Interest (Savings accounts w high balance ← Variable) (>$5000)
-
-Add/delete stock options
-maintaining the list of stocks
-updating the current price of each stock.
-
-     */
 
     /* Account Charges */
     public void setAccountOpeningCharge(float oc) {
@@ -59,6 +46,14 @@ updating the current price of each stock.
     }
     public void setSavingsAccInterest(float interest) {
         StaticVariables.setSavingsAccountInterest(interest);
+    }
+
+    /* Pay Interest */
+    public float payInterest(SavingsAccount sa) {
+        float interest = sa.getBalanceInLocalCurrency() * (StaticVariables.getSavingsAccountInterest());
+        sa.nofeeUpdateBalance(interest);
+        interest = Currency.convertCurrencies(interest, sa.getCurrency(), "USD");
+        return interest;
     }
 
     
@@ -167,6 +162,7 @@ updating the current price of each stock.
     public void setStockSharePrice(Stock stock, float price) {
         Float shareprice = Float.valueOf(price);
         stock.setPrice(shareprice);
+        StaticVariables.getDatabaseManager().updateStockPrice(stock, price);
     }
     
     public String toString() {

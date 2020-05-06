@@ -126,10 +126,12 @@ public class Loan {
         this.dateIssued = Time.getCurrentTime();
         dateDue = this.dateIssued.plusMonths(termInMonths);
         this.setStatus(Status.Approved);
+        StaticVariables.getDatabaseManager().updateLoan(this, borrower);
     }
 
     public void denyLoan() {
         this.setStatus(Status.Denied);
+        StaticVariables.getDatabaseManager().updateLoan(this, borrower);
     }
 
     public String getCollateral() {

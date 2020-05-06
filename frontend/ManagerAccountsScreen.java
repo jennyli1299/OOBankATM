@@ -39,8 +39,9 @@ public class ManagerAccountsScreen implements ActionListener {
     }
 
     private void initState() {
-        // TODO get all high balance accounts
-        accounts = new ArrayList<Account>();
+        ArrayList<Account> highBalAccounts = Account.filterAccountsByBal(5000);
+        // accounts = new ArrayList<Account>();
+        accounts = highBalAccounts;
         accountsListModel = new DefaultListModel<String>();
         for (Account account : accounts) {
             // TODO backend needs to know if account has paid interest this month/how much interest to pay (add it to toString)
@@ -92,11 +93,15 @@ public class ManagerAccountsScreen implements ActionListener {
 
         /* payAll -> pay interest on all accounts */
         if (e.getSource() == payAllButton) {
-            // TODO pay interest on all accounts, remember to increment manager's total payments made (needed to calculate lifetime profits)
+            float accumulatedInterestPay = 0;
+            for (Account a : accounts) {
+                if (a instanceof SavingsAccount) {
+                    accumulatedInterestPay += manager.payInterest((SavingsAccount)a);
+                }
+            }
             accounts = new ArrayList<Account>();
             accountsListModel.clear();
-            // TODO display total paid in warning label
-            warningLabel.setText("");
+            warningLabel.setText("All interest has been paid, totalling " + accumulatedInterestPay + "USD");
 
         /* paySelected -> pay interest on selected account */
         } else if (e.getSource() == paySelectedButton) {
@@ -108,10 +113,13 @@ public class ManagerAccountsScreen implements ActionListener {
 
             /* okay, pay interest on acount */
             } else {
-                // TODO pay interest on selected account, display total paid in warning label
-                // Account account = accounts.get(index);
-                // accounts.remove(index);
-                accountsListModel.remove(index);  
+                Account account = accounts.get(index);
+                    if (account instanceof SavingsAccount) {
+                        float paid = manager.payInterest(account);
+                        accounts.remove(index);
+                        accountsListModel.remove(index);  
+                        warningLabel.setText("Interest on account " + account + " has been paid, totalling " + paid +"USD");        
+                    }
                 warningLabel.setText("");
             }
 

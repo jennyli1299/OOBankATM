@@ -206,6 +206,7 @@ public abstract class Account {
     public void nofeeUpdateBalance(float amount) {
         this.balanceInLocalCurrency += amount;
         StaticVariables.getDatabaseManager().increaseBalanceBy(amount, this.getIBAN());
+        StaticVariables.getDatabaseManager().updateAccount(this);
     }
 
 
@@ -366,6 +367,28 @@ public abstract class Account {
             }
         }
         return new NullAccount();
+    }
+
+    public static ArrayList<Account> filterAccountsByBal (float balance) {
+        ArrayList<Account> filtered = new ArrayList<Account>();
+        ArrayList<Account> allAccounts = Account.getALLAccounts();
+        for (Account a: allAccounts) {
+            float balanceUSD = Currency.convertCurrencies(a.getBalanceInLocalCurrency(), a.getCurrency(), "USD");
+            if (balanceUSD > balance) {
+                filtered.add(a);
+            }
+        }
+        return filtered;
+    }
+    public static ArrayList<Account> filterAccountsByBal (ArrayList<Account> list, float balance) {
+        ArrayList<Account> filtered = new ArrayList<Account>();
+        for (Account a: list) {
+            float balanceUSD = Currency.convertCurrencies(a.getBalanceInLocalCurrency(), a.getCurrency(), "USD");
+            if (balanceUSD > balance) {
+                filtered.add(a);
+            }
+        }
+        return filtered;
     }
 
     // public static Float getDepositFee() {
