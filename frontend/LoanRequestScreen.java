@@ -113,9 +113,10 @@ public class LoanRequestScreen implements ActionListener {
             /* on second attempt make the request */
             } else if (request) {
                 try{
-                    Loan loan = new Loan(StaticVariables.getLoggedInUser(), Double.parseDouble(amount.getText()), collateral.getText(), Integer.parseInt(term.getText()), 0);
-                    loan.requestALoan(StaticVariables.getLoggedInUser());
-                    // User user = StaticVariables.getLoggedInUser();
+                    // Loan loan = new Loan(StaticVariables.getLoggedInUser(), Double.parseDouble(amount.getText()), collateral.getText(), Integer.parseInt(term.getText()), 0);
+                    // loan.requestALoan(StaticVariables.getLoggedInUser());
+                    // customer.requestLoan(Double.parseDouble(amount.getText()), collateral.getText(), Integer.parseInt(term.getText()));
+                    Loan.requestALoan(customer, Double.parseDouble(amount.getText()), collateral.getText(), Integer.parseInt(term.getText()));
                     
                     SuccessfulScreen success = new SuccessfulScreen("Loan has been requested.");
 

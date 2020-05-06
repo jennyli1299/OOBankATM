@@ -62,6 +62,7 @@ public class Loan {
 
     public static Loan requestALoan(User borrower, double initialPrincipal, String collateral, int termInMonths) {
         Loan loan = new Loan(borrower, initialPrincipal, collateral, termInMonths, 0);
+        StaticVariables.getDatabaseManager().addLoan(loan, borrower);
         StaticVariables.getDatabaseManager().updateLoan(loan, borrower);
         return loan;
     }

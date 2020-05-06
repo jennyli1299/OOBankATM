@@ -155,6 +155,9 @@ public class Customer extends User {
    public void requestLoan(double initialPrincipal, Currency c, String collateral, int termInMonths) {
       Loan.requestALoan(this, initialPrincipal, collateral, termInMonths);
    }
+   public void requestLoan(double initialPrincipal, String collateral, int termInMonths) {
+      Loan.requestALoan(this, initialPrincipal, collateral, termInMonths);
+   }
 
    /* View the Status of all Loans/Loan Requests */
    public ArrayList<Loan> viewAllLoanStatus() {

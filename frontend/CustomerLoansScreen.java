@@ -34,6 +34,7 @@ public class CustomerLoansScreen implements ActionListener {
     /* pass in customer as parameter */
     public CustomerLoansScreen() {
         // this.customer = customer;
+        this.customer = (Customer)StaticVariables.getLoggedInUser();
         createWindow();
         //initDummyState();
         loadAccountsFromDatabase();
